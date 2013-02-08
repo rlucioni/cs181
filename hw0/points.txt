@@ -1,0 +1,5 @@
+test file
+  this line begins and ends with whitespace  
+    strip() removes the whitespace
+1 2 3
+  1 2 3

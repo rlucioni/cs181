@@ -1,4 +1,5 @@
-cs181
+CS181
 =====
+Renzo Lucioni and Danny Broudy
 
-Harvard CS181
+Coursework for Harvard's CS181.
