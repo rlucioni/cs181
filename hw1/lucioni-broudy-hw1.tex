@@ -11,8 +11,8 @@
 \header{1}{February 15, 2013, at 12:00 PM}{}{}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\problem{}
-\subproblem The following are information gain calculations performed by the ID3 algorithm when deciding on which attribute, \emph{A} or \emph{B}, to split. First, we estimate the entropy of the labels.
+\problem{15}
+\subproblem The following are information gain calculations performed by the ID3 algorithm when deciding on which attribute, \emph{A} or \emph{B}, to split. First, we estimate the initial entry before splitting.
 
 \[ H(\text{labels}) \approx \frac{4}{7} (\log_2 \frac{7}{4}) + \frac{3}{7} (\log_2 \frac{7}{3}) \approx 0.99 \]
 
@@ -66,7 +66,7 @@ This example shows that ID3's inductive bias has a preference towards learning a
 \end{tikzpicture}
 \end{center}
 
-Attribute \emph{A} yields the highest information gain, so ID3 uses \emph{A} as the root of the tree. After arbitrarily breaking an information gain tie with \emph{C}, \emph{B} is chosen as the first node on the left. \emph{C} is chosen as the next node extending from \emph{B} because it fully explains the remaining data. After arbitrarily breaking an information gain tie with \emph{C}, \emph{B} is chosen as the first node on the right. 
+Attribute \emph{A} yields the highest information gain, so ID3 uses \emph{A} as the root of the tree. After arbitrarily breaking an information gain tie with \emph{C}, \emph{B} is chosen as the first node on the left. \emph{C} is chosen as the next node extending from \emph{B} because it fully explains the remaining data. After arbitrarily breaking an information gain tie with \emph{C}, \emph{B} is chosen as the first node on the right. At this point we see that we have inconsistent data but no features left to branch on, so we select the majority target to minimize the number of misclassified examples. The resulting tree misclassifies 1 of 7 examples, indicating that this classifier has an accuracy of $\frac{6}{7} \approx 0.86$.
 
 
 \subproblem The following is a simpler tree that has the same training error as the one produced by ID3.
@@ -85,7 +85,12 @@ Attribute \emph{A} yields the highest information gain, so ID3 uses \emph{A} as 
 \end{tikzpicture}
 \end{center}
 
-This example shows us that ID3 does not always build the simplest tree possible, but instead finds a ``good" tree which is an approximation of the simplest tree. This example also teaches us that ID3 cannot look into the future to see which combinations of attributes will be more informative when used in series (?). 
+This tree also has accuracy 0.86. This example shows us that ID3 does not always build the simplest tree possible, but instead finds a ``good" tree which is an approximation of the simplest tree. This example also teaches us that ID3 cannot look ahead to see which attributes are good co-predictors. 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\problem{25}
+\subproblem What is the average cross-validated training and test performance over the ten trials for the non-noisy dataset? What is the cross-validated training and test performance over the ten trials for the noisy dataset?
+
 
 
 

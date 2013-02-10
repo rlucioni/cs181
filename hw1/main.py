@@ -93,8 +93,12 @@ def main():
     # WRITE CODE FOR YOUR EXPERIMENTS HERE
     # ====================================
 
-    print "learning..."
-    learn(dataset)
+    tree = learn(dataset)
+    tree.display(indent=0)
+
+    # need a function that returns the score of a learned tree on a given dataset
+    # (number correctly classified / number of instances)
+
 
 main()
 
