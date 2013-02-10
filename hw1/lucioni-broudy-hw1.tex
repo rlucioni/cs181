@@ -1,0 +1,93 @@
+\documentclass[solution, letterpaper]{cs121}
+
+\usepackage{tikz-qtree}
+
+%% Please fill in your name and collaboration statement here.
+%\newcommand{\studentName}{Renzo Lucioni and Daniel Broudy}
+%\newcommand{\collaborationStatement}{I collaborated with...}
+\newcommand{\solncolor}{red}
+\begin{document}
+
+\header{1}{February 15, 2013, at 12:00 PM}{}{}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\problem{}
+\subproblem The following are information gain calculations performed by the ID3 algorithm when deciding on which attribute, \emph{A} or \emph{B}, to split. First, we estimate the entropy of the labels.
+
+\[ H(\text{labels}) \approx \frac{4}{7} (\log_2 \frac{7}{4}) + \frac{3}{7} (\log_2 \frac{7}{3}) \approx 0.99 \]
+
+Next, we calculate the specific conditional entropy of the labels given \emph{A} = 1.
+
+\[ H(\text{labels } | \text{ } A = 1) \approx \frac{1}{2} (\log_2 2) + \frac{1}{2} (\log_2 2) = 1 \]
+
+Then we compute the specific conditional entropy of the labels given \emph{A} = 0.
+
+\[ H(\text{labels } | \text{ } A = 0) \approx \frac{2}{3} (\log_2 \frac{3}{2}) + \frac{1}{3} (\log_2 3) \approx 0.92 \]
+
+Now we find the conditional entropy of the labels given that we split on \emph{A}.
+
+\[ H(\text{labels } | \text{ } A) \approx \frac{4}{7}(1) + \frac{3}{7}(0.92) \approx 0.97 \]
+
+Finally, we estimate the mutual information between \emph{A} and the labels.
+
+\[ I(\text{labels } ; \text{ } A) \approx  0.99 - 0.97 \approx 0.02\]
+
+Using the same procedure, we compute the information gain from splitting on \emph{B}.
+
+\[ H(\text{labels } | \text{ } B = 1) \approx  \frac{1}{2} (\log_2 2) + \frac{1}{2} (\log_2 2) = 1 \]
+
+\[ H(\text{labels } | \text{ } B = 0) \approx  \frac{3}{5} (\log_2 \frac{5}{3}) + \frac{2}{5} (\log_2 \frac{5}{2}) \approx 0.97 \]
+
+\[ H(\text{labels } | \text{ } B) \approx \frac{2}{7}(1) + \frac{5}{7}(0.97) \approx 0.98 \]
+
+\[ I(\text{labels } ; \text{ } B) \approx  0.99 - 0.98 \approx 0.01 \]
+
+Now we compare the possible information gains. Since $0.02 > 0.01$, ID3 will decide to split on attribute \emph{A}.
+
+One can argue that splitting on \emph{A} is more useful than splitting on \emph{B}, since doing so gives us the most information about the present situation (? - less training error?). However, one can also argue that splitting on \emph{B} is more useful than splitting on \emph{A}, since doing so allows for labeling 3 of 7 instances correctly whereas splitting on \emph{A} allows for labeling only 2 of 7 instances correctly. That is, \emph{B} has the potential to give ``no information" on 2 instances whereas \emph{A} can give ``no information" on 4 instances.
+
+This example shows that ID3's inductive bias has a preference towards learning as much as it can at once (?).
+
+\subproblem The following is a decision tree ID3 might construct for the given dataset.
+
+\begin{center}
+\begin{tikzpicture}[every tree node/.style={draw,circle},
+   level distance=1.25cm,sibling distance=.5cm, 
+   edge from parent path={(\tikzparentnode) -- (\tikzchildnode)}]
+\Tree [.\node {\emph{A}}; 
+    \edge node[auto=right] {1}; [.\emph{B}
+      \edge node[auto=right] {1}; [.0 ] \edge node[auto=left] {0}; [.\emph{C} 
+        \edge node[auto=right] {1}; [.0 ] \edge node[auto=left] {0}; [.1 ] 
+      ]
+    ]
+    \edge node[auto=left] {0}; [.\emph{B}
+      \edge node[auto=right] {1}; [.1 ] \edge node[auto=left] {0}; [.0 ]
+    ] ]
+\end{tikzpicture}
+\end{center}
+
+Attribute \emph{A} yields the highest information gain, so ID3 uses \emph{A} as the root of the tree. After arbitrarily breaking an information gain tie with \emph{C}, \emph{B} is chosen as the first node on the left. \emph{C} is chosen as the next node extending from \emph{B} because it fully explains the remaining data. After arbitrarily breaking an information gain tie with \emph{C}, \emph{B} is chosen as the first node on the right. 
+
+
+\subproblem The following is a simpler tree that has the same training error as the one produced by ID3.
+
+\begin{center}
+\begin{tikzpicture}[every tree node/.style={draw,circle},
+   level distance=1.25cm,sibling distance=.5cm, 
+   edge from parent path={(\tikzparentnode) -- (\tikzchildnode)}]
+\Tree [.\node {\emph{B}}; 
+    \edge node[auto=right] {1}; [.\emph{C}
+      \edge node[auto=right] {1}; [.1 ] \edge node[auto=left] {0}; [.0 ]
+    ]
+    \edge node[auto=left] {0}; [.\emph{C}
+      \edge node[auto=right] {1}; [.0 ] \edge node[auto=left] {0}; [.1 ]
+    ] ]
+\end{tikzpicture}
+\end{center}
+
+This example shows us that ID3 does not always build the simplest tree possible, but instead finds a ``good" tree which is an approximation of the simplest tree. This example also teaches us that ID3 cannot look into the future to see which combinations of attributes will be more informative when used in series (?). 
+
+
+
+
+\end{document}

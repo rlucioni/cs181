@@ -155,6 +155,7 @@ class Learner:
         self.dataset = dataset
 
     def predict(self, example): 
+        # we might need to fill this in
         abstract
 
 #______________________________________________________________________________

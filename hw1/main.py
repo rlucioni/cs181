@@ -1,6 +1,7 @@
 # main.py
 # -------
-# YOUR NAME HERE
+# Renzo Lucioni (HUID: 90760092)
+# Daniel Broudy (HUID: 30797418)
 
 from dtree import *
 import sys
@@ -22,7 +23,7 @@ def classify(decisionTree, example):
 #-------
 def learn(dataset):
     learner = DecisionTreeLearner()
-    learner.train( dataset)
+    learner.train(dataset)
     return learner.dt
 
 # main
@@ -91,6 +92,9 @@ def main():
     # ====================================
     # WRITE CODE FOR YOUR EXPERIMENTS HERE
     # ====================================
+
+    print "learning..."
+    learn(dataset)
 
 main()
 
