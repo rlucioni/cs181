@@ -93,10 +93,15 @@ def main():
     # WRITE CODE FOR YOUR EXPERIMENTS HERE
     # ====================================
 
-    tree = learn(dataset)
-    tree.display(indent=0)
+    # split data into 10 pieces
 
-    # need a function that returns the score of a learned tree on a given dataset
+    # use 9 pieces to train and 1 to test
+        # tree = learn(9 examples)
+        # tree.predict(10th example)
+        # check if classification is correct? 
+    # repeat for all 10 pieces
+    
+    # function that returns score of a learned tree on a given dataset
     # (number correctly classified / number of instances)
 
 
