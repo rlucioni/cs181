@@ -101,7 +101,7 @@ def main():
     for i in range(10):
         test_chunk = dataset.examples[10*i:10*(i+1)]
         test_fold = DataSet(test_chunk)
-        train_chunk = dataset.examples[10*(i+1):90]
+        train_chunk = dataset.examples[10*(i+1):10*(i+1)+90]
         train_fold = DataSet(train_chunk)
         tree = learn(train_fold)
 
