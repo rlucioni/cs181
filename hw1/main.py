@@ -93,19 +93,21 @@ def main():
     # WRITE CODE FOR YOUR EXPERIMENTS HERE
     # ====================================
 
-    # split data into 10 pieces
+    # split the data into 10 partitions (folds)
 
-    # use 9 pieces to train and 1 to test
-        # tree = learn(9 examples)
-        # tree.predict(10th example)
-        # check if classification is correct? 
-    # repeat for all 10 pieces
+    # use 9 chunks to train and 1 to test, cycling throughh
+    
+    # does this train 10 trees?
+    for i in range(10):
+        test_chunk = dataset.examples[10*i:10*(i+1)]
+        test_fold = DataSet(test_chunk)
+        train_chunk = dataset.examples[10*(i+1):90]
+        train_fold = DataSet(train_chunk)
+        tree = learn(train_fold)
+
     
     # function that returns score of a learned tree on a given dataset
     # (number correctly classified / number of instances)
 
 
 main()
-
-
-    

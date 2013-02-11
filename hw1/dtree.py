@@ -1,4 +1,4 @@
-"""Learn to estimate functions  from examples. (Chapters 18-20)"""
+"""Learn to estimate functions from examples. (Chapters 18-20)"""
 
 from utils import *
 import random, operator
@@ -155,7 +155,7 @@ class Learner:
         self.dataset = dataset
 
     def predict(self, example): 
-        # we might need to fill this in
+        # overridden by class DecisionTreeLearner
         abstract
 
 #______________________________________________________________________________
