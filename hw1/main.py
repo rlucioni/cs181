@@ -92,19 +92,28 @@ def main():
     # ====================================
     # WRITE CODE FOR YOUR EXPERIMENTS HERE
     # ====================================
+    
+    training_correct, test_correct = 0, 0
 
     # split the data into 10 partitions (folds)
-
-    # use 9 chunks to train and 1 to test, cycling throughh
-    
-    # does this train 10 trees?
+    # use 9 chunks to train and 1 to test, cycling through such that each fold is used to test once 
     for i in range(10):
-        test_chunk = dataset.examples[10*i:10*(i+1)]
-        test_fold = DataSet(test_chunk)
-        train_chunk = dataset.examples[10*(i+1):10*(i+1)+90]
-        train_fold = DataSet(train_chunk)
-        tree = learn(train_fold)
-
+        test_fold = dataset.examples[10*i:10*(i+1)]
+        train_folds = dataset.examples[10*(i+1):10*(i+1)+90]
+        # fix for breaking on the 54th data point 
+        train_set = DataSet(train_folds, values=dataset.values)
+        tree = learn(train_set)
+        # calculating training accuracy 
+        for j in range(90):
+            if tree.predict(train_folds[j]) == train_folds[j].attrs[-1]:
+                training_correct += 1
+        # calculating test accuracy
+        for k in range(10):
+            if tree.predict(test_fold[k]) == test_fold[k].attrs[-1]:
+                test_correct += 1
+    
+    print "CROSS-VALIDATED TRAINING PERFORMANCE: {}".format(training_correct/900.0)
+    print "CROSS-VALIDATED TEST PERFORMANCE: {}".format(test_correct/100.0)
     
     # function that returns score of a learned tree on a given dataset
     # (number correctly classified / number of instances)
