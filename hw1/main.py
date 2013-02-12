@@ -26,6 +26,21 @@ def learn(dataset):
     learner.train(dataset)
     return learner.dt
 
+##Score
+#-------
+def score(decisionTree, train_folds, test_fold):
+    train_correct, test_correct = 0, 0
+    # calculating training score (9 of 10 folds = 90 data points)
+    for j in range(90):
+        if classify(decisionTree, train_folds[j]) == train_folds[j].attrs[-1]:
+            train_correct += 1
+    # calculating test score (1 fold = 10 data points)
+    for k in range(10):
+        if classify(decisionTree, test_fold[k]) == test_fold[k].attrs[-1]:
+            test_correct += 1
+    return train_correct, test_correct
+
+
 # main
 # ----
 # The main program loop
@@ -93,7 +108,7 @@ def main():
     # WRITE CODE FOR YOUR EXPERIMENTS HERE
     # ====================================
     
-    training_correct, test_correct = 0, 0
+    train_accuracy, test_accuracy = 0, 0
 
     # split the data into 10 partitions (folds)
     # use 9 chunks to train and 1 to test, cycling through such that each fold is used to test once 
@@ -103,16 +118,13 @@ def main():
         # fix for breaking on the 54th data point 
         train_set = DataSet(train_folds, values=dataset.values)
         tree = learn(train_set)
-        # calculating training accuracy 
-        for j in range(90):
-            if tree.predict(train_folds[j]) == train_folds[j].attrs[-1]:
-                training_correct += 1
-        # calculating test accuracy
-        for k in range(10):
-            if tree.predict(test_fold[k]) == test_fold[k].attrs[-1]:
-                test_correct += 1
-    
-    print "CROSS-VALIDATED TRAINING PERFORMANCE: {}".format(training_correct/900.0)
-    print "CROSS-VALIDATED TEST PERFORMANCE: {}".format(test_correct/100.0)
+
+        train_score, test_score = score(tree, train_folds, test_fold)
+
+        train_accuracy += train_score/90.0
+        test_accuracy += test_score/10.0
+
+    print "CROSS-VALIDATED TRAINING PERFORMANCE: {}".format(train_accuracy/10.0)
+    print "CROSS-VALIDATED TEST PERFORMANCE: {}".format(test_accuracy/10.0)
 
 main()
