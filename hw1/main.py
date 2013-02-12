@@ -20,14 +20,14 @@ def classify(decisionTree, example):
     return decisionTree.predict(example)
 
 ##Learn
-#-------
+#------
 def learn(dataset):
     learner = DecisionTreeLearner()
     learner.train(dataset)
     return learner.dt
 
 ##Score
-#-------
+#------
 def score(decisionTree, train_folds, test_fold):
     train_correct, test_correct = 0, 0
     # calculating training score (9 of 10 folds = 90 data points)
@@ -40,6 +40,10 @@ def score(decisionTree, train_folds, test_fold):
             test_correct += 1
     return train_correct, test_correct
 
+##Prune
+#------
+#def prune(decisionTree, val_fold):
+    # implement
 
 # main
 # ----
@@ -110,21 +114,45 @@ def main():
     
     train_accuracy, test_accuracy = 0, 0
 
-    # split the data into 10 partitions (folds)
-    # use 9 chunks to train and 1 to test, cycling through such that each fold is used to test once 
-    for i in range(10):
-        test_fold = dataset.examples[10*i:10*(i+1)]
-        train_folds = dataset.examples[10*(i+1):10*(i+1)+90]
-        # fix for breaking on the 54th data point 
-        train_set = DataSet(train_folds, values=dataset.values)
-        tree = learn(train_set)
+    if pruneFlag:
+        for i in range(10):
+            test_fold = dataset.examples[10*i:10*(i+1)]
+            train_folds = dataset.examples[10*(i+1):10*(i+1)+(90-valSetSize)]
+            val_fold = dataset.examples[10*(i+1)+(90-valSetSize):10*(i+1)+90]
+            # fix for breaking on the 54th data point 
+            train_set = DataSet(train_folds, values=dataset.values)
+        
+            # learn
+            tree = learn(train_set)
+            
+            # prune
+            prune(tree, val_fold)
 
-        train_score, test_score = score(tree, train_folds, test_fold)
+            # testing
+            train_score, test_score = score(tree, train_folds, test_fold)
 
-        train_accuracy += train_score/90.0
-        test_accuracy += test_score/10.0
+            train_accuracy += train_score/90.0
+            test_accuracy += test_score/10.0
+        
+        print "CROSS-VALIDATED TRAINING PERFORMANCE: {}".format(train_accuracy/10.0)
+        print "CROSS-VALIDATED TEST PERFORMANCE: {}".format(test_accuracy/10.0)
+    
+    else:
+        for i in range(10):
+            test_fold = dataset.examples[10*i:10*(i+1)]
+            train_folds = dataset.examples[10*(i+1):10*(i+1)+90]
+            # fix for breaking on the 54th data point 
+            train_set = DataSet(train_folds, values=dataset.values)
+        
+            # learn
+            tree = learn(train_set)
+        
+            # testing
+            train_score, test_score = score(tree, train_folds, test_fold)
 
-    print "CROSS-VALIDATED TRAINING PERFORMANCE: {}".format(train_accuracy/10.0)
-    print "CROSS-VALIDATED TEST PERFORMANCE: {}".format(test_accuracy/10.0)
+            train_accuracy += train_score/90.0
+            test_accuracy += test_score/10.0
 
+        print "CROSS-VALIDATED TRAINING PERFORMANCE: {}".format(train_accuracy/10.0)
+        print "CROSS-VALIDATED TEST PERFORMANCE: {}".format(test_accuracy/10.0)
 main()
