@@ -114,9 +114,5 @@ def main():
     
     print "CROSS-VALIDATED TRAINING PERFORMANCE: {}".format(training_correct/900.0)
     print "CROSS-VALIDATED TEST PERFORMANCE: {}".format(test_correct/100.0)
-    
-    # function that returns score of a learned tree on a given dataset
-    # (number correctly classified / number of instances)
-
 
 main()
