@@ -28,10 +28,10 @@ def learn(dataset):
 
 ##Score
 #------
-def score(decisionTree, train_folds, test_fold):
+def score(decisionTree, train_folds, train_size, test_fold):
     train_correct, test_correct = 0, 0
     # calculating training score (9 of 10 folds = 90 data points)
-    for j in range(90):
+    for j in range(train_size):
         if classify(decisionTree, train_folds[j]) == train_folds[j].attrs[-1]:
             train_correct += 1
     # calculating test score (1 fold = 10 data points)
@@ -42,8 +42,15 @@ def score(decisionTree, train_folds, test_fold):
 
 ##Prune
 #------
-#def prune(decisionTree, val_fold):
-    # implement
+def prune(decisionTree, val_fold):
+    #iterate over branches! (just like display method)
+    print decisionTree.branches
+#    if decisionTree.nodetype == DecisionTree.LEAF:
+#        return
+#    for (val, subtree) in decisionTree.branches.items():
+#        if isinstance(subtree, DecisionTree):
+#            subtree.prune(subtree, val_fold)
+#        else:
 
 # main
 # ----
@@ -126,10 +133,11 @@ def main():
             tree = learn(train_set)
             
             # prune
+            # print "PRUNE {}".format(i)
             prune(tree, val_fold)
 
             # testing
-            train_score, test_score = score(tree, train_folds, test_fold)
+            train_score, test_score = score(tree, train_folds, 90-valSetSize, test_fold)
 
             train_accuracy += train_score/90.0
             test_accuracy += test_score/10.0
@@ -148,7 +156,7 @@ def main():
             tree = learn(train_set)
         
             # testing
-            train_score, test_score = score(tree, train_folds, test_fold)
+            train_score, test_score = score(tree, train_folds, 90, test_fold)
 
             train_accuracy += train_score/90.0
             test_accuracy += test_score/10.0
