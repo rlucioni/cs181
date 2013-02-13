@@ -283,6 +283,13 @@ class DecisionTree:
         self.branches[val] = subtree
         return self
 
+    #IS THIS CORRECT?????
+    def replace(self, val, subtree):
+         "Replace a branch. Used in constructing pruned versions of trees"
+         del self.branches[val]
+         self.branches[val] = subtree
+         return self
+
     def display(self, indent=0):
         if self.nodetype == DecisionTree.LEAF:
             print "leaf %d" % self.classification

@@ -26,25 +26,39 @@ def learn(dataset):
     learner.train(dataset)
     return learner.dt
 
+##Validate
+#---------
+def validate(decisionTree, val_fold,sz):
+    "Return the  number correctly scored  by a decision tree"
+    correct = 0
+    for j in range(sz):
+        if classify(decisionTree, val_fold[j]) == val_fold[j].attrs[-1]:
+            correct += 1
+        return correct
+
 ##Score
 #------
 def score(decisionTree, train_folds, train_size, test_fold):
-    train_correct, test_correct = 0, 0
-    # calculating training score (9 of 10 folds = 90 data points)
-    for j in range(train_size):
-        if classify(decisionTree, train_folds[j]) == train_folds[j].attrs[-1]:
-            train_correct += 1
-    # calculating test score (1 fold = 10 data points)
-    for k in range(10):
-        if classify(decisionTree, test_fold[k]) == test_fold[k].attrs[-1]:
-            test_correct += 1
+    train_correct = validate(decisionTree, train_folds, train_size)
+    test_correct = validate(decisionTree, test_fold, 10)
     return train_correct, test_correct
 
 ##Prune
 #------
 def prune(decisionTree, val_fold):
     #iterate over branches! (just like display method)
-    print decisionTree.branches
+    decisionTree.display()
+
+    print "################################"
+    
+    #RENZOOO:: 
+    # this sucessfully creates a new leaf node that classifies 1
+    # and places it instead of what was classified by 10 
+    # if you look at the bottom of the two printed trees you will see.
+    node = DecisionTree(1,classification=1)
+    decisionTree.replace(10,node);
+    decisionTree.display()    
+    #print decisionTree.branches
 #    if decisionTree.nodetype == DecisionTree.LEAF:
 #        return
 #    for (val, subtree) in decisionTree.branches.items():
@@ -122,7 +136,7 @@ def main():
     train_accuracy, test_accuracy = 0, 0
 
     if pruneFlag:
-        for i in range(10):
+        for i in range(1): #REMEMBER TO MAKE THIS 10 AGAIN!!!
             test_fold = dataset.examples[10*i:10*(i+1)]
             train_folds = dataset.examples[10*(i+1):10*(i+1)+(90-valSetSize)]
             val_fold = dataset.examples[10*(i+1)+(90-valSetSize):10*(i+1)+90]
@@ -130,8 +144,13 @@ def main():
             train_set = DataSet(train_folds, values=dataset.values)
         
             # learn
-            tree = learn(train_set)
-            
+            learner = DecisionTreeLearner()
+            learner.train(train_set)
+            tree = learner.dt
+            # call these two instead so we can have a DecisionTreeLearner    
+            #tree = learn(train_set)
+            #tree_cor = validate(tree, val_fold, valSetSize)
+
             # prune
             # print "PRUNE {}".format(i)
             prune(tree, val_fold)
@@ -164,3 +183,27 @@ def main():
         print "CROSS-VALIDATED TRAINING PERFORMANCE: {}".format(train_accuracy/10.0)
         print "CROSS-VALIDATED TEST PERFORMANCE: {}".format(test_accuracy/10.0)
 main()
+
+def compareTrees(dt1, dt2):
+    """function for comparing two decision trees, the function calls 
+      score on the test set."""
+    return 0
+
+#
+# I need to write a function that takes a decision tree and a validation set
+# this function will for each node from the bottom up try to replace the node 
+# with the most common value below it instead and see which does better on the
+# validation set. 
+# to find out you have a LEAF or NODE you use self.nodetype.
+# if it is a LEAF if has a self.classification
+# 
+def prunetree(self, dtLearner):
+    return 0    
+
+
+
+
+
+
+
+
