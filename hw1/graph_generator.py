@@ -4,8 +4,11 @@ from pylab import *
 plt.clf()
 
 # these must have the same dimension
+# valSetSize
 xs = range(5)
+# training accuracy
 ys = [.3, .5, .1, .8, 1]
+# test accuracy
 zs = [.6, .4, .0, .07, .9]
 
 p1, = plt.plot(xs, ys, color='b')

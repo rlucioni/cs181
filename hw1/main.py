@@ -62,6 +62,7 @@ def majority(examples):
             yes += 1
         else:
             no += 1
+    print "yes: {}, no: {}\n".format(yes, no)
     if yes > no:
         return 1
     else:
@@ -79,19 +80,25 @@ def prune(decisionTree, val_fold, train_fold):
     if decisionTree.nodetype == DecisionTree.NODE:
         for (val, subtree) in decisionTree.branches.items():
             if isinstance(subtree, DecisionTree):
+                #print "val_fold: {}\n".format(val_fold)
                 new_val_fold = sift(decisionTree.attrname, val, val_fold)
+                #print "new_val_fold: {}\n".format(new_val_fold)
                 new_train_fold = sift(decisionTree.attrname, val, train_fold)
-                #print "pruning {}".format(decisionTree.attrname, val)
-                decisionTree.replace(val, prune(subtree, val_fold, new_train_fold))
+                
+                decisionTree.replace(val, prune(subtree, new_val_fold, new_train_fold))
         
-        leaf = DecisionTree(DecisionTree.LEAF,classification=majority(new_train_fold))
+        leaf = DecisionTree(DecisionTree.LEAF,classification=majority(train_fold))
         
         prune_score = validate(leaf, new_val_fold)
         no_prune_score = validate(decisionTree, new_val_fold)
         
+        #print "prune_score = {}, no_prune_score = {}\n".format(prune_score, no_prune_score)
+
         if prune_score >= no_prune_score:
+            #print "returning leaf\n"
             return leaf
         else:
+            #print "returning decision tree\n"
             return decisionTree
     
 
@@ -176,9 +183,6 @@ def main():
             learner = DecisionTreeLearner()
             learner.train(train_set)
             tree = learner.dt
-            # call these two instead so we can have a DecisionTreeLearner    
-            #tree = learn(train_set)
-            #tree_cor = validate(tree, val_fold)
 
             tree.display()
 
@@ -187,14 +191,16 @@ def main():
             new_tree = prune(tree, val_fold, train_folds)
             new_tree.display()
 
+            print "==========================================="
+            
             # testing
             train_score, test_score = score(new_tree, train_folds, test_fold)
 
-            train_accuracy += train_score/len(train_folds)
+            train_accuracy += train_score/float(len(train_folds))
             test_accuracy += test_score/10.0
         
-        print "CROSS-VALIDATED TRAINING PERFORMANCE: {}".format(train_accuracy/10.0)
-        print "CROSS-VALIDATED TEST PERFORMANCE: {}".format(test_accuracy/10.0)
+        print "CROSS-VALIDATED TRAINING PERFORMANCE (PRUNED): {}".format(train_accuracy/10.0)
+        print "CROSS-VALIDATED TEST PERFORMANCE (PRUNED): {}".format(test_accuracy/10.0)
     
     else:
         for i in range(10):
@@ -214,5 +220,7 @@ def main():
 
         print "CROSS-VALIDATED TRAINING PERFORMANCE: {}".format(train_accuracy/10.0)
         print "CROSS-VALIDATED TEST PERFORMANCE: {}".format(test_accuracy/10.0)
+
 main()
+
 
