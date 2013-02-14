@@ -44,9 +44,7 @@ Using the same procedure, we compute the information gain from splitting on \emp
 
 Now we compare the possible information gains. Since $0.02 > 0.01$, ID3 will decide to split on attribute \emph{A}.
 
-One can argue that splitting on \emph{A} is more useful than splitting on \emph{B}, since doing so gives us the most information about the present situation (? - less training error?). However, one can also argue that splitting on \emph{B} is more useful than splitting on \emph{A}, since doing so allows for labeling 3 of 7 instances correctly whereas splitting on \emph{A} allows for labeling only 2 of 7 instances correctly. That is, \emph{B} has the potential to give ``no information" on 2 instances whereas \emph{A} can give ``no information" on 4 instances.
-
-This example shows that ID3's inductive bias has a preference towards learning as much as it can at once (?).
+One can argue that splitting on \emph{A} is more useful than splitting on \emph{B}, since doing so gives us the most information about the present situation. However, one can also argue that splitting on \emph{B} is more useful than splitting on \emph{A}, since doing so allows for immediately labeling 3 of 7 instances as positive and giving  ``no information" on 2 instances, whereas splitting on \emph{A} allows for labeling only 2 of 7 instances as positive and giving ``no information" on 4 instances. This example shows that ID3 has a preference for trees with high information gain attributes near the root.
 
 \subproblem The following is a decision tree ID3 might construct for the given dataset.
 
@@ -90,6 +88,19 @@ This tree also has accuracy 0.86. This example shows us that ID3 does not always
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \problem{25}
 \subproblem The average cross-validated training performance over the ten trials for the non-noisy dataset is 1.0; the test performance is 0.87. The average cross-validated training performance over the ten trials for the noisy dataset is 0.98; the test performance is 0.78.
+\pagebreak
+\subproblem
+ 
+(i) Graphs of the cross-validated training and test accuracy for both the non-noisy dataset and noisy dataset for validation set sizes in the range [1, 80] have been submitted alongside this document. The graphs are contained in PDF files titled {\tt prune-non-noisy.pdf} and {\tt prune-noisy.pdf}, respectively. \\
+
+(ii) The cross-validated performance (i.e., predictive accuracy) of the validation set pruning increases dramatically as the size of the validation set changes from 1 to 10. The cross-validated performance peaks for validation set sizes of about 20, then decreases gradually as the validation set size approaches 80. \\
+
+(iii) Yes, the validation set pruning improves the cross-validated performance of ID3 on these data. \emph{Without} validation set pruning, the average cross-validated test performance over ten trials for the non-noisy dataset is 0.87 (as stated above). With validation set pruning, the average cross-validated test performance over ten trials for the non-noisy dataset reaches 0.93 when the validation set size is 18 (0.92 training accuracy). For the noisy dataset, the average cross-validated test performance over ten trials improves from 0.78 without pruning to 0.82 with pruning when the validation set size is 11 (0.93 training accuracy). \\
+
+(iv) Yes, overfitting is an issue for these data. The unpruned tree generated in (A) has high average cross-validated training performance over the ten trials on both the noisy and non-noisy datasets. As demonstrated in (iii), while pruning negatively impacts training performance by simplifying the tree, it improves average cross-validated test performance over ten trials for both datasets, suggesting that pruning helps the tree to generalize better. This implies that the original, unpruned tree was overfit.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\problem{30}
 
 
 \end{document}

@@ -9,6 +9,7 @@ import sys
 class Globals:
     noisyFlag = False
     pruneFlag = False
+    #pruneFlag = True
     valSetSize = 0
     dataset = None
 
@@ -62,7 +63,7 @@ def majority(examples):
             yes += 1
         else:
             no += 1
-    print "yes: {}, no: {}\n".format(yes, no)
+    #print "yes: {}, no: {}\n".format(yes, no)
     if yes > no:
         return 1
     else:
@@ -149,6 +150,7 @@ def main():
     # Read in the data file
     
     if noisyFlag:
+    #if Globals.noisyFlag:
         f = open("noisy.csv")
     else:
         f = open("data.csv")
@@ -160,6 +162,10 @@ def main():
     examples = dataset.examples[:]
  
     dataset.examples.extend(examples)
+    
+    #boostRounds = -1
+    #maxDepth = -1
+    
     dataset.max_depth = maxDepth
     if boostRounds != -1:
       dataset.use_boosting = True
@@ -170,8 +176,11 @@ def main():
     # ====================================
     
     train_accuracy, test_accuracy = 0, 0
+    
+    # valSetSize = Globals.valSetSize
 
     if pruneFlag:
+    #if Globals.pruneFlag:
         for i in range(10):
             test_fold = dataset.examples[10*i:10*(i+1)]
             train_folds = dataset.examples[10*(i+1):10*(i+1)+(90-valSetSize)]
@@ -184,20 +193,22 @@ def main():
             learner.train(train_set)
             tree = learner.dt
 
-            tree.display()
+            #tree.display()
 
-            print "==========================================="
+            #print "==========================================="
 
             new_tree = prune(tree, val_fold, train_folds)
-            new_tree.display()
+            #new_tree.display()
 
-            print "==========================================="
+            #print "==========================================="
             
             # testing
             train_score, test_score = score(new_tree, train_folds, test_fold)
 
             train_accuracy += train_score/float(len(train_folds))
             test_accuracy += test_score/10.0
+        
+        # return train_accuracy/10.0, test_accuracy/10.0
         
         print "CROSS-VALIDATED TRAINING PERFORMANCE (PRUNED): {}".format(train_accuracy/10.0)
         print "CROSS-VALIDATED TEST PERFORMANCE (PRUNED): {}".format(test_accuracy/10.0)
@@ -222,5 +233,85 @@ def main():
         print "CROSS-VALIDATED TEST PERFORMANCE: {}".format(test_accuracy/10.0)
 
 main()
+
+#############################################################
+#### The code below is for generating the graphs for 2b. ####
+#### Other required changes to main.py for this code to  #### 
+#### run properly are commented above.                   ####
+#############################################################
+
+# import matplotlib.pyplot as plt
+# from pylab import *
+
+### NON-NOISY ###
+# ys = []
+# zs = []
+
+# for i in range(80):
+#     Globals.valSetSize = i+1
+#     y, z = main()
+#     ys.append(y)
+#     zs.append(z)
+
+# plt.clf()
+
+# # these must have the same dimension
+# # valSetSize
+# xs = range(1,81)
+# # training accuracy
+# #ys = [.3, .5, .1, .8, 1]
+# # test accuracy
+# #zs = [.6, .4, .0, .07, .9]
+
+# p1, = plt.plot(xs, ys, color='b')
+# p2, = plt.plot(xs, zs, color='r')
+
+# plt.title('Performance on Non-Noisy Data')
+# # plt.title('Performance on Noisy Data')
+# plt.xlabel('Validation Set Size')
+# plt.ylabel('Predictive Accuracy')
+# plt.axis([0,80,0,1])
+# plt.legend((p1,p2,), ('Training Accuracy', 'Test Accuracy',), 'lower right')
+
+# # save figure as a pdf
+# savefig('prune-non-noisy.pdf')
+
+### NOISY ###
+# ys = []
+# zs = []
+
+# Globals.noisyFlag = True
+# for i in range(80):
+#     Globals.valSetSize = i+1
+#     y, z = main()
+#     ys.append(y)
+#     zs.append(z)
+
+# plt.clf()
+
+# # these must have the same dimension
+# # valSetSize
+# xs = range(1,81)
+# # training accuracy
+# #ys = [.3, .5, .1, .8, 1]
+# # test accuracy
+# #zs = [.6, .4, .0, .07, .9]
+
+# p1, = plt.plot(xs, ys, color='b')
+# p2, = plt.plot(xs, zs, color='r')
+
+# plt.title('Performance on Noisy Data')
+# # plt.title('Performance on Noisy Data')
+# plt.xlabel('Validation Set Size')
+# plt.ylabel('Predictive Accuracy')
+# plt.axis([0,80,0,1])
+# plt.legend((p1,p2,), ('Training Accuracy', 'Test Accuracy',), 'lower right')
+
+# # save figure as a pdf
+# savefig('prune-noisy.pdf')
+
+
+
+
 
 
