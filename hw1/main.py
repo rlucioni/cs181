@@ -28,43 +28,72 @@ def learn(dataset):
 
 ##Validate
 #---------
-def validate(decisionTree, val_fold,sz):
+def validate(decisionTree, fold):
     "Return the  number correctly scored  by a decision tree"
     correct = 0
-    for j in range(sz):
-        if classify(decisionTree, val_fold[j]) == val_fold[j].attrs[-1]:
+    for j in range(len(fold)):
+        if classify(decisionTree, fold[j]) == fold[j].attrs[-1]:
             correct += 1
-        return correct
+    return correct
 
 ##Score
 #------
-def score(decisionTree, train_folds, train_size, test_fold):
-    train_correct = validate(decisionTree, train_folds, train_size)
-    test_correct = validate(decisionTree, test_fold, 10)
+def score(decisionTree, train_folds, test_fold):
+    train_correct = validate(decisionTree, train_folds)
+    test_correct = validate(decisionTree, test_fold)
     return train_correct, test_correct
+
+
+##Sift
+#------
+def sift(attr, val, val_fold):
+    def f(example):
+        return example.attrs[attr] == val
+    return filter(f, val_fold)
+    
+    
+##Majority
+#---------
+def majority(examples):
+    yes, no = 0, 0
+    for i in range(len(examples)):
+        target = examples[i].attrs[-1]
+        if target:
+            yes += 1
+        else:
+            no += 1
+    if yes > no:
+        return 1
+    else:
+        return 0
+
 
 ##Prune
 #------
-def prune(decisionTree, val_fold):
-    #iterate over branches! (just like display method)
-    decisionTree.display()
-
-    print "################################"
+def prune(decisionTree, val_fold, train_fold):
+    # iterate over branches! (just like display method)
+    if len(val_fold) == 0:
+        return decisionTree
+    if decisionTree.nodetype == DecisionTree.LEAF:
+        return decisionTree
+    if decisionTree.nodetype == DecisionTree.NODE:
+        for (val, subtree) in decisionTree.branches.items():
+            if isinstance(subtree, DecisionTree):
+                new_val_fold = sift(decisionTree.attrname, val, val_fold)
+                new_train_fold = sift(decisionTree.attrname, val, train_fold)
+                #print "pruning {}".format(decisionTree.attrname, val)
+                decisionTree.replace(val, prune(subtree, val_fold, new_train_fold))
+        
+        leaf = DecisionTree(DecisionTree.LEAF,classification=majority(new_train_fold))
+        
+        prune_score = validate(leaf, new_val_fold)
+        no_prune_score = validate(decisionTree, new_val_fold)
+        
+        if prune_score >= no_prune_score:
+            return leaf
+        else:
+            return decisionTree
     
-    #RENZOOO:: 
-    # this sucessfully creates a new leaf node that classifies 1
-    # and places it instead of what was classified by 10 
-    # if you look at the bottom of the two printed trees you will see.
-    node = DecisionTree(1,classification=1)
-    decisionTree.replace(10,node);
-    decisionTree.display()    
-    #print decisionTree.branches
-#    if decisionTree.nodetype == DecisionTree.LEAF:
-#        return
-#    for (val, subtree) in decisionTree.branches.items():
-#        if isinstance(subtree, DecisionTree):
-#            subtree.prune(subtree, val_fold)
-#        else:
 
 # main
 # ----
@@ -136,7 +165,7 @@ def main():
     train_accuracy, test_accuracy = 0, 0
 
     if pruneFlag:
-        for i in range(1): #REMEMBER TO MAKE THIS 10 AGAIN!!!
+        for i in range(10):
             test_fold = dataset.examples[10*i:10*(i+1)]
             train_folds = dataset.examples[10*(i+1):10*(i+1)+(90-valSetSize)]
             val_fold = dataset.examples[10*(i+1)+(90-valSetSize):10*(i+1)+90]
@@ -149,16 +178,19 @@ def main():
             tree = learner.dt
             # call these two instead so we can have a DecisionTreeLearner    
             #tree = learn(train_set)
-            #tree_cor = validate(tree, val_fold, valSetSize)
+            #tree_cor = validate(tree, val_fold)
 
-            # prune
-            # print "PRUNE {}".format(i)
-            prune(tree, val_fold)
+            tree.display()
+
+            print "==========================================="
+
+            new_tree = prune(tree, val_fold, train_folds)
+            new_tree.display()
 
             # testing
-            train_score, test_score = score(tree, train_folds, 90-valSetSize, test_fold)
+            train_score, test_score = score(new_tree, train_folds, test_fold)
 
-            train_accuracy += train_score/90.0
+            train_accuracy += train_score/len(train_folds)
             test_accuracy += test_score/10.0
         
         print "CROSS-VALIDATED TRAINING PERFORMANCE: {}".format(train_accuracy/10.0)
@@ -175,7 +207,7 @@ def main():
             tree = learn(train_set)
         
             # testing
-            train_score, test_score = score(tree, train_folds, 90, test_fold)
+            train_score, test_score = score(tree, train_folds, test_fold)
 
             train_accuracy += train_score/90.0
             test_accuracy += test_score/10.0
@@ -183,27 +215,4 @@ def main():
         print "CROSS-VALIDATED TRAINING PERFORMANCE: {}".format(train_accuracy/10.0)
         print "CROSS-VALIDATED TEST PERFORMANCE: {}".format(test_accuracy/10.0)
 main()
-
-def compareTrees(dt1, dt2):
-    """function for comparing two decision trees, the function calls 
-      score on the test set."""
-    return 0
-
-#
-# I need to write a function that takes a decision tree and a validation set
-# this function will for each node from the bottom up try to replace the node 
-# with the most common value below it instead and see which does better on the
-# validation set. 
-# to find out you have a LEAF or NODE you use self.nodetype.
-# if it is a LEAF if has a self.classification
-# 
-def prunetree(self, dtLearner):
-    return 0    
-
-
-
-
-
-
-
 
