@@ -95,13 +95,15 @@ def validate(decisionTree, fold):
 ##Score
 #------
 def score(tree_set, train_folds, test_fold, boost):
-    train_count,test_count = 0,0
+    train_correct,test_correct = 0,0
     if boost:
         for i in range(len(train_folds)):
-            train_count += democracy(tree_set, train_folds[i])
+            if democracy(tree_set, train_folds[i]) == train_folds[i].attrs[-1]:
+                train_correct += 1
         for j in range(len(test_fold)):
-            test_count += democracy(tree_set, test_fold[j])
-        return train_count, test_count
+            if democracy(tree_set, test_fold[j]) == test_fold[j].attrs[-1]:
+                test_correct += 1
+        return train_correct, test_correct
     else:
         train_correct = validate(tree_set, train_folds)
         test_correct = validate(tree_set, test_fold)
@@ -293,7 +295,7 @@ def main():
             # testing
             train_score, test_score = score(weighted_tree_set, train_folds, test_fold, 1)
 
-            train_accuracy += train_score/float(len(train_folds))
+            train_accuracy += train_score/90.0
             test_accuracy += test_score/10.0
         
         # return train_accuracy/10.0, test_accuracy/10.0
