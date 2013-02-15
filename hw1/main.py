@@ -4,6 +4,7 @@
 # Daniel Broudy (HUID: 30797418)
 
 from dtree import *
+from utils import *
 import sys
 
 class Globals:
@@ -22,14 +23,13 @@ def classify(decisionTree, example):
 ##Democracy
 #----------
 def democracy(weighted_tree_list, example):
-    "Takes a weighted set of decision trees and classifies an 
-    instance/example by having the trees vote on the label."
-    yea = 0
+    "Takes a weighted set of decision trees and classifies an instance/example by having the trees vote on the label."
+    yea = 0.0
     for i in range(len(weighted_tree_list)):
-        if weighted_tree_list[i].predict(example):
-            yea += 1
+        if weighted_tree_list[i][0].predict(example):
+            yea += weighted_tree_list[i][1]
         else:
-            yea -= 1
+            yea -= weighted_tree_list[i][1]
     if yea > 0:
         return 1
     else:
@@ -37,17 +37,38 @@ def democracy(weighted_tree_list, example):
 
 ##Learn
 #------
-def learn(dataset):
+def learn(dataset, boost_rounds, max_depth):
+    e = 2.71828
     learner = DecisionTreeLearner()
-    learner.train(dataset)
-    return learner.dt
+    if boost_rounds == -1 and max_depth == -1:
+        learner.train(dataset, max_depth)
+        return learner.dt
+    else:
+        weighted_tree_set = []
+        for i in range(boost_rounds):
+            # dataset needs to be mutable here
+            learner.train(dataset, max_depth)
+            tree = learner.dt
+            # validate on training data to find training error
+            num_correct = validate(tree, dataset.examples)
+            error = 1 - num_correct/float(len(dataset.examples))
+            if error == 0.0:
+                return [(tree,sys.maxint)]
+            else:
+                alpha = .5(log2((1-error)/error) / log2(e))
+            weight_seq = []
+            for j in range(len(dataset.examples)):
+                if classify(tree, dataset.examples[j]) == dataset.examples[j].attrs[-1]:
+                    dataset.examples[j].weight = dataset.examples[j].weight * e**(-alpha)
+                else:
+                    dataset.examples[j].weight = dataset.examples[j].weight * e**alpha
+                weight_seq.append(dataset.examples[j].weight)
+            normalized_seq = normalize(weight_seq)
+            for k in range(len(dataset.examples)):
+                dataset.examples[k].weight = normalized_seq[k]
+            weighted_tree_set.append((tree,alpha))
+        return weighted_tree_set
 
-##AdaLearn
-#---------
-def adalearn(dataset):
-    learner = AdaBoostLearner()
-    learner.train(dataset)
-    return learner.dt
 
 ##Validate
 #---------
@@ -61,10 +82,18 @@ def validate(decisionTree, fold):
 
 ##Score
 #------
-def score(decisionTree, train_folds, test_fold):
-    train_correct = validate(decisionTree, train_folds)
-    test_correct = validate(decisionTree, test_fold)
-    return train_correct, test_correct
+def score(tree_set, train_folds, test_fold, boost):
+    train_count,test_count = 0,0
+    if boost:
+        for i in range(len(train_folds)):
+            train_count += democracy(tree_set, train_folds[i])
+        for j in range(len(test_fold)):
+            test_count += democracy(tree_set, test_fold[j])
+        return train_count, test_count
+    else:
+        train_correct = validate(tree_set, train_folds)
+        test_correct = validate(tree_set, test_fold)
+        return train_correct, test_correct
 
 
 ##Sift
@@ -77,16 +106,14 @@ def sift(attr, val, val_fold):
     
 ##Majority
 #---------
-# NEEDS TO BE MODIFIED TO TAKE WEIGHTS INTO ACCOUNT
-# access via Example.weight
 def majority(examples):
-    yes, no = 0, 0
+    yes, no = 0.0, 0.0
     for i in range(len(examples)):
         target = examples[i].attrs[-1]
         if target:
-            yes += 1
+            yes += examples[i].weight
         else:
-            no += 1
+            no += examples[i].weight
     #print "yes: {}, no: {}\n".format(yes, no)
     if yes > no:
         return 1
@@ -215,10 +242,7 @@ def main():
             train_set = DataSet(train_folds, values=dataset.values)
         
             # learn
-            if dataset.use_boosting:
-                tree = adalearn(train_set)
-            else:
-                tree = learn(train_set)
+            tree = learn(train_set, boostRounds, maxDepth)
 
             #tree.display()
 
@@ -230,7 +254,7 @@ def main():
             #print "==========================================="
             
             # testing
-            train_score, test_score = score(new_tree, train_folds, test_fold)
+            train_score, test_score = score(new_tree, train_folds, test_fold, 0)
 
             train_accuracy += train_score/float(len(train_folds))
             test_accuracy += test_score/10.0
@@ -240,6 +264,27 @@ def main():
         print "CROSS-VALIDATED TRAINING PERFORMANCE (PRUNED): {}".format(train_accuracy/10.0)
         print "CROSS-VALIDATED TEST PERFORMANCE (PRUNED): {}".format(test_accuracy/10.0)
     
+    elif dataset.use_boosting:
+        for i in range(10):
+            test_fold = dataset.examples[10*i:10*(i+1)]
+            train_folds = dataset.examples[10*(i+1):10*(i+1)+90]
+            # fix for breaking on the 54th data point 
+            train_set = DataSet(train_folds, values=dataset.values)
+        
+            # learn
+            weighted_tree_set = learn(train_set, boostRounds, maxDepth)
+
+            # testing
+            train_score, test_score = score(weighted_tree_set, train_folds, test_fold, 1)
+
+            train_accuracy += train_score/float(len(train_folds))
+            test_accuracy += test_score/10.0
+        
+        # return train_accuracy/10.0, test_accuracy/10.0
+        
+        print "CROSS-VALIDATED TRAINING PERFORMANCE (BOOSTED): {}".format(train_accuracy/10.0)
+        print "CROSS-VALIDATED TEST PERFORMANCE (BOOSTED): {}".format(test_accuracy/10.0)
+    
     else:
         for i in range(10):
             test_fold = dataset.examples[10*i:10*(i+1)]
@@ -248,13 +293,10 @@ def main():
             train_set = DataSet(train_folds, values=dataset.values)
         
             # learn
-            if dataset.use_boosting:
-                tree = adalearn(train_set)
-            else:
-                tree = learn(train_set)
+            tree = learn(train_set, boostRounds, maxDepth)
         
             # testing
-            train_score, test_score = score(tree, train_folds, test_fold)
+            train_score, test_score = score(tree, train_folds, test_fold, 0)
 
             train_accuracy += train_score/90.0
             test_accuracy += test_score/10.0

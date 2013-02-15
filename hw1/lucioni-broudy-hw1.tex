@@ -44,7 +44,7 @@ Using the same procedure, we compute the information gain from splitting on \emp
 
 Now we compare the possible information gains. Since $0.02 > 0.01$, ID3 will decide to split on attribute \emph{A}.
 
-One can argue that splitting on \emph{A} is more useful than splitting on \emph{B}, since it is the attribute associated with the largest local information gain (i.e., the entropy of the negative value is locally the lowest). However, one can also argue that splitting on \emph{B} is more useful than splitting on \emph{A}, since doing so allows for immediately labeling 3 of 7 instances as positive and giving  ``no information" on 2 instances, whereas splitting on \emph{A} allows for labeling only 2 of 7 instances as positive and giving ``no information" on 4 instances. This example shows that ID3 has a preference for trees with high information gain attributes near the root, simultaneously demonstrating the algorithm's preference for making the most extreme local partition possible.
+One can argue that splitting on \emph{A} is more useful than splitting on \emph{B}, since it is the attribute associated with the highest local information gain (i.e., the entropy of the negative value is locally the lowest). However, one can also argue that splitting on \emph{B} is more useful than splitting on \emph{A}, since doing so allows for immediately labeling 3 of 7 instances as positive and giving  ``no information" on 2 instances, whereas splitting on \emph{A} allows for labeling only 2 of 7 instances as positive and giving ``no information" on 4 instances. This example shows that ID3 has a preference for trees with high information gain attributes near the root, simultaneously demonstrating the algorithm's preference for making the most extreme local partition possible.
 
 \subproblem The following is a decision tree ID3 might construct for the given dataset.
 
@@ -101,7 +101,7 @@ This tree also has accuracy 0.86. This example shows us that ID3 does not always
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \problem{30}
-\subproblem In order to implement boosting, we must define an information gain criterion that takes example weights into account. We can do so by modifying ID3's definition of entropy given weights $w_n^{(r)}$ on the data. More specifically, we will weight the counts of instances in each class by the weight on the instance. We will make a similar change to the method used to compute mutual information in problem (1). Since the problem at hand involves binary classification, making this change allows us to take into account the weights on each training instance by treating the class labels as indicator random variables.
+\subproblem In order to implement boosting, we must define an information gain criterion that takes example weights into account. We can do so by modifying ID3's definition of entropy given weights $w_n^{(r)}$ on the data. More specifically, we will weight the counts of instances in each class by the weight on the instance. We will make a similar change to the method used to compute mutual information in problem (1). Since the problem at hand involves binary classification, making this change allows us to take into account the weights on each training instance by treating the class labels as indicator random variables. We decide to split on the attribute with the highest weighted information gain.
 
 If the weight $w_1 = 0.5$ and the others are $0.5/(N-1)$, then the weighted entropy of the given set is
 \[ H(\mathcal D) \approx \frac{.5}{1} (\log_2 \frac{1}{0.5}) + 0 = 0.5 \]

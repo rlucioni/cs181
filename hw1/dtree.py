@@ -314,15 +314,25 @@ Yes, No = True, False
 
 class DecisionTreeLearner(Learner):
 
+    current_depth = 0
+
     def predict(self, example):
         return self.dt.predict(example)
 
-    def train(self, dataset):
+    #def train(self, dataset):
+    def train(self, dataset, max_depth):
         self.dataset = dataset
         self.attrnames = dataset.attrnames
-        self.dt = self.decision_tree_learning(dataset.examples, dataset.inputs)
+        #self.dt = self.decision_tree_learning(dataset.examples, dataset.inputs)
+        self.dt = self.decision_tree_learning(dataset.examples, dataset.inputs, max_depth)
 
-    def decision_tree_learning(self, examples, attrs, default=None):
+    # check if we have reached max_depth each time this is called - if we have, return
+    def decision_tree_learning(self, examples, attrs, max_depth, default=None):
+        #if self.current_depth == max_depth:
+        #    return DecisionTree(DecisionTree.LEAF,classification=self.majority_value(examples))
+        #else:
+        #    self.current_depth += 1
+
         if len(examples) == 0:
             return DecisionTree(DecisionTree.LEAF, classification=default)
         elif self.all_same_class(examples):
@@ -358,99 +368,33 @@ class DecisionTreeLearner(Learner):
         return argmax(self.dataset.values[g],
                       lambda v: self.count(g, v, examples))
 
+    # will work by counting weights instead (weights default to 1)
     def count(self, attr, val, examples):
-        return count_if(lambda e: e.attrs[attr] == val, examples)
-    
+        total_weight = 0.0
+        for i in range(len(examples)):
+            if examples[i].attrs[attr] == val:
+                total_weight += examples[i].weight
+        return total_weight
+
     def information_gain(self, attr, examples):
         def I(examples):
             target = self.dataset.target
             return information_content([self.count(target, v, examples)
                                         for v in self.dataset.values[target]])
-        N = float(len(examples))
+        # needs to sum all weights instead
+        #N = float(len(examples))
+        N = 0.0
+        for j in range(len(examples)):
+            N += examples[j].weight
+        
         remainder = 0
         for (v, examples_i) in self.split_by(attr, examples):
-            remainder += (len(examples_i) / N) * I(examples_i)
-        return I(examples) - remainder
+            #remainder += (len(examples_i) / N) * I(examples_i)
+            weight_sum = 0.0
+            for k in range(len(examples_i)):
+                weight_sum += examples_i[k].weight
 
-    def split_by(self, attr, examples=None):
-        "Return a list of (val, examples) pairs for each val of attr."
-        if examples == None:
-            examples = self.dataset.examples
-        return [(v, [e for e in examples if e.attrs[attr] == v])
-                for v in self.dataset.values[attr]]
-    
-def information_content(values):
-    "Number of bits to represent the probability distribution in values."
-    # If the values do not sum to 1, normalize them to make them a Prob. Dist.
-    values = removeall(0, values)
-    s = float(sum(values))
-    if s != 1.0: values = [v/s for v in values]
-    return sum([- v * log2(v) for v in values])
-
-#______________________________________________________________________________
-
-# should take number of rounds as a parameter?
-class AdaBoostLearner(Learner):
-
-    def predict(self, example):
-        return self.dt.predict(example)
-
-    def train(self, dataset):
-        self.dataset = dataset
-        self.attrnames = dataset.attrnames
-        self.dt = self.decision_tree_learning(dataset.examples, dataset.inputs)
-
-    def decision_tree_learning(self, examples, attrs, default=None):
-        if len(examples) == 0:
-            return DecisionTree(DecisionTree.LEAF, classification=default)
-        elif self.all_same_class(examples):
-            return DecisionTree(DecisionTree.LEAF,
-                                classification=examples[0].attrs[self.dataset.target])
-        elif  len(attrs) == 0:
-            return DecisionTree(DecisionTree.LEAF, classification=self.majority_value(examples))
-        else:
-            best = self.choose_attribute(attrs, examples)
-            tree = DecisionTree(DecisionTree.NODE, attr=best, attrname=self.attrnames[best])
-            for (v, examples_i) in self.split_by(best, examples):
-                subtree = self.decision_tree_learning(examples_i,
-                  removeall(best, attrs), self.majority_value(examples))
-                tree.add(v, subtree)
-            return tree
-
-    def choose_attribute(self, attrs, examples):
-        "Choose the attribute with the highest information gain."
-        return argmax(attrs, lambda a: self.information_gain(a, examples))
-
-    def all_same_class(self, examples):
-        "Are all these examples in the same target class?"
-        target = self.dataset.target
-        class0 = examples[0].attrs[target]
-        for e in examples:
-           if e.attrs[target] != class0: return False
-        return True
-
-    # use weighted sum to select majority
-    def majority_value(self, examples):
-        """Return the most popular target value for this set of examples.
-        (If target is binary, this is the majority; otherwise plurality.)"""
-        g = self.dataset.target
-        return argmax(self.dataset.values[g],
-                      lambda v: self.count(g, v, examples))
-
-    # should sum weights - how to deal with labels 1-10?
-    def count(self, attr, val, examples):
-        return count_if(lambda e: e.attrs[attr] == val, examples)
-    
-    # work with example weighted sum instead of count
-    def information_gain(self, attr, examples):
-        def I(examples):
-            target = self.dataset.target
-            return information_content([self.count(target, v, examples)
-                                        for v in self.dataset.values[target]])
-        N = float(len(examples))
-        remainder = 0
-        for (v, examples_i) in self.split_by(attr, examples):
-            remainder += (len(examples_i) / N) * I(examples_i)
+            remainder += (weight_sum / N) * I(examples_i)
         return I(examples) - remainder
 
     def split_by(self, attr, examples=None):
