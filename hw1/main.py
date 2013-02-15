@@ -246,10 +246,10 @@ def main():
 
     if pruneFlag:
     #if Globals.pruneFlag:
-        for i in range(10):
-            test_fold = dataset.examples[10*i:10*(i+1)]
-            train_folds = dataset.examples[10*(i+1):10*(i+1)+(90-valSetSize)]
-            val_fold = dataset.examples[10*(i+1)+(90-valSetSize):10*(i+1)+90]
+        for i in range(0,100,10):
+            test_fold = dataset.examples[i:(i+10)]
+            train_folds = dataset.examples[(i+10):(i+100-valSetSize)]
+            val_fold = dataset.examples[(i+100-valSetSize):(i+100)]
             # fix for breaking on the 54th data point 
             train_set = DataSet(train_folds, values=dataset.values)
         
@@ -277,9 +277,9 @@ def main():
         print "CROSS-VALIDATED TEST PERFORMANCE (PRUNED): {}".format(test_accuracy/10.0)
     
     elif dataset.use_boosting:
-        for i in range(10):
-            test_fold = dataset.examples[10*i:10*(i+1)]
-            train_folds = dataset.examples[10*(i+1):10*(i+1)+90]
+        for i in range(0,100,10):
+            test_fold = dataset.examples[i:(i+10)]
+            train_folds = dataset.examples[(i+10):(i+100)]
             # fix for breaking on the 54th data point 
             train_set = DataSet(train_folds, values=dataset.values)
             train_set.max_depth = maxDepth
@@ -302,9 +302,9 @@ def main():
         print "CROSS-VALIDATED TEST PERFORMANCE (BOOSTED): {}".format(test_accuracy/10.0)
     
     else:
-        for i in range(10):
-            test_fold = dataset.examples[10*i:10*(i+1)]
-            train_folds = dataset.examples[10*(i+1):10*(i+1)+90]
+        for i in range(0,100,10):
+            test_fold = dataset.examples[i:(i+10)]
+            train_folds = dataset.examples[(i+10):(i+100)]
             # fix for breaking on the 54th data point 
             train_set = DataSet(train_folds, values=dataset.values)
         
