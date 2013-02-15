@@ -40,41 +40,47 @@ def democracy(weighted_tree_list, example):
 def learn(dataset):
     e = 2.71828
     learner = DecisionTreeLearner()
+    # AdaBoost wrapper
     if dataset.use_boosting:
         weighted_tree_set = []
         for i in range(dataset.num_rounds):
             # dataset needs to be mutable here
             learner.train(dataset)
             tree = learner.dt
-            # validate on training data to find training error
-            num_correct = validate(tree, dataset.examples)
-            error = 1 - num_correct/float(len(dataset.examples))
-            # CAUSES EARLY TERMINATION
+            # calculate WEIGHTED TRAINING ERROR
+            error = weighted_error(tree, dataset.examples)
+            #print "ERROR = {}".format(error)
             if error == 0.0:
-                print "returning perfect tree"
                 return [(tree,sys.maxint)]
             else:
+                # change of base
                 alpha = .5*(log2((1-error)/error) / log2(e))
-            weight_seq = []
-            for j in range(len(dataset.examples)):
-                if classify(tree, dataset.examples[j]) == dataset.examples[j].attrs[-1]:
-                    dataset.examples[j].weight = dataset.examples[j].weight * e**(-alpha)
-                else:
-                    dataset.examples[j].weight = dataset.examples[j].weight * e**alpha
-                weight_seq.append(dataset.examples[j].weight)
-            #print "{}\n".format(weight_seq)
-            normalized_seq = normalize(weight_seq)
-            #print "NORMALIZED: {}\n".format(normalized_seq)
-            #print "SUM: {}\n".format(sum(normalized_seq))
-            for k in range(len(dataset.examples)):
-                dataset.examples[k].weight = normalized_seq[k]
-            weighted_tree_set.append((tree,alpha))
+                #print "ALPHA = {}".format(alpha)
+                weight_seq = []
+                for j in range(len(dataset.examples)):
+                    if classify(tree, dataset.examples[j]) == dataset.examples[j].attrs[-1]:
+                        dataset.examples[j].weight = dataset.examples[j].weight * e**(-alpha)
+                    else:
+                        dataset.examples[j].weight = dataset.examples[j].weight * e**alpha
+                    weight_seq.append(dataset.examples[j].weight)
+                normalized_seq = normalize(weight_seq)
+                for k in range(len(dataset.examples)):
+                    dataset.examples[k].weight = normalized_seq[k]
+                weighted_tree_set.append((tree,alpha))
         return weighted_tree_set
     else:
-        print "training regular ID3"
         learner.train(dataset)
         return learner.dt
 
+##Weighted Error
+#--------------
+def weighted_error(tree, examples):
+    "Return the weighted error of a tree"
+    epsilon = 0.0
+    for i in range(len(examples)):
+        if classify(tree, examples[i]) != examples[i].attrs[-1]:
+            epsilon += examples[i].weight
+    return epsilon
 
 ##Validate
 #---------

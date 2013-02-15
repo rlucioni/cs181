@@ -101,10 +101,12 @@ This tree also has accuracy 0.86. This example shows us that ID3 does not always
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \problem{30}
-\subproblem In order to implement boosting, we must define an information gain criterion that takes example weights into account. We can do so by modifying ID3's definition of entropy given weights $w_n^{(r)}$ on the data. More specifically, we will weight the counts of instances in each class by the weight on the instance. We will make a similar change to the method used to compute mutual information in problem (1). Since the problem at hand involves binary classification, making this change allows us to take into account the weights on each training instance by treating the class labels as indicator random variables. We decide to split on the attribute with the highest weighted information gain.
+\subproblem In order to implement boosting, we must define an information gain criterion that takes example weights into account. We can do so by modifying ID3's definition of entropy given weights $w_n^{(r)}$ on the data. More specifically, we will weight the counts of instances in each class by the weight on the instance. That is, to find a weight for each class, we will sum the weights of the instances whose label matches the class. We will make a similar change to the method used to compute mutual information in problem (1). Namely, we replace all counts with sums of weights. As usual, we decide to split on the attribute with the highest weighted information gain.
 
-If the weight $w_1 = 0.5$ and the others are $0.5/(N-1)$, then the weighted entropy of the given set is
-\[ H(\mathcal D) \approx \frac{.5}{1} (\log_2 \frac{1}{0.5}) + 0 = 0.5 \]
+In the given example set, the sum of all example weights is equal to 1. There is only one example with label 1, and its weight is 0.5. The other examples have label 0, so we sum their weights to get 0.5 total. Therefore, the weighted entropy of the given set is
+\[ H(\mathcal D) \approx \frac{.5}{1} (\log_2 \frac{1}{0.5}) + \frac{.5}{1} (\log_2 \frac{1}{0.5}) = 1 \]
+
+
 
 \subproblem
 

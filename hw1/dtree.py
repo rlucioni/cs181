@@ -11,7 +11,8 @@ class Example:
   1."""
   def __init__(self, attrs):
     self.attrs = attrs
-    self.weight = 1
+    # initilize to 1/N
+    self.weight = 1/90.0
 
 class DataSet:
     """A data set for a machine learning problem.  It has the following fields:
@@ -362,7 +363,7 @@ class DecisionTreeLearner(Learner):
         return argmax(self.dataset.values[g],
                       lambda v: self.count(g, v, examples))
 
-    # will work by counting weights instead (weights default to 1)
+    # will work by counting weights instead
     def count(self, attr, val, examples):
         total_weight = 0.0
         for i in range(len(examples)):
