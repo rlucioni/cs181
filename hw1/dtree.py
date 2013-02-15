@@ -319,33 +319,27 @@ class DecisionTreeLearner(Learner):
     def predict(self, example):
         return self.dt.predict(example)
 
-    #def train(self, dataset):
-    def train(self, dataset, max_depth):
+    def train(self, dataset):
         self.dataset = dataset
         self.attrnames = dataset.attrnames
-        #self.dt = self.decision_tree_learning(dataset.examples, dataset.inputs)
-        self.dt = self.decision_tree_learning(dataset.examples, dataset.inputs, max_depth)
+        self.dt = self.decision_tree_learning(dataset.examples, dataset.inputs, dataset.max_depth)
 
-    # check if we have reached max_depth each time this is called - if we have, return
+    # check if we have reached max_depth each time this is called - if we have, return a majority leaf
     def decision_tree_learning(self, examples, attrs, max_depth, default=None):
-        #if self.current_depth == max_depth:
-        #    return DecisionTree(DecisionTree.LEAF,classification=self.majority_value(examples))
-        #else:
-        #    self.current_depth += 1
-
         if len(examples) == 0:
             return DecisionTree(DecisionTree.LEAF, classification=default)
         elif self.all_same_class(examples):
             return DecisionTree(DecisionTree.LEAF,
                                 classification=examples[0].attrs[self.dataset.target])
-        elif  len(attrs) == 0:
+        elif len(attrs) == 0 or self.current_depth == max_depth:
             return DecisionTree(DecisionTree.LEAF, classification=self.majority_value(examples))
         else:
+            self.current_depth += 1
             best = self.choose_attribute(attrs, examples)
             tree = DecisionTree(DecisionTree.NODE, attr=best, attrname=self.attrnames[best])
             for (v, examples_i) in self.split_by(best, examples):
                 subtree = self.decision_tree_learning(examples_i,
-                  removeall(best, attrs), self.majority_value(examples))
+                  removeall(best, attrs), max_depth, self.majority_value(examples))
                 tree.add(v, subtree)
             return tree
 

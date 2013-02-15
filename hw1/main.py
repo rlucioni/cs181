@@ -37,25 +37,24 @@ def democracy(weighted_tree_list, example):
 
 ##Learn
 #------
-def learn(dataset, boost_rounds, max_depth):
+def learn(dataset):
     e = 2.71828
     learner = DecisionTreeLearner()
-    if boost_rounds == -1 and max_depth == -1:
-        learner.train(dataset, max_depth)
-        return learner.dt
-    else:
+    if dataset.use_boosting:
         weighted_tree_set = []
-        for i in range(boost_rounds):
+        for i in range(dataset.num_rounds):
             # dataset needs to be mutable here
-            learner.train(dataset, max_depth)
+            learner.train(dataset)
             tree = learner.dt
             # validate on training data to find training error
             num_correct = validate(tree, dataset.examples)
             error = 1 - num_correct/float(len(dataset.examples))
+            # CAUSES EARLY TERMINATION
             if error == 0.0:
+                print "returning perfect tree"
                 return [(tree,sys.maxint)]
             else:
-                alpha = .5(log2((1-error)/error) / log2(e))
+                alpha = .5*(log2((1-error)/error) / log2(e))
             weight_seq = []
             for j in range(len(dataset.examples)):
                 if classify(tree, dataset.examples[j]) == dataset.examples[j].attrs[-1]:
@@ -63,11 +62,18 @@ def learn(dataset, boost_rounds, max_depth):
                 else:
                     dataset.examples[j].weight = dataset.examples[j].weight * e**alpha
                 weight_seq.append(dataset.examples[j].weight)
+            #print "{}\n".format(weight_seq)
             normalized_seq = normalize(weight_seq)
+            #print "NORMALIZED: {}\n".format(normalized_seq)
+            #print "SUM: {}\n".format(sum(normalized_seq))
             for k in range(len(dataset.examples)):
                 dataset.examples[k].weight = normalized_seq[k]
             weighted_tree_set.append((tree,alpha))
         return weighted_tree_set
+    else:
+        print "training regular ID3"
+        learner.train(dataset)
+        return learner.dt
 
 
 ##Validate
@@ -242,7 +248,7 @@ def main():
             train_set = DataSet(train_folds, values=dataset.values)
         
             # learn
-            tree = learn(train_set, boostRounds, maxDepth)
+            tree = learn(train_set)
 
             #tree.display()
 
@@ -270,9 +276,13 @@ def main():
             train_folds = dataset.examples[10*(i+1):10*(i+1)+90]
             # fix for breaking on the 54th data point 
             train_set = DataSet(train_folds, values=dataset.values)
+            train_set.max_depth = maxDepth
+            if boostRounds != -1:
+                train_set.use_boosting = True
+                train_set.num_rounds = boostRounds
         
             # learn
-            weighted_tree_set = learn(train_set, boostRounds, maxDepth)
+            weighted_tree_set = learn(train_set)
 
             # testing
             train_score, test_score = score(weighted_tree_set, train_folds, test_fold, 1)
@@ -293,7 +303,7 @@ def main():
             train_set = DataSet(train_folds, values=dataset.values)
         
             # learn
-            tree = learn(train_set, boostRounds, maxDepth)
+            tree = learn(train_set)
         
             # testing
             train_score, test_score = score(tree, train_folds, test_fold, 0)
