@@ -16,14 +16,36 @@ class Globals:
 
 ##Classify
 #---------
-
 def classify(decisionTree, example):
     return decisionTree.predict(example)
+
+##Democracy
+#----------
+def democracy(weighted_tree_list, example):
+    "Takes a weighted set of decision trees and classifies an 
+    instance/example by having the trees vote on the label."
+    yea = 0
+    for i in range(len(weighted_tree_list)):
+        if weighted_tree_list[i].predict(example):
+            yea += 1
+        else:
+            yea -= 1
+    if yea > 0:
+        return 1
+    else:
+        return 0
 
 ##Learn
 #------
 def learn(dataset):
     learner = DecisionTreeLearner()
+    learner.train(dataset)
+    return learner.dt
+
+##AdaLearn
+#---------
+def adalearn(dataset):
+    learner = AdaBoostLearner()
     learner.train(dataset)
     return learner.dt
 
@@ -55,6 +77,8 @@ def sift(attr, val, val_fold):
     
 ##Majority
 #---------
+# NEEDS TO BE MODIFIED TO TAKE WEIGHTS INTO ACCOUNT
+# access via Example.weight
 def majority(examples):
     yes, no = 0, 0
     for i in range(len(examples)):
@@ -73,9 +97,11 @@ def majority(examples):
 ##Prune
 #------
 def prune(decisionTree, val_fold, train_fold):
-    # iterate over branches! (just like display method)
+    # stop if there is nothing left in the validation set
+    # SHOULD RETURN LEAF? (since we don't need anything below here...)
     if len(val_fold) == 0:
         return decisionTree
+        # return DecisionTree(DecisionTree.LEAF,classification=majority(train_fold))
     if decisionTree.nodetype == DecisionTree.LEAF:
         return decisionTree
     if decisionTree.nodetype == DecisionTree.NODE:
@@ -189,9 +215,10 @@ def main():
             train_set = DataSet(train_folds, values=dataset.values)
         
             # learn
-            learner = DecisionTreeLearner()
-            learner.train(train_set)
-            tree = learner.dt
+            if dataset.use_boosting:
+                tree = adalearn(train_set)
+            else:
+                tree = learn(train_set)
 
             #tree.display()
 
@@ -221,7 +248,10 @@ def main():
             train_set = DataSet(train_folds, values=dataset.values)
         
             # learn
-            tree = learn(train_set)
+            if dataset.use_boosting:
+                tree = adalearn(train_set)
+            else:
+                tree = learn(train_set)
         
             # testing
             train_score, test_score = score(tree, train_folds, test_fold)
