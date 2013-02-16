@@ -109,23 +109,19 @@ In the given example set, the sum of all example weights is equal to 1. There is
 
 \subproblem
 
-(i) \\
-\begin{center}
-\begin{tabular}{| l | c r | }    
-\hline
-      \multicolumn{3}{| c | }{Non-Noisy} \\    \hline         
-       &\multicolumn{2}{c |}{depth} \\             
-   boosting& 1 & 2 \\ \hline
-  10 & .93 & .9 \\
-  30 & .94 & .93 \\
-\hline
-      \multicolumn{3}{| c | }{Noisy} \\    \hline         
-       &\multicolumn{2}{c |}{depth} \\             
-   boosting& 1 & 2 \\ \hline
-  10 & .83 & .84 \\
-  30 & .83 & .79 \\ \hline
+(i)  As we increase the max depth the test performance for boosting goes down. This is probably due to issues of over fitting, if we enforce a shallower depth our weak learners don't fit as strictly to the noisy training data increasing performance on the test data. 
+ We can explain the below results as a demonstration of this phenomenon. As you increase the depth of the boosting trees you allow them to fit more closely to the noisy data. If you look at the table with 30 rounds on the noisy data set, you can see that allowing a depth of 2 actually caused the cross-validated test performance to suffer. 
  
-    
+\begin{center}
+\begin{tabular}{| l | c r |  l | c r | }    
+\hline
+      \multicolumn{3}{| c | }{Non-Noisy} & \multicolumn{3}{| c | }{Noisy}  \\    \hline         
+       &\multicolumn{2}{c |}{depth} &  &\multicolumn{2}{c |}{depth} \\             
+   rounds & 1 & 2 &    rounds& 1 & 2  \\ \hline
+  10 & .93 & .9 & 10 & .83 & .84 \\
+  30 & .94 & .93 & 30 & .83 & .79 \\
+\hline
+           
 \end{tabular}
 \end{center}
 
