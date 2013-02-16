@@ -9,8 +9,8 @@ import sys
 
 class Globals:
     noisyFlag = False
-    pruneFlag = False
-    #pruneFlag = True
+    #pruneFlag = False
+    pruneFlag = True
     valSetSize = 0
     dataset = None
 
@@ -111,7 +111,6 @@ def score(tree_set, train_folds, test_fold, boost):
 
 ##Sift
 #------
-# CONSIDER: IS THIS ACTUALLY EFFECTING THINGS
 def sift(attr, val, val_fold):
     def f(example):
         return example.attrs[attr] == val
@@ -136,7 +135,13 @@ def majority(examples):
 
 ##Prune
 #------
+# this is so that we never prune a tree to just a leaf
 def prune(decisionTree, val_fold, train_fold):
+    for (val, subtree) in decisionTree.branches.items():  
+        prune2(subtree,sift(decisionTree.attrname,val,val_fold), sift(decisionTree.attrname,val,train_fold)) 
+    return decisionTree
+
+def prune2(decisionTree, val_fold, train_fold):
     # stop if there is nothing left in the validation set
     if len(val_fold) == 0:
         return decisionTree
@@ -148,7 +153,8 @@ def prune(decisionTree, val_fold, train_fold):
                 new_val_fold = sift(decisionTree.attrname, val, val_fold)
                 new_train_fold = sift(decisionTree.attrname, val, train_fold)
                 
-                decisionTree.replace(val, prune(copy.deepcopy(subtree), new_val_fold, new_train_fold))
+                #decisionTree.replace(val, prune(copy.deepcopy(subtree), new_val_fold, new_train_fold))
+                decisionTree.replace(val, prune2(copy.deepcopy(subtree), new_val_fold, new_train_fold))
         
         leaf = DecisionTree(DecisionTree.LEAF,classification=majority(train_fold))
         
@@ -201,14 +207,14 @@ def validateInput(args):
     return [noisyFlag, pruneFlag, valSetSize, maxDepth, boostRounds]
 
 def main():
-    arguments = validateInput(sys.argv)
-    noisyFlag, pruneFlag, valSetSize, maxDepth, boostRounds = arguments
-    print noisyFlag, pruneFlag, valSetSize, maxDepth, boostRounds
+    #arguments = validateInput(sys.argv)
+    #noisyFlag, pruneFlag, valSetSize, maxDepth, boostRounds = arguments
+    #print noisyFlag, pruneFlag, valSetSize, maxDepth, boostRounds
 
     # Read in the data file
     
-    if noisyFlag:
-    #if Globals.noisyFlag:
+    #if noisyFlag:
+    if Globals.noisyFlag:
         f = open("noisy.csv")
     else:
         f = open("data.csv")
@@ -221,8 +227,8 @@ def main():
  
     dataset.examples.extend(examples)
     
-    #boostRounds = -1
-    #maxDepth = -1
+    boostRounds = -1
+    maxDepth = -1
     
     dataset.max_depth = maxDepth
     if boostRounds != -1:
@@ -235,13 +241,13 @@ def main():
     
     train_accuracy, test_accuracy = 0.0, 0.0
     
-    # valSetSize = Globals.valSetSize
+    valSetSize = Globals.valSetSize
 
-    if pruneFlag:
-    #if Globals.pruneFlag:
+    #if pruneFlag:
+    if Globals.pruneFlag:
         for i in range(0,100,10):
-            test_fold =copy.deepcopy(dataset.examples[i:(i+10)])
-            train_folds =copy.deepcopy(dataset.examples[(i+10):(i+100-valSetSize)])
+            test_fold = copy.deepcopy(dataset.examples[i:(i+10)])
+            train_folds = copy.deepcopy(dataset.examples[(i+10):(i+100-valSetSize)])
             val_fold = copy.deepcopy(dataset.examples[(i+100-valSetSize):(i+100)])
             # fix for breaking on the 54th data point 
             train_set = DataSet(train_folds, values=dataset.values)
@@ -257,10 +263,10 @@ def main():
             train_accuracy += train_score/float(len(train_folds))
             test_accuracy += test_score/10.0
         
-        # return train_accuracy/10.0, test_accuracy/10.0
+        return train_accuracy/10.0, test_accuracy/10.0
         
-        print "CROSS-VALIDATED TRAINING PERFORMANCE (PRUNED): {}".format(train_accuracy/10.0)
-        print "CROSS-VALIDATED TEST PERFORMANCE (PRUNED): {}".format(test_accuracy/10.0)
+        #print "CROSS-VALIDATED TRAINING PERFORMANCE (PRUNED): {}".format(train_accuracy/10.0)
+        #print "CROSS-VALIDATED TEST PERFORMANCE (PRUNED): {}".format(test_accuracy/10.0)
     
     elif dataset.use_boosting:
         for i in range(0,100,10):
@@ -305,83 +311,86 @@ def main():
         print "CROSS-VALIDATED TRAINING PERFORMANCE: {}".format(train_accuracy/10.0)
         print "CROSS-VALIDATED TEST PERFORMANCE: {}".format(test_accuracy/10.0)
 
-main()
+# main()
 
-#############################################################
-#### The code below is for generating the graphs for 2b. ####
-#### Other required changes to main.py for this code to  #### 
-#### run properly are commented above.                   ####
-#############################################################
+############################################################
+### The code below is for generating the graphs for 2b. ####
+### Other required changes to main.py for this code to  #### 
+### run properly are commented above.                   ####
+############################################################
 
-# import matplotlib.pyplot as plt
-# from pylab import *
+import matplotlib.pyplot as plt
+from pylab import *
+import copy
 
-### NON-NOISY ###
-# ys = []
-# zs = []
+## NON-NOISY ###
+ys = []
+zs = []
 
-# for i in range(80):
-#     Globals.valSetSize = i+1
-#     y, z = main()
-#     ys.append(y)
-#     zs.append(z)
+for i in range(80):
+    Globals.valSetSize = i+1
+    y, z = main()
+    ys.append(y)
+    zs.append(z)
 
-# plt.clf()
+plt.clf()
 
-# # these must have the same dimension
-# # valSetSize
-# xs = range(1,81)
-# # training accuracy
-# #ys = [.3, .5, .1, .8, 1]
-# # test accuracy
-# #zs = [.6, .4, .0, .07, .9]
+# these must have the same dimension
+# valSetSize
+xs = range(1,81)
+# training accuracy
+#ys = [.3, .5, .1, .8, 1]
+# test accuracy
+#zs = [.6, .4, .0, .07, .9]
 
-# p1, = plt.plot(xs, ys, color='b')
-# p2, = plt.plot(xs, zs, color='r')
+p1, = plt.plot(xs, ys, color='b')
+p2, = plt.plot(xs, zs, color='r')
 
-# plt.title('Performance on Non-Noisy Data')
-# # plt.title('Performance on Noisy Data')
-# plt.xlabel('Validation Set Size')
-# plt.ylabel('Predictive Accuracy')
-# plt.axis([0,80,0,1])
-# plt.legend((p1,p2,), ('Training Accuracy', 'Test Accuracy',), 'lower right')
-
-# # save figure as a pdf
-# savefig('prune-non-noisy.pdf')
-
-### NOISY ###
-# ys = []
-# zs = []
-
-# Globals.noisyFlag = True
-# for i in range(80):
-#     Globals.valSetSize = i+1
-#     y, z = main()
-#     ys.append(y)
-#     zs.append(z)
-
-# plt.clf()
-
-# # these must have the same dimension
-# # valSetSize
-# xs = range(1,81)
-# # training accuracy
-# #ys = [.3, .5, .1, .8, 1]
-# # test accuracy
-# #zs = [.6, .4, .0, .07, .9]
-
-# p1, = plt.plot(xs, ys, color='b')
-# p2, = plt.plot(xs, zs, color='r')
-
+plt.title('Pruned Performance on Non-Noisy Data')
 # plt.title('Performance on Noisy Data')
-# # plt.title('Performance on Noisy Data')
-# plt.xlabel('Validation Set Size')
-# plt.ylabel('Predictive Accuracy')
-# plt.axis([0,80,0,1])
-# plt.legend((p1,p2,), ('Training Accuracy', 'Test Accuracy',), 'lower right')
+plt.xlabel('Validation Set Size')
+plt.ylabel('Predictive Accuracy')
+plt.axis([0,80,0,1.1])
+plt.legend((p1,p2,), ('Training Accuracy', 'Test Accuracy',), 'lower right')
 
-# # save figure as a pdf
-# savefig('prune-noisy.pdf')
+# save figure as a pdf
+savefig('prune-non-noisy.pdf')
+print "pruned non-noisy figure generated"
+
+## NOISY ###
+ys = []
+zs = []
+
+Globals.noisyFlag = True
+for i in range(80):
+    Globals.valSetSize = i+1
+    y, z = main()
+    ys.append(y)
+    zs.append(z)
+
+plt.clf()
+
+# these must have the same dimension
+# valSetSize
+xs = range(1,81)
+# training accuracy
+#ys = [.3, .5, .1, .8, 1]
+# test accuracy
+#zs = [.6, .4, .0, .07, .9]
+
+p1, = plt.plot(xs, ys, color='b')
+p2, = plt.plot(xs, zs, color='r')
+
+plt.title('Pruned Performance on Noisy Data')
+# plt.title('Performance on Noisy Data')
+plt.xlabel('Validation Set Size')
+plt.ylabel('Predictive Accuracy')
+plt.axis([0,80,0,1])
+plt.legend((p1,p2,), ('Training Accuracy', 'Test Accuracy',), 'lower right')
+
+# save figure as a pdf
+savefig('prune-noisy.pdf')
+print "pruned noisy figure generated"
 
 
 
