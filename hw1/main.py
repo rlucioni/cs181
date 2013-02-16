@@ -9,10 +9,12 @@ import sys
 
 class Globals:
     noisyFlag = False
-    #pruneFlag = False
-    pruneFlag = True
+    pruneFlag = False
+    #pruneFlag = True
     valSetSize = 0
     dataset = None
+    boostRounds = -1
+    maxDepth = -1
 
 
 ##Classify
@@ -227,8 +229,10 @@ def main():
  
     dataset.examples.extend(examples)
     
-    boostRounds = -1
-    maxDepth = -1
+    #boostRounds = -1
+    #maxDepth = -1
+    boostRounds = Globals.boostRounds
+    maxDepth = 1
     
     dataset.max_depth = maxDepth
     if boostRounds != -1:
@@ -241,7 +245,7 @@ def main():
     
     train_accuracy, test_accuracy = 0.0, 0.0
     
-    valSetSize = Globals.valSetSize
+    # valSetSize = Globals.valSetSize
 
     #if pruneFlag:
     if Globals.pruneFlag:
@@ -287,10 +291,10 @@ def main():
             train_accuracy += train_score/90.0
             test_accuracy += test_score/10.0
         
-        # return train_accuracy/10.0, test_accuracy/10.0
+        return train_accuracy/10.0, test_accuracy/10.0
         
-        print "CROSS-VALIDATED TRAINING PERFORMANCE (BOOSTED): {}".format(train_accuracy/10.0)
-        print "CROSS-VALIDATED TEST PERFORMANCE (BOOSTED): {}".format(test_accuracy/10.0)
+        #print "CROSS-VALIDATED TRAINING PERFORMANCE (BOOSTED): {}".format(train_accuracy/10.0)
+        #print "CROSS-VALIDATED TEST PERFORMANCE (BOOSTED): {}".format(test_accuracy/10.0)
     
     else:
         for i in range(0,100,10):
@@ -314,7 +318,7 @@ def main():
 # main()
 
 ############################################################
-### The code below is for generating the graphs for 2b. ####
+### The code below is for generating the graphs.        ####
 ### Other required changes to main.py for this code to  #### 
 ### run properly are commented above.                   ####
 ############################################################
@@ -322,13 +326,85 @@ def main():
 import matplotlib.pyplot as plt
 from pylab import *
 import copy
+from utils import *
 
+### PRUNING ###
+# ## NON-NOISY ###
+# ys = []
+# zs = []
+
+# for i in range(80):
+#     Globals.valSetSize = i+1
+#     y, z = main()
+#     ys.append(y)
+#     zs.append(z)
+
+# plt.clf()
+
+# # these must have the same dimension
+# # valSetSize
+# xs = range(1,81)
+# # training accuracy
+# #ys = [.3, .5, .1, .8, 1]
+# # test accuracy
+# #zs = [.6, .4, .0, .07, .9]
+
+# p1, = plt.plot(xs, ys, color='b')
+# p2, = plt.plot(xs, zs, color='r')
+
+# plt.title('Pruned Performance on Non-Noisy Data')
+# # plt.title('Performance on Noisy Data')
+# plt.xlabel('Validation Set Size')
+# plt.ylabel('Predictive Accuracy')
+# plt.axis([0,80,0,1.1])
+# plt.legend((p1,p2,), ('Training Accuracy', 'Test Accuracy',), 'lower right')
+
+# # save figure as a pdf
+# savefig('prune-non-noisy.pdf')
+# print "pruned non-noisy figure generated"
+
+# ## NOISY ###
+# ys = []
+# zs = []
+
+# Globals.noisyFlag = True
+# for i in range(80):
+#     Globals.valSetSize = i+1
+#     y, z = main()
+#     ys.append(y)
+#     zs.append(z)
+
+# plt.clf()
+
+# # these must have the same dimension
+# # valSetSize
+# xs = range(1,81)
+# # training accuracy
+# #ys = [.3, .5, .1, .8, 1]
+# # test accuracy
+# #zs = [.6, .4, .0, .07, .9]
+
+# p1, = plt.plot(xs, ys, color='b')
+# p2, = plt.plot(xs, zs, color='r')
+
+# plt.title('Pruned Performance on Noisy Data')
+# # plt.title('Performance on Noisy Data')
+# plt.xlabel('Validation Set Size')
+# plt.ylabel('Predictive Accuracy')
+# plt.axis([0,80,0,1])
+# plt.legend((p1,p2,), ('Training Accuracy', 'Test Accuracy',), 'lower right')
+
+# # save figure as a pdf
+# savefig('prune-noisy.pdf')
+# print "pruned noisy figure generated"
+
+### BOOSTING ###
 ## NON-NOISY ###
 ys = []
 zs = []
 
-for i in range(80):
-    Globals.valSetSize = i+1
+for i in range(30):
+    Globals.boostRounds = i+1
     y, z = main()
     ys.append(y)
     zs.append(z)
@@ -337,7 +413,7 @@ plt.clf()
 
 # these must have the same dimension
 # valSetSize
-xs = range(1,81)
+xs = range(1,31)
 # training accuracy
 #ys = [.3, .5, .1, .8, 1]
 # test accuracy
@@ -346,24 +422,24 @@ xs = range(1,81)
 p1, = plt.plot(xs, ys, color='b')
 p2, = plt.plot(xs, zs, color='r')
 
-plt.title('Pruned Performance on Non-Noisy Data')
+plt.title('Boosted Performance on Non-Noisy Data')
 # plt.title('Performance on Noisy Data')
-plt.xlabel('Validation Set Size')
+plt.xlabel('Rounds')
 plt.ylabel('Predictive Accuracy')
-plt.axis([0,80,0,1.1])
+plt.axis([0,30,0,1.1])
 plt.legend((p1,p2,), ('Training Accuracy', 'Test Accuracy',), 'lower right')
 
 # save figure as a pdf
-savefig('prune-non-noisy.pdf')
-print "pruned non-noisy figure generated"
+savefig('boost-non-noisy.pdf')
+print "boosted non-noisy figure generated"
 
 ## NOISY ###
 ys = []
 zs = []
 
 Globals.noisyFlag = True
-for i in range(80):
-    Globals.valSetSize = i+1
+for i in range(30):
+    Globals.boostRounds = i+1
     y, z = main()
     ys.append(y)
     zs.append(z)
@@ -372,7 +448,7 @@ plt.clf()
 
 # these must have the same dimension
 # valSetSize
-xs = range(1,81)
+xs = range(1,31)
 # training accuracy
 #ys = [.3, .5, .1, .8, 1]
 # test accuracy
@@ -381,16 +457,16 @@ xs = range(1,81)
 p1, = plt.plot(xs, ys, color='b')
 p2, = plt.plot(xs, zs, color='r')
 
-plt.title('Pruned Performance on Noisy Data')
+plt.title('Boosted Performance on Noisy Data')
 # plt.title('Performance on Noisy Data')
-plt.xlabel('Validation Set Size')
+plt.xlabel('Rounds')
 plt.ylabel('Predictive Accuracy')
-plt.axis([0,80,0,1])
+plt.axis([0,30,0,1.1])
 plt.legend((p1,p2,), ('Training Accuracy', 'Test Accuracy',), 'lower right')
 
 # save figure as a pdf
-savefig('prune-noisy.pdf')
-print "pruned noisy figure generated"
+savefig('boost-noisy.pdf')
+print "boosted noisy figure generated"
 
 
 
