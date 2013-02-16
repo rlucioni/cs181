@@ -323,6 +323,7 @@ class DecisionTreeLearner(Learner):
     def train(self, dataset):
         self.dataset = dataset
         self.attrnames = dataset.attrnames
+        self.current_depth = 0;
         self.dt = self.decision_tree_learning(dataset.examples, dataset.inputs, dataset.max_depth)
 
     # check if we have reached max_depth each time this is called - if we have, return a majority leaf

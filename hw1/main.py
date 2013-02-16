@@ -56,7 +56,7 @@ def learn(dataset):
             else:
                 # change of base
                 alpha = .5*(log2((1-error)/error) / log2(e))
-                print "ALPHA = {}".format(alpha)
+                #print "ALPHA = {}".format(alpha)
                 weight_seq = []
                 for j in range(len(dataset.examples)):
                     if classify(tree, dataset.examples[j]) == dataset.examples[j].attrs[-1]:
@@ -67,7 +67,6 @@ def learn(dataset):
                 normalized_seq = normalize(weight_seq)
                 for k in range(len(dataset.examples)):
                     dataset.examples[k].weight = normalized_seq[k]
-                tree.display()
                 weighted_tree_set.append((tree,alpha))
         return weighted_tree_set
     else:
@@ -114,10 +113,11 @@ def score(tree_set, train_folds, test_fold, boost):
 
 ##Sift
 #------
+# CONSIDER: IS THIS ACTUALLY EFFECTING THINGS
 def sift(attr, val, val_fold):
     def f(example):
         return example.attrs[attr] == val
-    return filter(f, val_fold)
+    return copy.deepcopy(filter(f, val_fold))
     
     
 ##Majority
@@ -155,7 +155,7 @@ def prune(decisionTree, val_fold, train_fold):
                 #print "new_val_fold: {}\n".format(new_val_fold)
                 new_train_fold = sift(decisionTree.attrname, val, train_fold)
                 
-                decisionTree.replace(val, prune(subtree, new_val_fold, new_train_fold))
+                decisionTree.replace(val, prune(copy.deepcopy(subtree), new_val_fold, new_train_fold))
         
         leaf = DecisionTree(DecisionTree.LEAF,classification=majority(train_fold))
         
@@ -251,9 +251,9 @@ def main():
     if pruneFlag:
     #if Globals.pruneFlag:
         for i in range(0,100,10):
-            test_fold = dataset.examples[i:(i+10)]
-            train_folds = dataset.examples[(i+10):(i+100-valSetSize)]
-            val_fold = dataset.examples[(i+100-valSetSize):(i+100)]
+            test_fold =copy.deepcopy(dataset.examples[i:(i+10)])
+            train_folds =copy.deepcopy(dataset.examples[(i+10):(i+100-valSetSize)])
+            val_fold = copy.deepcopy(dataset.examples[(i+100-valSetSize):(i+100)])
             # fix for breaking on the 54th data point 
             train_set = DataSet(train_folds, values=dataset.values)
         
@@ -282,9 +282,8 @@ def main():
     
     elif dataset.use_boosting:
         for i in range(0,100,10):
-            print "+++++++++++++++++++++++++++++++++++++++++++++\n"
-            test_fold = dataset.examples[i:(i+10)]
-            train_folds = dataset.examples[(i+10):(i+100)]
+            test_fold =copy.deepcopy(dataset.examples[i:(i+10)])
+            train_folds = copy.deepcopy(dataset.examples[(i+10):(i+100)])
             train_set = DataSet(train_folds, values=dataset.values)
             train_set.max_depth = maxDepth
             if boostRounds != -1:
