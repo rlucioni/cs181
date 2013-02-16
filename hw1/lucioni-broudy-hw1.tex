@@ -137,18 +137,15 @@ In the given example set, the sum of all example weights is equal to 1. There is
 \end{center}
 As the number of boosting rounds increases, the training and test accuracy improve. This is true for both the non-noisy and the noisy data sets. When run on the non-noisy data set, test accuracy continues to improve for a while even after training accuracy reaches 1.0 (i.e., training error has gone to 0). This is expected based on our theoretical discussion of boosting class (see Lecture 4, slides 49-50). \\
 
-(iii) \\
-Boosting is better that ID3 with and without pruning. \\
+(iii) Boosting is better that ID3 with and without pruning. \\
 \tab {\bf Noisy}: 
 Boosting on the noisy set with 16 rounds and a depth of 1 gets a cross-validated test performance of 0.86.
 The best pruning does is with a validation set size of 26 on the noisy set, it gets a cross-validated test performance of 0.84. ID3 on its own gets a cross-validated test performance of 0.78.\\ 
 \tab {\bf Non-Noisy}:
 On the non-noisy set boosting is still the best. With 16 rounds and a depth of 1, boosting gets a cross-validated test performance of 0.94. Pruning with a validation set size of 26 gets a cross-validated test performance of 0.9. ID3 on the non-noisy set gets a cross-validated test performance of 0.87. \\
-\tab As you can see with both the noisy and non-noisy data sets boosting preforms the best on the test set. This makes sense because boosting does a better job handling over fitting.
+\tab As you can see with both the noisy and non-noisy data sets boosting preforms the best on the test set. This makes sense because boosting does a better job handling over fitting. \\
 
-(iv) \\
-Is there a relationship between the training and test performance?
-From the below table there appears to be a relationship between training and test performance. It appears that as the training accuracy goes up the test accuracy is also going up. Unlike in pruning where you prune your decision tree to not fit the training data as closely in an effort to generalize your findings so they apply better to the test data, in boosting you are taking the accumulation of a bunch of weak learners that each try to make the training performance better in the hope that that also improves the test performance. It makes sense that we would see a positive correlation between rounds, training results and training results.\\
+(iv) From the below table there appears to be a relationship between training and test performance. It appears that as the training accuracy goes up the test accuracy is also going up. Unlike in pruning where you prune your decision tree to not fit the training data as closely in an effort to generalize your findings so they apply better to the test data, in boosting you are taking the accumulation of a bunch of weak learners that each try to make the training performance better in the hope that that also improves the test performance. It makes sense that we would see a positive correlation between rounds, training results and training results.\\
 
 \begin{tabular}{ l | l l l l l l l l l l l l l c r }
   Rounds & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 \\ \hline
