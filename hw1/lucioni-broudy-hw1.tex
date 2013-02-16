@@ -85,11 +85,10 @@ Attribute \emph{A} yields the highest information gain, so ID3 uses \emph{A} as 
 \end{center}
 
 This tree also has accuracy 0.86. This example shows us that ID3 does not always build the simplest tree possible, but instead finds a ``good" tree which is an approximation of the simplest tree. More importantly, this example also teaches us that ID3 is unable to look ahead to see which attributes are good co-predictors. 
-
+\pagebreak
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \problem{25}
 \subproblem The average cross-validated training performance over the ten trials for the non-noisy dataset is 1.0; the test performance is 0.87. The average cross-validated training performance over the ten trials for the noisy dataset is 0.98; the test performance is 0.78.
-\pagebreak
 \subproblem
  
 (i) The requested graphs are below. 
@@ -101,6 +100,8 @@ This tree also has accuracy 0.86. This example shows us that ID3 does not always
 (ii) For both the non-noisy and noisy datasets, the cross-validated test performance (i.e., predictive accuracy) of the validation set pruning increases gradually as the size of the validation set goes from 0 to 50. The cross-validated test performance peaks for validation set sizes of approximately 50 (more precisely, 51 for the non-noisy data, and 55 for the noisy data). Then, as the size of the validation set approaches 80, cross-validated test performance decreases significantly while training performance increases, due to the fact that ID3 has much less data on which to train a decision tree (the size of the training dataset is approaching 10). \\
 
 (iii) Yes, the validation set pruning improves the cross-validated performance of ID3 on these data. \emph{Without} validation set pruning, the average cross-validated test performance over ten trials for the non-noisy dataset is 0.87 (as stated above). With validation set pruning, the average cross-validated test performance over ten trials for the non-noisy dataset reaches 0.9 when the validation set size is 51 (1.0 training accuracy). For the noisy dataset, the average cross-validated test performance over ten trials improves from 0.78 without pruning to 0.84 with pruning when the validation set size is 55 (0.98 training accuracy). \\
+
+\pagebreak
 
 (iv) Yes, overfitting is an issue for these data. The unpruned tree generated in 2(A) has high average cross-validated training performance over the ten trials on both the noisy and non-noisy datasets. As demonstrated in (iii), while pruning can negatively impact training performance by simplifying the tree, it improves average cross-validated test performance over ten trials for both datasets, suggesting that pruning helps the tree to generalize better. This implies that the original, unpruned tree was overfit, and that the simplified, pruned tree is less so. ({\bf NB:} In our implementation of pruning, we made the assumption that it should not be possible for a tree to be pruned all the way down to just a leaf; the smallest a tree can get in our implementation is a decision stump of depth 1.)
 
@@ -130,10 +131,12 @@ In the given example set, the sum of all example weights is equal to 1. There is
 \end{tabular}
 \end{center}
 
+\pagebreak
+
 (ii) The requested graphs are below. For both, the depth of the weak learners is fixed at 1.
 \begin{center}
-\includegraphics[scale=0.8]{boost-non-noisy.pdf}
-\includegraphics[scale=0.8]{boosted-noisy.pdf}
+\includegraphics[scale=0.7]{boost-non-noisy.pdf}
+\includegraphics[scale=0.7]{boost-noisy.pdf}
 \end{center}
 As the number of boosting rounds increases, the training and test accuracy improve. This is true for both the non-noisy and the noisy data sets. When run on the non-noisy data set, test accuracy continues to improve for a while even after training accuracy reaches 1.0 (i.e., training error has gone to 0). This is expected based on our theoretical discussion of boosting class (see Lecture 4, slides 49-50). \\
 
@@ -143,17 +146,55 @@ Boosting on the noisy set with 16 rounds and a depth of 1 gets a cross-validated
 The best pruning does is with a validation set size of 26 on the noisy set, it gets a cross-validated test performance of 0.84. ID3 on its own gets a cross-validated test performance of 0.78.\\ 
 \tab {\bf Non-Noisy}:
 On the non-noisy set boosting is still the best. With 16 rounds and a depth of 1, boosting gets a cross-validated test performance of 0.94. Pruning with a validation set size of 26 gets a cross-validated test performance of 0.9. ID3 on the non-noisy set gets a cross-validated test performance of 0.87. \\
-\tab As you can see with both the noisy and non-noisy data sets boosting preforms the best on the test set. This makes sense because boosting does a better job handling over fitting. \\
+\tab As the evidence shows, boosting performs best on both the noisy and non-noisy datasets. This makes sense because boosting does a better job handling overfitting, as we learned in Lecture 4. \\
 
-(iv) From the below table there appears to be a relationship between training and test performance. It appears that as the training accuracy goes up the test accuracy is also going up. Unlike in pruning where you prune your decision tree to not fit the training data as closely in an effort to generalize your findings so they apply better to the test data, in boosting you are taking the accumulation of a bunch of weak learners that each try to make the training performance better in the hope that that also improves the test performance. It makes sense that we would see a positive correlation between rounds, training results and training results.\\
+(iv) From the below table there appears to be a relationship between training and test performance for boosting with weak learners of depth 1 over a number of rounds in [1,15]. It appears that as the training accuracy goes up the test accuracy is also going up. Unlike in pruning where you prune your decision tree to not fit the training data as closely in an effort to generalize your findings so they apply better to the test data, in boosting you are taking the accumulation of a bunch of weak learners that each try to make the training performance better in hopes of also improving the test performance. It makes sense for us to observe a positive correlation between rounds, training results and test results.\\
 
 \begin{tabular}{ l | l l l l l l l l l l l l l c r }
   Rounds & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 \\ \hline
   Training & .89 & .89 & .89 & .92 & .91 & .92 & .92 & .92 & .93 & .93 & .92 & .93 & .94 & .93 & .94 \\
    Test & .82 & .82 & .82 & .82 & .85 & .84 & .85 & .84 & .84 & .83 & .83 & .84 & .84 & .85 & .83 \\
   \end{tabular}
-  
-  
+
+\pagebreak
+
+\problem{8}
+The following decision tree is particularly effective on the non-noisy dataset:
+\begin{verbatim}
+Test Uniformity of Cell Shape
+ Uniformity of Cell Shape = 1 ==> Benign
+ Uniformity of Cell Shape = 2 ==> Benign
+ Uniformity of Cell Shape = 3 ==> Benign
+ Uniformity of Cell Shape = 4 ==> Test Marginal Adhesion
+     Marginal Adhesion = 1 ==> Malignant
+     Marginal Adhesion = 2 ==> Malignant
+     Marginal Adhesion = 3 ==> Malignant
+     Marginal Adhesion = 4 ==> Malignant
+     Marginal Adhesion = 5 ==> Benign
+     Marginal Adhesion = 6 ==> Malignant
+     Marginal Adhesion = 7 ==> Malignant
+     Marginal Adhesion = 8 ==> Malignant
+     Marginal Adhesion = 10 ==> Malignant
+ Uniformity of Cell Shape = 5 ==> Malignant
+ Uniformity of Cell Shape = 6 ==> Test Clump Thickness
+     Clump Thickness = 1 ==> Benign
+     Clump Thickness = 2 ==> Benign
+     Clump Thickness = 3 ==> Benign
+     Clump Thickness = 4 ==> Benign
+     Clump Thickness = 5 ==> Malignant
+     Clump Thickness = 6 ==> Benign
+     Clump Thickness = 7 ==> Benign
+     Clump Thickness = 8 ==> Benign
+     Clump Thickness = 9 ==> Benign
+     Clump Thickness = 10 ==> Benign
+ Uniformity of Cell Shape = 7 ==> Malignant
+ Uniformity of Cell Shape = 8 ==> Malignant
+ Uniformity of Cell Shape = 9 ==> Malignant
+ Uniformity of Cell Shape = 10 ==> Malignant
+ \end{verbatim}
+
+This decision tree was generated by validation set pruning with a validation set size of 51 during 10-fold cross-validation. It has .96 predictive accuracy when run on the entire dataset (all 100 examples). The tree's root is the attribute ``Uniformity of Cell Shape," and it splits on ``Marginal Adhesion" and ``Clump Thickness." The attribute most important to benign decisions is Clump Thickness. The attribute most important to malignant decisions is Marginal Adhesion.
+
 
 
 \end{document}
