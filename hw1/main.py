@@ -141,10 +141,8 @@ def majority(examples):
 #------
 def prune(decisionTree, val_fold, train_fold):
     # stop if there is nothing left in the validation set
-    # SHOULD RETURN LEAF? (since we don't need anything below here...)
     if len(val_fold) == 0:
         return decisionTree
-        # return DecisionTree(DecisionTree.LEAF,classification=majority(train_fold))
     if decisionTree.nodetype == DecisionTree.LEAF:
         return decisionTree
     if decisionTree.nodetype == DecisionTree.NODE:
@@ -260,14 +258,14 @@ def main():
             # learn
             tree = learn(train_set)
 
-            #tree.display()
+            tree.display()
 
-            #print "==========================================="
+            print "==========================================="
 
             new_tree = prune(tree, val_fold, train_folds)
-            #new_tree.display()
+            new_tree.display()
 
-            #print "==========================================="
+            print "==========================================="
             
             # testing
             train_score, test_score = score(new_tree, train_folds, test_fold, 0)
