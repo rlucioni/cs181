@@ -140,11 +140,15 @@ def majority(examples):
 ##Prune
 #------
 def prune(decisionTree, val_fold, train_fold):
+    for (val, subtree) in decisionTree.branches.items(): 
+        prune2(subtree,sift(decisionTree.attrname,val,val_fold), sift(decisionTree.attrname,val,train_fold))
+    return decisionTree
+
+def prune2(decisionTree, val_fold, train_fold):
     # stop if there is nothing left in the validation set
     # SHOULD RETURN LEAF? (since we don't need anything below here...)
     if len(val_fold) == 0:
         return decisionTree
-        # return DecisionTree(DecisionTree.LEAF,classification=majority(train_fold))
     if decisionTree.nodetype == DecisionTree.LEAF:
         return decisionTree
     if decisionTree.nodetype == DecisionTree.NODE:
@@ -155,7 +159,7 @@ def prune(decisionTree, val_fold, train_fold):
                 #print "new_val_fold: {}\n".format(new_val_fold)
                 new_train_fold = sift(decisionTree.attrname, val, train_fold)
                 
-                decisionTree.replace(val, prune(copy.deepcopy(subtree), new_val_fold, new_train_fold))
+                decisionTree.replace(val, prune2(copy.deepcopy(subtree), new_val_fold, new_train_fold))
         
         leaf = DecisionTree(DecisionTree.LEAF,classification=majority(train_fold))
         
@@ -260,15 +264,17 @@ def main():
             # learn
             tree = learn(train_set)
 
-            #tree.display()
+            tree.display()
 
-            #print "==========================================="
+            print "==========================================="
 
             new_tree = prune(tree, val_fold, train_folds)
-            #new_tree.display()
+            new_tree.display()
 
-            #print "==========================================="
-            
+            print "==========================================="
+            for i in range(len(val_fold)):
+                print val_fold[i].attrs
+            print "#############################################"           
             # testing
             train_score, test_score = score(new_tree, train_folds, test_fold, 0)
 
