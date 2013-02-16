@@ -137,11 +137,6 @@ def majority(examples):
 ##Prune
 #------
 def prune(decisionTree, val_fold, train_fold):
-    for (val, subtree) in decisionTree.branches.items(): 
-        prune2(subtree,sift(decisionTree.attrname,val,val_fold), sift(decisionTree.attrname,val,train_fold))
-    return decisionTree
-
-def prune2(decisionTree, val_fold, train_fold):
     # stop if there is nothing left in the validation set
     if len(val_fold) == 0:
         return decisionTree
@@ -153,7 +148,7 @@ def prune2(decisionTree, val_fold, train_fold):
                 new_val_fold = sift(decisionTree.attrname, val, val_fold)
                 new_train_fold = sift(decisionTree.attrname, val, train_fold)
                 
-                decisionTree.replace(val, prune2(copy.deepcopy(subtree), new_val_fold, new_train_fold))
+                decisionTree.replace(val, prune(copy.deepcopy(subtree), new_val_fold, new_train_fold))
         
         leaf = DecisionTree(DecisionTree.LEAF,classification=majority(train_fold))
         
