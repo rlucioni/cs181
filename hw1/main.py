@@ -56,7 +56,7 @@ def learn(dataset):
             else:
                 # change of base
                 alpha = .5*(log2((1-error)/error) / log2(e))
-                #print "ALPHA = {}".format(alpha)
+                print "ALPHA = {}".format(alpha)
                 weight_seq = []
                 for j in range(len(dataset.examples)):
                     if classify(tree, dataset.examples[j]) == dataset.examples[j].attrs[-1]:
@@ -67,6 +67,7 @@ def learn(dataset):
                 normalized_seq = normalize(weight_seq)
                 for k in range(len(dataset.examples)):
                     dataset.examples[k].weight = normalized_seq[k]
+                tree.display()
                 weighted_tree_set.append((tree,alpha))
         return weighted_tree_set
     else:
@@ -243,7 +244,7 @@ def main():
     # WRITE CODE FOR YOUR EXPERIMENTS HERE
     # ====================================
     
-    train_accuracy, test_accuracy = 0., 0.
+    train_accuracy, test_accuracy = 0.0, 0.0
     
     # valSetSize = Globals.valSetSize
 
@@ -281,6 +282,7 @@ def main():
     
     elif dataset.use_boosting:
         for i in range(0,100,10):
+            print "+++++++++++++++++++++++++++++++++++++++++++++\n"
             test_fold = dataset.examples[i:(i+10)]
             train_folds = dataset.examples[(i+10):(i+100)]
             train_set = DataSet(train_folds, values=dataset.values)
