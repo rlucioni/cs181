@@ -37,6 +37,7 @@ def democracy(weighted_tree_list, example):
 
 ##Learn
 #------
+# takes a DataSet type
 def learn(dataset):
     e = 2.71828
     learner = DecisionTreeLearner()
@@ -59,9 +60,9 @@ def learn(dataset):
                 weight_seq = []
                 for j in range(len(dataset.examples)):
                     if classify(tree, dataset.examples[j]) == dataset.examples[j].attrs[-1]:
-                        dataset.examples[j].weight = dataset.examples[j].weight * e**(-alpha)
+                        dataset.examples[j].weight *=  e**(-alpha)
                     else:
-                        dataset.examples[j].weight = dataset.examples[j].weight * e**alpha
+                        dataset.examples[j].weight *= e**alpha
                     weight_seq.append(dataset.examples[j].weight)
                 normalized_seq = normalize(weight_seq)
                 for k in range(len(dataset.examples)):
@@ -242,7 +243,7 @@ def main():
     # WRITE CODE FOR YOUR EXPERIMENTS HERE
     # ====================================
     
-    train_accuracy, test_accuracy = 0, 0
+    train_accuracy, test_accuracy = 0., 0.
     
     # valSetSize = Globals.valSetSize
 
@@ -282,7 +283,6 @@ def main():
         for i in range(0,100,10):
             test_fold = dataset.examples[i:(i+10)]
             train_folds = dataset.examples[(i+10):(i+100)]
-            # fix for breaking on the 54th data point 
             train_set = DataSet(train_folds, values=dataset.values)
             train_set.max_depth = maxDepth
             if boostRounds != -1:
