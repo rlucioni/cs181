@@ -50,13 +50,11 @@ def learn(dataset):
             tree = learner.dt
             # calculate WEIGHTED TRAINING ERROR
             error = weighted_error(tree, dataset.examples)
-            #print "ERROR = {}".format(error)
             if error == 0.0:
                 return [(tree,sys.maxint)]
             else:
                 # change of base
                 alpha = .5*(log2((1-error)/error) / log2(e))
-                #print "ALPHA = {}".format(alpha)
                 weight_seq = []
                 for j in range(len(dataset.examples)):
                     if classify(tree, dataset.examples[j]) == dataset.examples[j].attrs[-1]:
@@ -130,7 +128,6 @@ def majority(examples):
             yes += examples[i].weight
         else:
             no += examples[i].weight
-    #print "yes: {}, no: {}\n".format(yes, no)
     if yes > no:
         return 1
     else:
@@ -140,6 +137,11 @@ def majority(examples):
 ##Prune
 #------
 def prune(decisionTree, val_fold, train_fold):
+    for (val, subtree) in decisionTree.branches.items(): 
+        prune2(subtree,sift(decisionTree.attrname,val,val_fold), sift(decisionTree.attrname,val,train_fold))
+    return decisionTree
+
+def prune2(decisionTree, val_fold, train_fold):
     # stop if there is nothing left in the validation set
     if len(val_fold) == 0:
         return decisionTree
@@ -148,25 +150,19 @@ def prune(decisionTree, val_fold, train_fold):
     if decisionTree.nodetype == DecisionTree.NODE:
         for (val, subtree) in decisionTree.branches.items():
             if isinstance(subtree, DecisionTree):
-                #print "val_fold: {}\n".format(val_fold)
                 new_val_fold = sift(decisionTree.attrname, val, val_fold)
-                #print "new_val_fold: {}\n".format(new_val_fold)
                 new_train_fold = sift(decisionTree.attrname, val, train_fold)
                 
-                decisionTree.replace(val, prune(copy.deepcopy(subtree), new_val_fold, new_train_fold))
+                decisionTree.replace(val, prune2(copy.deepcopy(subtree), new_val_fold, new_train_fold))
         
         leaf = DecisionTree(DecisionTree.LEAF,classification=majority(train_fold))
         
         prune_score = validate(leaf, new_val_fold)
         no_prune_score = validate(decisionTree, new_val_fold)
         
-        #print "prune_score = {}, no_prune_score = {}\n".format(prune_score, no_prune_score)
-
         if prune_score >= no_prune_score:
-            #print "returning leaf\n"
             return leaf
         else:
-            #print "returning decision tree\n"
             return decisionTree
     
 
@@ -258,15 +254,8 @@ def main():
             # learn
             tree = learn(train_set)
 
-            tree.display()
-
-            print "==========================================="
-
             new_tree = prune(tree, val_fold, train_folds)
-            new_tree.display()
 
-            print "==========================================="
-            
             # testing
             train_score, test_score = score(new_tree, train_folds, test_fold, 0)
 
