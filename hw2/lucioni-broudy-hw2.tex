@@ -12,17 +12,29 @@
 \header{2}{March 1, 2013, at 12:00 PM}{}{}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\problem{} 
+\problem{} For this problem, we assume that an image is a $3 \times 3$ array of pixels (inputs) arranged as follows:
+\begin{center}
+\begin{tabular}{ l c r }
+  $x_1$ & $x_2$ & $x_3$ \\
+  $x_4$ & $x_5$ & $x_6$ \\
+  $x_7$ & $x_8$ & $x_9$ \\
+\end{tabular}
+\end{center}
+Each $x_k$ in the input vector {\textbf{\emph{x}}} represents a pixel state, and can be either 1 (on) or 0 (off). Let the weight vector {\textbf{\emph{w}}} $= (w_0, w_1, \ldots, w_9)$ represent the weights of the corresponding inputs in the array. Let $x_0$ be the special instance that is always fixed at 1, and let $w_0$ be the threshold of the perceptron activation function.
 
 \subproblem Bright-or-dark: at least 75\% of the pixels are on, or at least 75\% of the pixels are off. \\
 
-A perceptron that recognizes bright-or-dark takes a vector of 9 inputs {\textbf{\emph{x}}} in which an on pixel is represented with a 1 and an off pixel is represented with a 0. The perceptron is defined by the set of weights {\textbf{\emph{w}}} in which all 9 weights are $\frac{1}{9}$, and has threshold activation function
-\begin{equation*}
-  g(s)=\begin{cases}
-    +1, & \text{if $s \leq .25$ or $s \geq .75$}.\\
-    -1, & \text{otherwise}.
-  \end{cases}
-\end{equation*}
+Assume for the purpose of contradiction that there exists some perceptron recognizing bright-or-dark with weights {\textbf{\emph{w}}}. Say we turn off pixels $x_1$ and $x_2$ and leave the rest on. Greater than 75\% of the pixels are on, and so the perceptron outputs 1, implying that $s > 0$, where $s$ is the weighted sum of the inputs. That is,
+\[ s = w_0 + w_3 + \ldots + w_9 > 0 \]
+Say we also turn off pixel $x_3$, leaving the rest on. Now there are not 75\% of pixels on or off, and so the perceptron outputs -1, implying that $s \leq 0$. That is,
+\[ s = w_0 + w_4 + \ldots + w_9 \leq 0 \]
+The removal of $w_3$ causes $s$ to become less than or equal to 0, hence it must be that $w_3 > 0$. \\
+
+Now we consider what happens when we turn on pixels $x_1$ and $x_2$ and leave the rest off. Greater than 75\% of the pixels are off, and so the perceptron outputs 1, implying that $s > 0$. That is,
+\[ s = w_0 + w_1 + w_2 > 0 \]
+Say we also turn on pixel $x_3$, leaving the rest off. Now there are not 75\% of pixels on or off, and so the perceptron outputs -1, implying that $s \leq 0$. That is,
+\[ s = w_0 + w_1 + w_2 + w_3 \leq 0 \]
+The addition of $w_3$ causes $s$ to become less than or equal to 0, hence it must be that $w_3 < 0$. But this is a contradiction, and therefore there exists no perceptron recognizing bright-or-dark.
 
 \subproblem Top-bright: a larger fraction of pixels is on in the top row than in the bottom two rows. \\
 
