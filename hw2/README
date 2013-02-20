@@ -1,0 +1,115 @@
+
+# # # # # # # # # # # # # # # 
+# GENERAL CODE ORGANIZATION #
+# # # # # # # # # # # # # # # 
+
+##
+# neural_net_impl.py   <=  only file you should modify
+#
+
+This is the file containing the sketches of the functions you will have to modify. This should be the only
+file you need to modify. The functions you need to fill give more instructions and hints on how to proceed.
+
+##
+# neural_net.py 
+#
+
+Defines the main classes and datastructures used in this problem. You will need to read the file to understand
+how everything is tied together, but you should not need to modify anything in this file.
+
+##
+# data_reader.py
+#
+
+Defines the data loading functions. You don't need to modify this file.
+
+##
+# neural_net_main.py
+#
+
+Is the "exec" file. You should run it with the command: 
+
+   python neural_net_main.py -e <number_of_epochs> -r <learning_rate> -t <type_of_network>
+
+where:
+
+	<number_of_epochs> should be an integer
+	<learning_rate> should be a float
+	<type_of_network> should be either: simple, hidden, or custom
+
+example:
+
+   python neural_net_main.py -e 10 -r 0.1 -t hidden
+
+Note: You will not be able to run the script until you reach question 6 (you'll get some NotImplementedError until then).
+
+# # # # # # # # # # # # # # # # # # # #
+# IMPLEMENTATION INFORMATION AND HINTS #
+# # # # # # # # # # # # # # # # # # # #
+
+0) On Debugging
+
+A useful snippet:
+
+  import pdb; pdb.set_trace()
+
+Put it anywhere in a python script, and when you run the
+script, python will stop at this line and open a debugger.
+
+1) How to generate a random number between in the interval [0,1]:
+
+import random
+random.random()
+
+
+2) What are those @staticmethod in the class NeuralNetwork?
+
+These are decorators. They make it so the functions defined right after
+don't need the " self " argument. So you don't need an instance of the class
+to call the method.
+
+example:
+
+   class Foo:
+      @staticmethod
+      def bar(a,b):
+         return(a+n)
+
+
+   c = Foo.bar(1,2)
+
+
+see: http://docs.python.org/2/library/functions.html#staticmethod for more info
+
+3) What does the function " super() " does?
+
+It just allows to call the __init__ method of the parent class.
+
+4) What with the nested classes?
+
+Let " < " mean " inherit from ". Then you can see that:
+
+   (SimpleNetwork, HiddenNetwork, CustomNetwork) < EncodedNetworkFramework < NetworkFramework
+
+This hierarchy makes it possible to keep separate the "given" classes and functions from those
+you need to modify
+
+5) What't is this:  if __name__ == "__main__" thing?
+
+It means that what follows is executed *only* if the script is executed as a script, but
+not if it is import as a module from another file.
+
+
+# # # # # #
+# GOTCHAS #
+# # # # # #
+
+1) When learning a network with a hidden layer, make sure you initialize the network with
+random weights, otherwise you might see no evolution in the learning process.
+
+
+2) Don't freak out if you see no improvement in the performance of your multilayered network
+after 2 or 3 epochs. If it happens, wait a bit more (and try different learning rates) before
+concluding that there's a bug in your code.
+
+
