@@ -16,10 +16,7 @@
 
 \subproblem Bright-or-dark: at least 75\% of the pixels are on, or at least 75\% of the pixels are off. \\
 
-A perceptron that recognizes bright-or-dark takes a vector of 9 inputs {\bf x} in which an on pixel is represented with a 1 and an off pixel is represented with a 0. The perceptron is defined by the set of weights {\textbf{\emph{w}}}
-
-has threshold activation function
-
+A perceptron that recognizes bright-or-dark takes a vector of 9 inputs {\textbf{\emph{x}}} in which an on pixel is represented with a 1 and an off pixel is represented with a 0. The perceptron is defined by the set of weights {\textbf{\emph{w}}} in which all 9 weights are $\frac{1}{9}$, and has threshold activation function
 \begin{equation}
   g(s)=\begin{cases}
     +1, & \text{if $s \leq .25$ or $s \geq .75$}.\\
