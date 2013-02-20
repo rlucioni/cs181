@@ -260,7 +260,9 @@ def main():
             tree = learn(train_set)
 
             new_tree = prune(tree, val_fold, train_folds)
-
+            print "+++++++++++++++++++++++++++++++++++++++++\n"
+            new_tree.display()
+            
             # testing
             train_score, test_score = score(new_tree, train_folds, test_fold, 0)
 
