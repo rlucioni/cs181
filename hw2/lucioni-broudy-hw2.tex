@@ -12,7 +12,7 @@
 \header{2}{March 1, 2013, at 12:00 PM}{}{}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\problem{} For this problem, we assume that an image is a $3 \times 3$ array of pixels (inputs) arranged as follows:
+\problem{9} For this problem, we assume that an image is a $3 \times 3$ array of pixels (inputs) arranged as follows:
 \begin{center}
 \begin{tabular}{ l c r }
   $x_1$ & $x_2$ & $x_3$ \\
@@ -20,41 +20,66 @@
   $x_7$ & $x_8$ & $x_9$ \\
 \end{tabular}
 \end{center}
-Each $x_k$ in the input vector {\textbf{\emph{x}}} represents a pixel state, and can be either 1 (on) or 0 (off). Let the weight vector {\textbf{\emph{w}}} $= (w_0, w_1, \ldots, w_9)$ represent the weights of the corresponding inputs in the array. Let $x_0$ be the special instance that is always fixed at 1, and let $w_0$ be the threshold of the perceptron activation function.
-
-\subproblem Bright-or-dark: at least 75\% of the pixels are on, or at least 75\% of the pixels are off. \\
-
-Assume for the purpose of contradiction that there exists some perceptron recognizing bright-or-dark with weights {\textbf{\emph{w}}}. Say we turn off pixels $x_1$ and $x_2$ and leave the rest on. Greater than 75\% of the pixels are on, and so the perceptron outputs 1, implying that $s > 0$, where $s$ is the weighted sum of the inputs. That is,
-\[ s = w_0 + w_3 + \ldots + w_9 > 0 \]
-Say we also turn off pixel $x_3$, leaving the rest on. Now there are not 75\% of pixels on or off, and so the perceptron outputs -1, implying that $s \leq 0$. That is,
-\[ s = w_0 + w_4 + \ldots + w_9 \leq 0 \]
-The removal of $w_3$ causes $s$ to become less than or equal to 0, hence it must be that $w_3 > 0$. \\
-
-Now we consider what happens when we turn on pixels $x_1$ and $x_2$ and leave the rest off. Greater than 75\% of the pixels are off, and so the perceptron outputs 1, implying that $s > 0$. That is,
-\[ s = w_0 + w_1 + w_2 > 0 \]
-Say we also turn on pixel $x_3$, leaving the rest off. Now there are not 75\% of pixels on or off, and so the perceptron outputs -1, implying that $s \leq 0$. That is,
-\[ s = w_0 + w_1 + w_2 + w_3 \leq 0 \]
-The addition of $w_3$ causes $s$ to become less than or equal to 0, hence it must be that $w_3 < 0$. But this is a contradiction, and therefore there exists no perceptron recognizing bright-or-dark.
-
-\subproblem Top-bright: a larger fraction of pixels is on in the top row than in the bottom two rows. \\
-
-A perceptron that recognizes bright-or-dark takes a vector of 9 inputs {\textbf{\emph{x}}} in which an on pixel is represented with a 1 and an off pixel is represented with a 0. The first top row will be the first three of the nine and the bottom two rows will be the last six. The perceptron is defined by the set of weights {\textbf{\emph{w}}} in which the first three weights are  $\frac{1}{3}$, the last six weights are $\frac{-1}{6}$, and the threshold activation function is 
+Each $x_k$ in the input vector {\textbf{\emph{x}}} represents a pixel state, and can be either 1 (on) or 0 (off). Let the weight vector {\textbf{\emph{w}}} $= (w_0, w_1, \ldots, w_9)$ represent the weights of the corresponding inputs in the array. Let $x_0$ be the special instance that is always fixed at 1, and let $w_0$ be the threshold of the perceptron activation function. We will use the threshold activation function 
 \begin{equation*}
   g(s)=\begin{cases}
     +1, & \text{if $s  >  0$}.\\
     -1, & \text{otherwise}.
   \end{cases}
 \end{equation*}
+where $s = {\textbf{\emph{x}}}^\top{\textbf{\emph{w}}}$ (i.e., the weighted sum of the inputs).
 
-This equation works by calculating the top fraction (by adding $\frac{1}{3}$ for every 1) and then subtracting the bottom fraction (by subtracting  $\frac{1}{6}$ for every 1). 
+\subproblem Bright-or-dark: at least 75\% of the pixels are on, or at least 75\% of the pixels are off. \\
+
+Assume for the purpose of contradiction that there exists some perceptron recognizing ``bright-or-dark" with weights {\textbf{\emph{w}}}. Say we turn off pixels $x_1$ and $x_2$ and leave the rest on. Greater than 75\% of the pixels are on, and so the perceptron outputs 1, implying that $s > 0$. That is,
+\[ s = w_0 + w_3 + \ldots + w_9 > 0 \]
+Say we also turn off pixel $x_3$, leaving the rest on. Now there are not 75\% of pixels on or off, and so the perceptron outputs $-1$, implying that $s \leq 0$. That is,
+\[ s = w_0 + w_4 + \ldots + w_9 \leq 0 \]
+The removal of $w_3$ causes $s$ to become less than or equal to 0, hence it must be that $w_3 > 0$. \\
+
+Now we consider what happens when we turn on pixels $x_1$ and $x_2$ and leave the rest off. Greater than 75\% of the pixels are off, and so the perceptron outputs 1, implying that $s > 0$. That is,
+\[ s = w_0 + w_1 + w_2 > 0 \]
+Say we also turn on pixel $x_3$, leaving the rest off. Now there are not 75\% of pixels on or off, and so the perceptron outputs $-1$, implying that $s \leq 0$. That is,
+\[ s = w_0 + w_1 + w_2 + w_3 \leq 0 \]
+The addition of $w_3$ causes $s$ to become less than or equal to 0, hence it must be that $w_3 < 0$. But this is a contradiction, since it cannot be that $w_3 > 0$ and $w_3 < 0$. Therefore, there exists no perceptron recognizing ``bright-or-dark."
+
+\subproblem Top-bright: a larger fraction of pixels is on in the top row than in the bottom two rows. \\
+
+Let pixels $x_1, x_2,$ and $x_3$ represent the top row, and let the rest of the pixels in the array represent the bottom two rows. A perceptron recognizing ``top-bright" is defined by the set of weights {\textbf{\emph{w}}} such that $w_0 = 0$, $w_1 = w_2 = w_3 = \frac{1}{3}$ and $w_4 = w_5 = w_6 = w_7 = w_8 = w_9 = -\frac{1}{6}$. We observe that our perceptron outputs 1 only when a larger fraction of pixels is on in the top row than in the bottom two rows, since $s > 0$ only when this is the case.
 
 \subproblem Connected: the set of pixels that are on is connected. \\
 
+Assume for the purpose of contradiction that there exists some perceptron recognizing ``connected" with weights {\textbf{\emph{w}}}. Say we turn all pixels in the array on. The resulting image is connected, so the perceptron outputs 1, implying that $s > 0$. That is, 
+\[ s = w_0 + w_1 + \ldots + w_9 > 0 \]
+Now say we turn off pixels $x_1, x_3$, and $x_5$, leaving the rest on. The resulting image is not connected, so the perceptron outputs $-1$, implying that $s \leq 0$. That is,
+\[ s = w_0 + w_2 + w_4 + w_6  + w_7 + w_8 + w_9 \leq 0 \]
+The removal of the sum of weights $w_1 + w_3 + w_5$ causes $s$ to become less than or equal to 0, hence it must be that $w_1 + w_3 + w_5 > 0$. \\
 
+Now we consider what happens when we turn off pixels $x_2, x_4$, and $x_6$, turning the rest on. The resulting image is not connected, so the perceptron outputs $-1$, implying that $s \leq 0$. That is,
+\[ s = w_0 + w_1 + w_3 + w_5 + w_7 + w_8 + w_9 \leq 0 \]
+Say we also turn off pixels $x_1, x_3$, and $x_5$, leaving only pixels $x_7, x_8$, and $x_9$ on. The resulting image is connected, so the perceptron outputs 1, implying that $s > 0$. That is,
+\[ s = w_0 + w_7 + w_8 + w_9 > 0 \]
+The removal of the sum of weights $w_1 + w_3 + w_5$ causes $s$ to become greater than 0, hence it must be that $w_1 + w_3 + w_5 < 0$. But this is a contradiction, since it cannot be that $w_1 + w_3 + w_5 > 0$ and $w_1 + w_3 + w_5 < 0$. Therefore, there exists no perceptron recognizing ``connected."
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\problem{}
+\problem{12}
+\subproblem Decision trees \\
+
+Decision trees are a poor approach to digit recognition. As we saw in lecture, groups of adjacent pixels are much more useful than single pixels when recognizing digits. That is, the relationship between attributes is significantly more important than single attribute values in the context of this task. Being a greedy algorithm, ID3 would split on single pixels and would be unable to determine which pixels are good co-predictors. This would in turn make the decision trees produced by ID3 for digit recognition blind to the relationship between pixels, and therefore useless. What is more, decision trees produced by ID3 for this task would be enormous, since it is highly unlikely that a handful of single pixels could determine the label of an image, especially considering the slight variability in orientation and size present in the image data. In addition, these large decision trees would be susceptible to overfitting.
+
+\subproblem Boosted decision stumps \\
+
+Boosted decision stumps are also a poor approach to digit recognition. Decision stumps applied in the context of digit recognition would only split on a single pixel, making them too weak as base learners for reasons described above (i.e., it is unlikely that a single pixel could determine the label of an image, and even more so considering the slight variability in orientation and size present in the image data). That said, this approach might perform reasonably well with some data preprocessing to extract higher level features from the images such as the number of loops or edges.
+
+\subproblem Perceptrons \\
+
+Perceptrons are a better approach to digit recognition than decision trees or boosted decision stumps. We could assign one perceptron to learning one of the digits $0$ through $9$, using 10 perceptrons in all to recognize each of the digits. Each perceptron would learn to recognize its digit by making use of all pixels in the image; this is key to digit recognition because most pixels in an image are important when attempting to assign an accurate label, as discussed above. Assuming only slight variations in orientation and size in the image data (i.e., no severe rotations, translations, or skews), it would be reasonable to expect the same areas to be consistently light and dark for each digit. Each perceptron could learn to recognize these areas to produce an accurate label for its assigned digit. As we saw in (1), a limitation of perceptrons is their inability to recognize non-linearly separable functions like ``bright-or-dark" or ``connected."
+
+\subproblem Multi-layer feed-forward neural networks \\
+
+Multi-layer feed-forward neural networks are the best approach to digit recognition of those discussed here. Like perceptrons, multi-layer feed-forward neural networks are capable of making use of all pixels in an image, allowing them to learn the relationships between pixels. However, unlike perceptrons, neural networks can also use hidden layers to recognize non-linearly separable functions. This allows neural networks to recognize rotations, translations, and skews that would have defeated a perceptron. Thus, neural networks are both accurate and robust when determining the class of an input digit.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \problem{}
