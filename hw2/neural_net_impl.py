@@ -40,9 +40,24 @@ def FeedForward(network, input):
   """
   network.CheckComplete()
   # 1) Assign input values to input nodes
+  for i in range(len(input.values)):
+      network.inputs[i].raw_value = input[i]
+      network.inputs[i].transformed_value = NeuralNetwork.Sigmoid(network.inputs[i].raw_value)) 
+
   # 2) Propagates to hidden layer
+  for node in network.hidden_nodes:
+      node.raw_value = NeuralNetwork.ComputeRawValue(node)
+      node.transformed_value = NeuralNetwork.Sigmoid(node.raw_value) 
+
+  # i think the below is the same as the above loop.
+  #for j in range(len(network.hidden_nodes)):
+  #    network.hidden_nodes[j].raw_value = NeuralNetwork.ComputeRawValue(network.hidden_nodes[j])
+  #    network.hidden_nodes[j].transformed_value = NeuralNetwork.Sigmoid(network.hidden_nodes[j].raw_value) 
+  
   # 3) Propagates to the output layer
-  pass
+  for node in network.outputs:
+      node.raw_value = NeuralNetwork.ComputeRawValue(node)
+      node.transformed_value = NeuralNetwork.Sigmoid(node.raw_value) 
 
 #< --- Problem 3, Question 2
 
@@ -88,7 +103,15 @@ def Backprop(network, input, target, learning_rate):
   """
   network.CheckComplete()
   # 1) We first propagate the input through the network
+  # CONSIDER: should this be NetworkFramework.FeedForward? or something like that.
+  FeedForward(network,input)
+
   # 2) Then we compute the errors and update the weigths starting with the last layer
+  for i in range(len(network.outputs)):
+      # error = target[i] - network.outputs[i].transformed_value
+
+
+  
   # 3) We now propagate the errors to the hidden layer, and update the weights there too
   pass
 
