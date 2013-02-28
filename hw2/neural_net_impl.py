@@ -104,28 +104,52 @@ def Backprop(network, input, target, learning_rate):
   network.CheckComplete()
   # 1) We first propagate the input through the network
   FeedForward(network,input)
-
-
   # 2) Then we compute the errors and update the weigths starting with the last layer
+  # 3) We now propagate the errors to the hidden layer, and update the weights there too
+  
+  # Update the err and delta for each output node
   for i in range(len(network.outputs)):
       node = network.outputs[i]
-      err = target[i] - node.transformed_value
-      node.delta = err * NeuralNetwork.SigmoidPrime(node.transformed_value) 
-      for j in range(len(node.weights)):
-          node.weights[j] = node.weights[j] + (learning_rate * node.inputs[j].transformed_value * node.delta)
-          
+      node.err = target[i] - node.transformed_value
+      node.delta = node.err * NeuralNetwork.SigmoidPrime(node.transformed_value) 
 
-  # 3) We now propagate the errors to the hidden layer, and update the weights there too
-  num = len(network.hidden_nodes)
-  #this will loop backwards from last node in hidden nodes
-  for i in range(num-1,-1,-1):
+  # Update the err and delta for each hidden_node
+  for i in range(len(network.hidden_nodes)):
       node = network.hidden_nodes[i]
-      error = 0
-      for j in range(len(node.forward_neighbors)):
-          error = error + node.forward_neighbors[j].weight * node.forward_neighbors[j].delta
-      node.delta = NeuralNetwork.SigmoidPrime(node.transformed_value) * error
-      for k in range(len(node.inputs)):
-          node.weight[k] = node.weight[k] + (learning_rate * node.inputs[k].transformed_value * node.delta)
+      node.err = 0
+      for j in range(len(node.forward_neightbors)):
+          node.err += node.forward_neightbors[j].weight * node.forward_neightbor[j].delta
+      node.delta = node.err * NeuralNetwork.SigmoidPrime(node.transformed_value)
+
+  # Update the weights fo the outputs 
+  for i in range(len(network.outputs)):
+      node = network.outputs[i]
+      for j in range(len(node.weights)):
+          node.weights[j] += (learning_rate * node.inputs[j].transformed_value * node.delta)
+
+  # Update the weights fo the hidden_nodes 
+  for i in range(len(network.hidden_nodes)):
+      node = network.hidden_nodes[i]
+      for j in range(len(node.weights)):
+          node.weights[j] += (learning_rate * node.inputs[j].transformed_value * node.delta)
+
+  #for i in range(len(network.outputs)):
+  #    node = network.outputs[i]
+  #    err = target[i] - node.transformed_value
+  #    node.delta = err * NeuralNetwork.SigmoidPrime(node.transformed_value) 
+  #    for j in range(len(node.weights)):
+  #        node.weights[j] = node.weights[j] + (learning_rate * node.inputs[j].transformed_value * node.delta)        
+
+  #num = len(network.hidden_nodes)
+  #this will loop backwards from last node in hidden nodes
+  #for i in range(num-1,-1,-1):
+  #    node = network.hidden_nodes[i]
+  #    error = 0
+  #    for j in range(len(node.forward_neighbors)):
+  #        error = error + node.forward_neighbors[j].weight * node.forward_neighbors[j].delta
+  #    node.delta = NeuralNetwork.SigmoidPrime(node.transformed_value) * error
+  #    for k in range(len(node.inputs)):
+  #        node.weight[k] = node.weight[k] + (learning_rate * node.inputs[k].transformed_value * node.delta)
 
 # <--- Problem 3, Question 3 --->
 
