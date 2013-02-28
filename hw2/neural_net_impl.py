@@ -329,18 +329,19 @@ class SimpleNetwork(EncodedNetworkFramework):
     """
     super(SimpleNetwork, self).__init__() # < Don't remove this line >
     
-    net = NetworkFramework()
+    net = self.network
 
     # 1) Adds an input node for each pixel.    
     for i in range(196):
-        net.network.AddNode(Node(), net.network.INPUT)
+        net.AddNode(Node(), net.INPUT)
     
     # 2) Add an output node for each possible digit label.
     for i in range(10):
         n = Node()
-        net.network.AddNode(n, net.network.OUTPUT)
+        print "adding to output\n"
+        net.AddNode(n, net.OUTPUT)
         for k in range(196):
-            n.AddInput(net.network.inputs[k], 0.0, net.network)
+            n.AddInput(net.inputs[k], 0.0, net)
 
 #<---- Problem 3, Question 7 --->
 
