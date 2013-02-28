@@ -105,24 +105,20 @@ def Backprop(network, input, target, learning_rate):
   # 1) We first propagate the input through the network
   FeedForward(network,input)
 
+
   # 2) Then we compute the errors and update the weigths starting with the last layer
   for i in range(len(network.outputs)):
       node = network.outputs[i]
       err = target[i] - node.transformed_value
       node.delta = err * NeuralNetwork.SigmoidPrime(node.transformed_value) 
       for j in range(len(node.weights)):
-          # update node weight for each hidden_node.
-          # lecture6-notes page 7     w_mj <- w_mj + alpha * a_m * delta_j
-          # I THINK SOMETHING IS WRONG WITH THIS.
-          # do we need to save the old weight? node.old_weights[j] = copy.deep(node.weights[j])
           node.weights[j] = node.weights[j] + (learning_rate * node.inputs[j].transformed_value * node.delta)
+          
 
   # 3) We now propagate the errors to the hidden layer, and update the weights there too
   num = len(network.hidden_nodes)
   #this will loop backwards from last node in hidden nodes
-  # range(from, to, increment) eg.  range (9,-1,-1) = [ 9,8,7,6,5,4,3,2,1,0 ] because zero indexed we to go -1
   for i in range(num-1,-1,-1):
-#looping through hidden nodes:
       node = network.hidden_nodes[i]
       error = 0
       for j in range(len(node.forward_neighbors)):
@@ -306,10 +302,18 @@ class SimpleNetwork(EncodedNetworkFramework):
     """
     super(SimpleNetwork, self).__init__() # < Don't remove this line >
     
-    # 1) Adds an input node for each pixel.    
-    # 2) Add an output node for each possible digit label.
-    pass
+    net = NetworkFramework()
 
+    # 1) Adds an input node for each pixel.    
+    for i in range(196):
+        net.network.AddNode(Node(), net.network.INPUT)
+    
+    # 2) Add an output node for each possible digit label.
+    for i in range(10):
+        n = Node()
+        net.network.AddNode(n, net.network.OUTPUT)
+        for k in range(196):
+            n.AddInput(net.network.inputs[k])
 
 #<---- Problem 3, Question 7 --->
 
