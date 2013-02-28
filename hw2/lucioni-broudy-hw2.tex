@@ -80,56 +80,50 @@ Perceptrons are a better approach to digit recognition than decision trees or bo
 
 Multi-layer feed-forward neural networks are the best approach to digit recognition of those discussed here. Like perceptrons, multi-layer feed-forward neural networks are capable of making use of all pixels in an image, allowing them to learn the relationships between pixels. However, unlike perceptrons, neural networks can also use hidden layers to recognize non-linearly separable functions. This allows neural networks to recognize rotations, translations, and skews that would have defeated a perceptron. Thus, neural networks are both accurate and robust when determining the class of an input digit.
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \problem{68}
 
-{\bf 1-4.} (see {\tt neural-net-impl.py}) \\
-
-{\bf 5.} We want to normalize the input values from [0, 255] to between 0 and 1 because... \\
-
-{\bf 6.} \\
-
-\tab (a) Learning rate: \\
-
-\tab (b) INSERT GRAPH \\
-
-\tab\tab (i) \\
-
-\tab\tab (ii) \\
-
-\tab\tab (iii) \\
-
-\tab (c) \\
-
-
-{\bf 7.} WARNING! this one will take a while \\
-
-\tab (a) \\
-
-\tab (b) \\
-
-\tab (c) \\
-
-\tab (d) \\
-
-\tab (e) \\
-
-\tab (f) \\
-
-
-{\bf 8.} \\
-
-\tab (a) \\
-
-\tab (b) \\
+\begin{enumerate}
+	\item See {\tt neural\textunderscore net\textunderscore impl.py}.
+	\item See {\tt neural\textunderscore net\textunderscore impl.py}.
+	\item See {\tt neural\textunderscore net\textunderscore impl.py}.
+	\item See {\tt neural\textunderscore net\textunderscore impl.py}.
+	\item INCOMPLETE: We want to normalize the input values from [0, 255] to between 0 and 1 because... 
+	\item
+		\begin{enumerate}
+		\item We trained simple networks over 100 epochs using several learning rates with different orders of magnitude: 1.0, 0.1, 0.01, and 0.001. The best training performance was exhibited by a learning rate of 0.1. Thus, we used a learning rate of 0.1.
+		\item \hfill \\
+		\includegraphics[scale=0.8]{Simple-Network-Alpha-0_1.pdf}
+			\begin{enumerate}
+				\item We are not in danger of overfitting by training for too many epochs. If we were in danger of overfitting, validation error would increase with more epochs as training error continued to decrease. However, our results for the network trained with a learning rate of 0.1 show that validation error decreases and then stabilizes at 0.129 as training error continues to decrease. This suggests that, at least for the range of 100 epochs we are considering, we are not in danger of overfitting. 
+				\item A good number of epochs to train for is 73, since there is no improvement (i.e., decrease) in validation error beyond 73 epochs.
+				\item It is important that we use a validation set instead of the actual test set when tuning the number of epochs because if we were to tune the number of epochs using the test set, we would be unintentionally optimizing our network for the test set. We want the network's performance on the test set to be an indicator of expected, general performance. Hence, we must keep the test set separate from the data used to train the network. In short, using the validation set to tune the number of epochs prevents us from overfitting accidentally.
+			\end{enumerate}
+		\item The network trained for 73 epochs and with a learning rate of 0.1 has a training performance of 0.878, a validation performance of 0.871, and a test performance of 0.918.
+		\end{enumerate}
+	\item
+		\begin{enumerate}
+			\item
+			\item
+			\item
+			\item
+			\item
+			\item
+		\end{enumerate}
+	\item
+		\begin{enumerate}
+			\item
+			\item
+		\end{enumerate}
+\end{enumerate}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \problem{}
 
-{\bf 1.} We might want to use the error function $C$ because... It is trying to address the problem of ... It addresses this problem by ...\\
-
-{\bf 2.}
+\begin{enumerate}
+	\item We might want to use the error function $C$ because... It is trying to address the problem of ... It addresses this problem by ...
+	\item
+\end{enumerate}
 
 
 
