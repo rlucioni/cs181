@@ -52,6 +52,13 @@ def main():
     assert len(image.pixels) == 14
     assert len(image.pixels[0]) == 14
 
+  # Load the test set.
+  test = DataReader.GetImages('test-1k.txt', -1)
+  for image in test:
+    assert len(image.pixels) == 14
+    assert len(image.pixels[0]) == 14
+
+
   # Initializing network
 
   if networkType == 'simple':
@@ -78,7 +85,8 @@ def main():
           len(network.network.outputs)))
   print '* * * * * * * * *'
   # Train the network.
-  network.Train(images, validation, rate, epochs)
+  #network.Train(images, validation, rate, epochs)
+  network.Train(images, validation, test, rate, epochs)
 
 if __name__ == "__main__":
   main()

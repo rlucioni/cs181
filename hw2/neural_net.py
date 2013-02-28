@@ -190,7 +190,7 @@ class NetworkFramework(object):
         correct += 1
     return correct * 1.0 / len(images)
 
-  def Train(self, images, validation_images, learning_rate, epochs):
+  def Train(self, images, validation_images, test_images, learning_rate, epochs):
 
     # Convert the images and labels into a format the network can understand.
     inputs = []
@@ -212,8 +212,9 @@ class NetworkFramework(object):
       # Print out the current training and validation performance.
       perf_train = self.Performance(images)
       perf_validate = self.Performance(validation_images)
-      print '%d Performance: %.8f %.3f' % (
-        i + 1, perf_train, perf_validate)
+      perf_test = self.Performance(test_images)
+      print '%d Performance: %.8f %.3f %.3f' % (
+        i + 1, 1-perf_train, 1-perf_validate, 1-perf_test)
 
       # updates log
       performance_log.append((perf_train, perf_validate))
