@@ -91,7 +91,7 @@ Multi-layer feed-forward neural networks are the best approach to digit recognit
 	\item INCOMPLETE: We want to normalize the input values from [0, 255] to between 0 and 1 because... 
 	\item
 		\begin{enumerate}
-		\item We trained simple networks over 100 epochs using several learning rates with different orders of magnitude: 1.0, 0.1, 0.01, and 0.001. The best training performance was exhibited by a learning rate of 0.1. Thus, we used a learning rate of 0.1.
+		\item We trained simple networks over 100 epochs using several learning rates with different orders of magnitude: 1.0, 0.1, 0.01, and 0.001. The best training performance was exhibited with a learning rate of 0.1. Thus, we used a learning rate of 0.1.
 		\item \hfill \\
 		\includegraphics[scale=0.8]{Simple-Network-Alpha-0_1.pdf}
 			\begin{enumerate}
@@ -103,8 +103,8 @@ Multi-layer feed-forward neural networks are the best approach to digit recognit
 		\end{enumerate}
 	\item
 		\begin{enumerate}
-			\item
-			\item
+			\item We trained networks with 15 and 30 fully connected hidden units over 100 epochs using several learning rates with different orders of magnitude: 1.0, 0.1, 0.01, and 0.001. The best training performance for the network with 15 hidden units was exhibited with a learning rate of 1.0. The best training performance for the network with 30 hidden units was exhibited with a learning rate of 0.1. Thus, we used learning rates of 1.0 and 0.1 for the networks with 15 and 30 hidden units, respectively.
+			\item Our algorithm for automatically determining when to stop training makes use of the validation set and works as follows. We initialize a variable {\tt max\textunderscore perf\textunderscore validate} representing the maximum observed validation performance to 0.0. Each epoch, we compare the current validation performance to {\tt max\textunderscore perf\textunderscore validate}. We stop training if 1) the validation performance has not increased after a certain number of  (5) epochs, or 2) the current validation performance is a certain amount (0.01) below the maximum observed validation performance. We decided on these thresholds by studying the results of the networks trained in (a). If we are still training when we reach the provided limit on number of epochs, we terminate.
 			\item
 			\item
 			\item

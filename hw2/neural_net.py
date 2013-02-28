@@ -191,6 +191,7 @@ class NetworkFramework(object):
     return correct * 1.0 / len(images)
 
   def Train(self, images, validation_images, test_images, learning_rate, epochs):
+  #def Train(self, images, validation_images, test_images, learning_rate, max_epochs):
 
     # Convert the images and labels into a format the network can understand.
     inputs = []
@@ -203,13 +204,19 @@ class NetworkFramework(object):
     performance_log = []
     performance_log.append((self.Performance(images), self.Performance(validation_images)))
     
+    #max_perf_validate = 0.0
+    #timer = 0
+
     # Loop through the specified number of training epochs.
     for i in range(epochs):
+    #for i in range(max_epochs):
+    #  if i == max_epochs or timer == 5:
+    #    return(performance_log)
 
       # This calls your function in neural_net_impl.py.
       self.TrainFn(self.network, inputs, targets, learning_rate, 1)
 
-      # Print out the current training and validation performance.
+      # Print out the current training, validation, and test performance.
       perf_train = self.Performance(images)
       perf_validate = self.Performance(validation_images)
       perf_test = self.Performance(test_images)
@@ -218,6 +225,17 @@ class NetworkFramework(object):
 
       # updates log
       performance_log.append((perf_train, perf_validate))
+      
+      # compare perf_validate to max_perf_validate
+      #if perf_validate > max_perf_validate:
+      #    max_perf_validate = perf_validate
+      #else:
+      #    timer += 1
+
+      # also check if we've dropped too low
+      #if max_perf_validate - perf_validate > 0.01:
+      #    return(performance_log)
+    
     return(performance_log)
 
   def RegisterFeedForwardFunction(self, fn):

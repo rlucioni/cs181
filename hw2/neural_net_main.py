@@ -60,7 +60,6 @@ def main():
 
 
   # Initializing network
-
   if networkType == 'simple':
     network = SimpleNetwork()
   if networkType == 'hidden':
@@ -75,7 +74,6 @@ def main():
   # Initialize network weights
   network.InitializeWeights()
   
-
   # Displays information
   print '* * * * * * * * *'
   print 'Parameters => Epochs: %d, Learning Rate: %f' % (epochs, rate)
@@ -87,6 +85,7 @@ def main():
   # Train the network.
   #network.Train(images, validation, rate, epochs)
   network.Train(images, validation, test, rate, epochs)
+  #network.Train(images, validation, test, rate, max_epochs)
 
 if __name__ == "__main__":
   main()
