@@ -223,7 +223,10 @@ class EncodedNetworkFramework(NetworkFramework):
     
     """
     # should get us a list of transformed values we can work with
-    output = map(lambda node: node.transformed_value, self.network.outputs)
+    #output = map(lambda node: node.transformed_value, self.network.outputs)
+    output = []
+    for i in range(len(self.network.outputs)):
+        output[i] = self.network.outputs[i].transformed_value
     # return the index of the largest object 
     return output.index(max(output))
 
@@ -313,7 +316,7 @@ class SimpleNetwork(EncodedNetworkFramework):
         n = Node()
         net.network.AddNode(n, net.network.OUTPUT)
         for k in range(196):
-            n.AddInput(net.network.inputs[k])
+            n.AddInput(net.network.inputs[k], 0.0, net.network)
 
 #<---- Problem 3, Question 7 --->
 
