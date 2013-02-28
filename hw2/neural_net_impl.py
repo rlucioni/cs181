@@ -117,21 +117,21 @@ def Backprop(network, input, target, learning_rate):
   for i in range(len(network.hidden_nodes)):
       node = network.hidden_nodes[i]
       node.err = 0
-      for j in range(len(node.forward_neightbors)):
-          node.err += node.forward_neightbors[j].weight * node.forward_neightbor[j].delta
+      for j in range(len(node.forward_neighbors)):
+          node.err += node.forward_weights[j].value * node.forward_neighbors[j].delta
       node.delta = node.err * NeuralNetwork.SigmoidPrime(node.transformed_value)
 
   # Update the weights fo the outputs 
   for i in range(len(network.outputs)):
       node = network.outputs[i]
       for j in range(len(node.weights)):
-          node.weights[j] += (learning_rate * node.inputs[j].transformed_value * node.delta)
+          node.weights[j].value += (learning_rate * node.inputs[j].transformed_value * node.delta)
 
   # Update the weights fo the hidden_nodes 
   for i in range(len(network.hidden_nodes)):
       node = network.hidden_nodes[i]
       for j in range(len(node.weights)):
-          node.weights[j] += (learning_rate * node.inputs[j].transformed_value * node.delta)
+          node.weights[j].value += (learning_rate * node.inputs[j].transformed_value * node.delta)
 
   #for i in range(len(network.outputs)):
   #    node = network.outputs[i]
@@ -370,11 +370,28 @@ class HiddenNetwork(EncodedNetworkFramework):
     """
     super(HiddenNetwork, self).__init__() # < Don't remove this line >
 
+    net = self.network
+
     # 1) Adds an input node for each pixel
-    # 2) Adds the hidden layer
-    # 3) Adds an output node for each possible digit label.
-    pass
     
+    # 1) Adds an input node for each pixel.    
+    for i in range(196):
+        net.AddNode(Node(), net.INPUT)
+    
+    # 2) Adds the hidden layer
+    for i in range(number_of_hidden_nodes):
+        n = Node()
+        net.AddNode(n, net.HIDDEN)
+        for k in range(196):
+            n.AddInput(net.inputs[k], 0.0, net)
+
+
+    # 3) Adds an output node for each possible digit label.
+    for i in range(10):
+        n = Node()
+        net.AddNode(n, net.OUTPUT)
+        for k in range(number_of_hidden_nodes):
+            n.AddInput(net.hidden_nodes[k], 0.0, net)
 
 #<--- Problem 3, Question 8 ---> 
 
