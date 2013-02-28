@@ -349,7 +349,8 @@ class SimpleNetwork(EncodedNetworkFramework):
 #<---- Problem 3, Question 7 --->
 
 class HiddenNetwork(EncodedNetworkFramework):
-  def __init__(self, number_of_hidden_nodes=15):
+  #def __init__(self, number_of_hidden_nodes=15):
+  def __init__(self, number_of_hidden_nodes=30):
     """
     Arguments:
     ---------
