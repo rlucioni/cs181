@@ -40,7 +40,7 @@ def FeedForward(network, input):
   """
   network.CheckComplete()
   # 1) Assign input values to input nodes
-  for i in range(len(network.inputs)):
+  for i in range(len(input.values)):
       network.inputs[i].raw_value = input[i]
       network.inputs[i].transformed_value = NeuralNetwork.Sigmoid(network.inputs[i].raw_value) 
 
