@@ -1,4 +1,3 @@
-danbrou:hw2 danielbroudy$ python neural_net_main.py -e 100 -r 0.01 -t simple
 * * * * * * * * *
 Parameters => Epochs: 100, Learning Rate: 0.010000
 Type of network used: SimpleNetwork

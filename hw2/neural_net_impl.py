@@ -1,3 +1,6 @@
+# Renzo Lucioni (HUID: 90760092)
+# Daniel Broudy (HUID: 30797418)
+
 from neural_net import NeuralNetwork, NetworkFramework
 from neural_net import Node, Target, Input
 import random
