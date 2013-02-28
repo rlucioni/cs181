@@ -41,7 +41,7 @@ def FeedForward(network, input):
   network.CheckComplete()
   # 1) Assign input values to input nodesi
   for i in range(len(network.inputs)):
-      network.inputs[i].raw_value = input[i]
+      network.inputs[i].raw_value = input.values[i]
       network.inputs[i].transformed_value = NeuralNetwork.Sigmoid(network.inputs[i].raw_value) 
 
   # 2) Propagates to hidden layer
@@ -217,7 +217,7 @@ class EncodedNetworkFramework(NetworkFramework):
     """
     lst = [0.0] * 10
     lst[label] = 1.0
-    return list
+    return lst
 
   def GetNetworkLabel(self):
     """
@@ -248,7 +248,7 @@ class EncodedNetworkFramework(NetworkFramework):
     """
     # should get us a list of transformed values we can work with
     #output = map(lambda node: node.transformed_value, self.network.outputs)
-    output = []
+    output = [0.0] * len(self.network.outputs)
     for i in range(len(self.network.outputs)):
         output[i] = self.network.outputs[i].transformed_value
     # return the index of the largest object 
@@ -276,13 +276,16 @@ class EncodedNetworkFramework(NetworkFramework):
     
     """
     def norm_sublst(sublst):
-        new_sublst = []
+        lst = []
         # loop over 14 because pixels is a 14x14 matrix
         for i in range(14):
-            new_sublst.append(sublst[i]/256.0)
-        return new_sublst
-
-    return map(norm_sublst, image.pixels)
+            for j in range(14):
+                lst.append(sublst[i][j]/256.0)
+        return lst
+   
+    i = Input()
+    i.values = norm_sublst(image.pixels)
+    return i
 
   def InitializeWeights(self):
     """
@@ -338,7 +341,7 @@ class SimpleNetwork(EncodedNetworkFramework):
     # 2) Add an output node for each possible digit label.
     for i in range(10):
         n = Node()
-        print "adding to output\n"
+        # print "adding to output\n"
         net.AddNode(n, net.OUTPUT)
         for k in range(196):
             n.AddInput(net.inputs[k], 0.0, net)
