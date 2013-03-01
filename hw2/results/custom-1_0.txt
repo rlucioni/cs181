@@ -1,0 +1,20 @@
+* * * * * * * * *
+Parameters => Epochs: 100, Learning Rate: 1.000000
+Type of network used: CustomNetwork
+Input Nodes: 196, Hidden Nodes: 45, Output Nodes: 10
+* * * * * * * * *
+1 Performance: 0.89822222 0.886 0.896
+2 Performance: 0.89922222 0.902 0.894
+3 Performance: 0.89922222 0.902 0.894
+4 Performance: 0.76588889 0.770 0.753
+5 Performance: 0.81911111 0.832 0.803
+6 Performance: 0.82811111 0.851 0.801
+7 Performance: 0.77000000 0.798 0.738
+8 Performance: 0.71466667 0.735 0.700
+9 Performance: 0.69522222 0.713 0.705
+10 Performance: 0.66177778 0.678 0.653
+11 Performance: 0.66866667 0.676 0.668
+12 Performance: 0.66411111 0.682 0.646
+13 Performance: 0.63344444 0.655 0.654
+14 Performance: 0.63766667 0.645 0.634
+15 Performance: 0.64388889 0.645 0.642
