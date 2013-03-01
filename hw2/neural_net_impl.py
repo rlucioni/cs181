@@ -52,11 +52,6 @@ def FeedForward(network, input):
       node.raw_value = NeuralNetwork.ComputeRawValue(node)
       node.transformed_value = NeuralNetwork.Sigmoid(node.raw_value) 
 
-  # i think the below is the same as the above loop.
-  #for j in range(len(network.hidden_nodes)):
-  #    network.hidden_nodes[j].raw_value = NeuralNetwork.ComputeRawValue(network.hidden_nodes[j])
-  #    network.hidden_nodes[j].transformed_value = NeuralNetwork.Sigmoid(network.hidden_nodes[j].raw_value) 
-  
   # 3) Propagates to the output layer
   for node in network.outputs:
       node.raw_value = NeuralNetwork.ComputeRawValue(node)
@@ -117,7 +112,9 @@ def Backprop(network, input, target, learning_rate):
       node.delta = node.err * NeuralNetwork.SigmoidPrime(node.transformed_value) 
 
   # Update the err and delta for each hidden_node
-  for i in range(len(network.hidden_nodes)):
+  # Below loop indexes from the high to low.
+  num = len(network.hidden_nodes)
+  for i in range(num-1, -1, -1):
       node = network.hidden_nodes[i]
       node.err = 0
       for j in range(len(node.forward_neighbors)):
@@ -352,8 +349,8 @@ class SimpleNetwork(EncodedNetworkFramework):
 #<---- Problem 3, Question 7 --->
 
 class HiddenNetwork(EncodedNetworkFramework):
-  #def __init__(self, number_of_hidden_nodes=15):
-  def __init__(self, number_of_hidden_nodes=30):
+  def __init__(self, number_of_hidden_nodes=15):
+  #def __init__(self, number_of_hidden_nodes=30):
     """
     Arguments:
     ---------
@@ -400,19 +397,58 @@ class HiddenNetwork(EncodedNetworkFramework):
 #<--- Problem 3, Question 8 ---> 
 
 class CustomNetwork(EncodedNetworkFramework):
-  def __init__(self):
+  def __init__(self, number_of_h1_nodes=30, number_of_h2_nodes=15):
     """
     Arguments:
     ---------
-    Your pick.
+    number_of_h1_nodes : the number of hidden nodes in the first layer
+    number_of_h2_nodes : the number of hidden nodes in the second layer
 
     Returns:
-    --------
-    Your pick
+    -------
+    Nothing
 
     Description:
     -----------
-    Surprise me!
+    Initializes a network with two hidden layers. The network
+    should have 196 input nodes, the specified number of
+    hidden nodes, and 10 output nodes. The network should be,
+    again, fully connected. That is, each input node is connected
+    to every hidden1 node each hidden1 node connected to each hidden2
+    and each hidden2 node is connected to
+    every output node.
     """
     super(CustomNetwork, self).__init__() # <Don't remove this line>
-    pass
+    
+    net = self.network
+
+    # Create the Input nodes
+    for i in range(196):
+        net.AddNode(Node(), net.INPUT)
+    
+    h1_nodes = []
+    # 2) Adds the first hidden layer
+    for i in range(number_of_h1_nodes):
+        n = Node()
+        net.AddNode(n, net.HIDDEN)
+        h1_nodes.append(n)
+        for k in range(196):
+            n.AddInput(net.inputs[k], 0.0, net)
+
+    h2_nodes = []
+    # 3) Adds the second hidden layer
+    for i in range(number_of_h2_nodes):
+        n = Node()
+        net.AddNode(n, net.HIDDEN)
+        h2_nodes.append(n)
+        for k in range(number_of_h1_nodes):
+            n.AddInput(h1_nodes[k], 0.0, net)
+
+
+    # 3) Adds an output node for each possible digit label.
+    for i in range(10):
+        n = Node()
+        net.AddNode(n, net.OUTPUT)
+        for k in range(number_of_h2_nodes):
+            n.AddInput(h2_nodes[k], 0.0, net)
+

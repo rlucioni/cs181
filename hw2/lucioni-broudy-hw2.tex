@@ -119,11 +119,21 @@ Multi-layer feed-forward neural networks are the best approach to digit recognit
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \problem{}
-
+%% Answer found in lecture notes 5 page 5 part e.3 Extending to Multivariate.
 \begin{enumerate}
-	\item We might want to use the error function $C$ because... It is trying to address the problem of ... It addresses this problem by ...
+	\item We might want to use the error function $C$ to discourage the construction of an overly complicated model that falls peril to over fitting. $C$ is trying to address the problem of assigning weights to features that are in fact irrelevant. $C$ addresses this problem by adding the second term which grows as a function of the weights in the neural network. This added term factors in the complexity of the system into the error function. By looking at all the weights $C$ punishing the system for assigning weights to features that do not matter. The $\lambda$ factor is a regularization parameter that can be tuned to determine just how much you want the complexity to be factored into the error ($\lambda > 0$). In high-dimensional spaces over fitting may become a problem. By extending the error function we factor in some punishment for valuing input features that should really not be weighted by discouraging complexity overall. This error function $C$ will tend to produce sparser models which is a protection against over fitting. 
+	%... It is trying to address the problem of ... It addresses this problem by ...
 	\item
+\begin{center}
+%then we just take the partial derivative of this wrt w right???	
+	$C(w)$ = $\displaystyle\sum\limits_{n=1}^N \displaystyle\sum\limits_{j=1}^J (y_{nj} - a_{nj})^2$ +  $\lambda \displaystyle\sum\limits_{m=1}^M 
+	\left(\displaystyle\sum\limits_{k=0}^K  w_{km}^2 +
+	\displaystyle\sum\limits_{j=1}^J w_{mj}^2\right)$
+	
+\end{center}
+
 \end{enumerate}
+
 
 
 
