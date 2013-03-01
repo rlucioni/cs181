@@ -88,7 +88,7 @@ Multi-layer feed-forward neural networks are the best approach to digit recognit
 	\item See {\tt neural\textunderscore net\textunderscore impl.py}.
 	\item See {\tt neural\textunderscore net\textunderscore impl.py}.
 	\item See {\tt neural\textunderscore net\textunderscore impl.py}.
-	\item INCOMPLETE: We want to normalize the input values from [0, 255] to between 0 and 1 because... 
+	\item We want to normalize the input values from [0, 255] to between 0 and 1 for two reasons. The first is to allow for uniform learning of suitable weights across different inputs. This does away with the need for one weight to be significantly different in magnitude than another weight ahead of time. The second reason for normalizing the input values is to prevent the sigmoid activation values from getting too close to 0 or 1, thereby avoiding the problem of ``stuck units" mentioned on page 1 in the Lecture 7 notes.
 	\item
 		\begin{enumerate}
 		\item We trained simple networks over 100 epochs using several learning rates with different orders of magnitude: 1.0, 0.1, 0.01, and 0.001. The best training performance was exhibited with a learning rate of 0.1. Thus, we used a learning rate of 0.1.
