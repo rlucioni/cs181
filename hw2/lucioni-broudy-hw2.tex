@@ -132,13 +132,13 @@ Multi-layer feed-forward neural networks are the best approach to digit recognit
 	\left(\displaystyle\sum\limits_{k=0}^K  w_{km}^2 +
 	\displaystyle\sum\limits_{j=1}^J w_{mj}^2\right)$
 \end{center}	
-	Gradient decent is calculated by taking the partial derivative with respect to $w_{km}$. In taking the partial derivative you can ignore the sums and then put them back in later. Also the left half looks exactly like the gradient decent rule that we derived in lecture notes 6 on pages 8 and 9.
+	Gradient decent is calculated by taking the partial derivative with respect to $w_{km}$. In taking the partial derivative you can ignore the sums and then put them back in later. The left half looks exactly like the gradient descent rule that we derived in Lecture 6 notes on pages 8 and 9:
 	\[ \frac{\partial }{\partial w_{km}} (y_{nj} - a_{nj}) = -2g'(z_{m})x_k \displaystyle\sum\limits_{j=1}^J \delta_j w_{mj} \]
 
-for the right half
+For the right half:
 \[ \frac{\partial }{\partial w_{km}} \lambda \displaystyle\sum\limits_{m=1}^M  \left(\displaystyle\sum\limits_{k=0}^K  w_{km}^2 + \displaystyle\sum\limits_{j=1}^J w_{mj}^2\right) = 2\lambda\displaystyle\sum\limits_{m=1}^M \displaystyle\sum\limits_{k=0}^Kw_{km} \]
 
-Now to tie it all together and get our update rule.
+Now to tie it all together and get our update rule:
 
 \[ w_{mj}^{r+1} \leftarrow w_{mj}^{r} + \alpha a_j \delta_j  + 2\lambda \displaystyle\sum\limits_{m=1}^M \displaystyle\sum\limits_{k=0}^Kw_{km} \]
 
