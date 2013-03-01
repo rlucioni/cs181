@@ -112,7 +112,7 @@ def Backprop(network, input, target, learning_rate):
       node.delta = node.err * NeuralNetwork.SigmoidPrime(node.transformed_value) 
 
   # Update the err and delta for each hidden_node
-  # Below loop indexes from the high to low.
+  # Below loop indexes from the high to low (decreasing sequence, as in the notes)
   num = len(network.hidden_nodes)
   for i in range(num-1, -1, -1):
       node = network.hidden_nodes[i]
@@ -349,8 +349,8 @@ class SimpleNetwork(EncodedNetworkFramework):
 #<---- Problem 3, Question 7 --->
 
 class HiddenNetwork(EncodedNetworkFramework):
-  def __init__(self, number_of_hidden_nodes=15):
-  #def __init__(self, number_of_hidden_nodes=30):
+  #def __init__(self, number_of_hidden_nodes=15):
+  def __init__(self, number_of_hidden_nodes=30):
     """
     Arguments:
     ---------

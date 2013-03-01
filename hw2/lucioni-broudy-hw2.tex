@@ -92,23 +92,25 @@ Multi-layer feed-forward neural networks are the best approach to digit recognit
 	\item
 		\begin{enumerate}
 		\item We trained simple networks over 100 epochs using several learning rates with different orders of magnitude: 1.0, 0.1, 0.01, and 0.001. The best training performance was exhibited with a learning rate of 0.1. Thus, we used a learning rate of 0.1.
-		\item \hfill \\
+		\item The requested graph is below. \\
 		\includegraphics[scale=0.8]{Simple-Network-Alpha-0_1.pdf}
 			\begin{enumerate}
 				\item We are not in danger of overfitting by training for too many epochs. If we were in danger of overfitting, validation error would increase with more epochs as training error continued to decrease. However, our results for the network trained with a learning rate of 0.1 show that validation error decreases and then stabilizes at 0.129 as training error continues to decrease. This suggests that, at least for the range of 100 epochs we are considering, we are not in danger of overfitting. 
-				\item A good number of epochs to train for is 73, since there is no improvement (i.e., decrease) in validation error beyond 73 epochs.
+				\item A good number of epochs to train for is 48, since there is no significant improvement (i.e., decrease) in validation error beyond 48 epochs.
 				\item It is important that we use a validation set instead of the actual test set when tuning the number of epochs because if we were to tune the number of epochs using the test set, we would be unintentionally optimizing our network for the test set. We want the network's performance on the test set to be an indicator of expected, general performance. Hence, we must keep the test set separate from the data used to train the network. In short, using the validation set to tune the number of epochs prevents us from overfitting accidentally.
 			\end{enumerate}
-		\item The network trained for 73 epochs and with a learning rate of 0.1 has a training performance of 0.878, a validation performance of 0.871, and a test performance of 0.918.
+		\item The network trained for 48 epochs and with a learning rate of 0.1 has a training performance of 0.87133333, a validation performance of 0.867, and a test performance of 0.912.
 		\end{enumerate}
 	\item
 		\begin{enumerate}
 			\item We trained networks with 15 and 30 fully connected hidden units over 100 epochs using several learning rates with different orders of magnitude: 1.0, 0.1, 0.01, and 0.001. The best training performance for the network with 15 hidden units was exhibited with a learning rate of 1.0. The best training performance for the network with 30 hidden units was exhibited with a learning rate of 0.1. Thus, we used learning rates of 1.0 and 0.1 for the networks with 15 and 30 hidden units, respectively.
-			\item Our algorithm for automatically determining when to stop training makes use of the validation set and works as follows. We initialize a variable {\tt max\textunderscore perf\textunderscore validate} representing the maximum observed validation performance to 0.0. Each epoch, we compare the current validation performance to {\tt max\textunderscore perf\textunderscore validate}. We stop training if 1) the validation performance has not increased after a certain number of  (5) epochs, or 2) the current validation performance is a certain amount (0.01) below the maximum observed validation performance. We decided on these thresholds by studying the results of the networks trained in (a). If we are still training when we reach the provided limit on number of epochs, we terminate.
-			\item
-			\item
-			\item
-			\item
+			\item Our algorithm for automatically determining when to stop training makes use of the validation set and works as follows. We initialize a variable {\tt max\textunderscore perf\textunderscore validate} representing the maximum observed validation performance to 0.0. Each epoch, we compare the current validation performance to {\tt max\textunderscore perf\textunderscore validate}. We stop training if 1) the validation performance has not increased after 5 epochs, 2) the current validation performance is at least 0.05 below the maximum observed validation performance, or 3) we are still training when we reach the provided limit on the number of epochs. We decided on the thresholds governing our termination conditions by studying the performance results of the networks with 15 and 30 hidden units trained for (a).
+			\item The requested graphs are below. \\
+			\includegraphics[scale=0.7]{15-hidden-units-alpha-1_0.pdf} \\
+			\includegraphics[scale=0.7]{30-hidden-units-alpha-0_1.pdf}
+			\item Our algorithm used 19 epochs to train a network with 15 hidden units and a learning rate of 1.0, and 28 epochs to train a network with 30 hidden units and a learning rate of 0.1.
+			\item Based on these experiments, we would choose the network structure with 30 hidden units. While the running time of the network structure with 30 hidden units is noticeably longer than the running time of the network structure with 15 hidden units, we note that the network with 30 hidden units has a test performance of 0.886 when trained for 28 epochs (0.907 when trained for 100 epochs) whereas the network with 15 hidden units has a test performance of 0.833 when trained for 19 epochs (0.835 when trained for 100 epochs). This is evidence that the network with 30 hidden units performs better than the network with 15 hidden units.
+			\item The network with 30 hidden units, trained for 28 epochs and with a learning rate of 0.1, has a test performance of 0.886. This is slightly lower than - but on par with - the test performance of the committee of perceptrons trained for 48 epochs in part 6.
 		\end{enumerate}
 	\item
 		\begin{enumerate}
@@ -121,12 +123,12 @@ Multi-layer feed-forward neural networks are the best approach to digit recognit
 \problem{}
 %% Answer found in lecture notes 5 page 5 part e.3 Extending to Multivariate.
 \begin{enumerate}
-	\item We might want to use the error function $C$ to discourage the construction of an overly complicated model that falls peril to over fitting. $C$ is trying to address the problem of assigning weights to features that are in fact irrelevant. $C$ addresses this problem by adding the second term which grows as a function of the weights in the neural network. This added term factors in the complexity of the system into the error function. By looking at all the weights $C$ punishing the system for assigning weights to features that do not matter. The $\lambda$ factor is a regularization parameter that can be tuned to determine just how much you want the complexity to be factored into the error ($\lambda > 0$). In high-dimensional spaces over fitting may become a problem. By extending the error function we factor in some punishment for valuing input features that should really not be weighted by discouraging complexity overall. This error function $C$ will tend to produce sparser models which is a protection against over fitting. 
+	\item We might want to use the error function $C$ to discourage the construction of an overly complicated model that is susceptible to overfitting. $C$ is trying to address the problem of assigning weights to features that are in fact irrelevant. $C$ addresses this problem by adding the second term which grows as a function of the weights in the neural network. This added term factors in the complexity of the system into the error function. By looking at all the weights, $C$ punishes the system for assigning weights to features that do not matter. The $\lambda$ factor is a regularization parameter that can be tuned to determine just how much you want the complexity to be factored into the error ($\lambda > 0$). In high-dimensional spaces, overfitting may become a problem. By extending the error function, we factor in some punishment for valuing input features that should in actuality not be weighted, discouraging complexity overall. $C$ will tend to produce sparser models, a precaution against overfitting. 
 	%... It is trying to address the problem of ... It addresses this problem by ...
-	\item
+	\item \hfill \\
 \begin{center}
 %then we just take the partial derivative of this wrt w right???	
-	$C(w)$ = $\displaystyle\sum\limits_{n=1}^N \displaystyle\sum\limits_{j=1}^J (y_{nj} - a_{nj})^2$ +  $\lambda \displaystyle\sum\limits_{m=1}^M 
+	$C({\bf w})$ = $\displaystyle\sum\limits_{n=1}^N \displaystyle\sum\limits_{j=1}^J (y_{nj} - a_{nj})^2$ +  $\lambda \displaystyle\sum\limits_{m=1}^M 
 	\left(\displaystyle\sum\limits_{k=0}^K  w_{km}^2 +
 	\displaystyle\sum\limits_{j=1}^J w_{mj}^2\right)$
 	

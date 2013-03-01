@@ -76,7 +76,8 @@ def main():
   
   # Displays information
   print '* * * * * * * * *'
-  print 'Parameters => Epochs: %d, Learning Rate: %f' % (epochs, rate)
+  #print 'Parameters => Epochs: %d, Learning Rate: %f' % (epochs, rate)
+  print 'Parameters => Max Epochs: %d, Learning Rate: %f' % (epochs, rate)
   print 'Type of network used: %s' % network.__class__.__name__
   print ('Input Nodes: %d, Hidden Nodes: %d, Output Nodes: %d' %
          (len(network.network.inputs), len(network.network.hidden_nodes),
@@ -85,7 +86,6 @@ def main():
   # Train the network.
   #network.Train(images, validation, rate, epochs)
   network.Train(images, validation, test, rate, epochs)
-  #network.Train(images, validation, test, rate, max_epochs)
 
 if __name__ == "__main__":
   main()
