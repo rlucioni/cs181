@@ -86,7 +86,20 @@ def kmeans(data,k):
         if largest_shift < threshold:
             break
     
-    print "\nCLUSTER MEANS\n"
+    sq_err = 0.0
+    count = 0
+    for d in range(len(data)):
+        for j in range(len(responsibilities[d])):
+            if responsibilities[d][j] == 1:
+                sq_err += utils.squareDistance(data[d],prototypes[p])
+                count += 1
+                break
+
+    mse = sq_err/count
+
+    print "\nMSE: {}".format(mse)
+    
+    print "\n***CLUSTER MEANS***\n"
     for p in range(len(prototypes)):
         print "CLUSTER {}: {}\n".format(p+1,prototypes[p])
 
