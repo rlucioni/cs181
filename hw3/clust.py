@@ -99,9 +99,9 @@ def kmeans(data,k):
 
     print "\nMSE: {}".format(mse)
     
-    #print "\n***CLUSTER MEANS***\n"
-    #for p in range(len(prototypes)):
-    #    print "CLUSTER {}: {}\n".format(p+1,prototypes[p])
+    print "\n***CLUSTER MEANS***\n"
+    for p in range(len(prototypes)):
+        print "CLUSTER {}: {}\n".format(p+1,prototypes[p])
 
 
 
