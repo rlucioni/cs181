@@ -133,10 +133,13 @@ def hac(data, k, metric):
 
     print "\n***CLUSTER MEANS***\n"
     for c in range(len(clusters)):
-        n = len(clusters[c][0])
-        aggregate = [0.0]*n
+        # will be 3 for the adults-small.txt data
+        num_attr = len(clusters[c][0])
+        aggregate = [0.0]*num_attr
         for cluster in clusters[c]:
             aggregate = map(sum,zip(aggregate,cluster))
+        # numbers of examples in cluster
+        n = len(clusters[c])
         means = map(lambda x: x/n, aggregate)
         print "CLUSTER {}: {}\n".format(c+1,means)
     
