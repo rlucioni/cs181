@@ -8,6 +8,7 @@ import math
 import utils
 
 DATAFILE = "adults.txt"
+SMALL_DATAFILE = "adults-small.txt"
 
 #validateInput()
 
@@ -186,7 +187,8 @@ def main():
 
     #Initialize the data
     
-    dataset = file(DATAFILE, "r")
+    #dataset = file(DATAFILE, "r")
+    dataset = file(SMALL_DATAFILE, "r")
     if dataset == None:
         print "Unable to open data file"
 
@@ -197,8 +199,8 @@ def main():
 
     data = random.sample(full_data,numExamples)
 
-    print "\nK-MEANS:"
-    kmeans(data,numClusters)
+    #print "\nK-MEANS:"
+    #kmeans(data,numClusters)
 
     print "\nHAC, MIN:"
     hac(data,numClusters,utils.cmin)
