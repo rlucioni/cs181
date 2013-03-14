@@ -133,7 +133,7 @@ def hac(data, k, metric):
 
     print "\n***CLUSTER MEANS***\n"
     for c in range(len(clusters)):
-        n = len(clusters[c])
+        n = len(clusters[c][0])
         aggregate = [0.0]*n
         for cluster in clusters[c]:
             aggregate = map(sum,zip(aggregate,cluster))
@@ -143,28 +143,6 @@ def hac(data, k, metric):
     print "\n***NO. EXAMPLES PER CLUSTER***\n"
     for c in range(len(clusters)):
         print "CLUSTER {}: {}\n".format(c+1,len(clusters[c]))
-
-    # record distances between all pairs of examples 
-    # flat upper triangular matrix
-    #distances = []
-    #for i in range(len(clusters)):
-    #    distances.append([])
-    #    for j in range(i+1,len(data)):
-    #        distances[i].append(metric(clusters[i],clusters[j],squareDistance))
-
-    #N = len(data)
-    #for iteration in range(N-k):
-        # find a and b, the two 'closest' clusters
-    #    min_dists = []
-    #    for cluster in clusters:
-    #        min_dists.append(min(cluster))
-    #    shortest = min(min_dists)
-    #    min_index = min_dists.index(shortest)
-    #    for l in range(len(clusters[min_index])):
-    #        if clusters[min_index][l] == shortest:
-                # set to infinity, retain list structure
-    #            clusters[min_index][l] = sys.maxint
-
 
 
 # main
