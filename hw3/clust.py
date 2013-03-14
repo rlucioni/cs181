@@ -104,6 +104,67 @@ def kmeans(data,k):
         print "CLUSTER {}: {}\n".format(p+1,prototypes[p])
 
 
+def hac(data, k, metric):
+    # make each example a singleton cluster
+    clusters = []
+    for example in data:
+        clusters.append([example])
+    
+    N = len(data)
+    for iteration in range(N-k):
+        C = len(clusters)
+        a_index = None
+        b_index = None
+        min_dist = sys.maxint
+        for i in range(C-1):
+            for j in range(i+1,C):
+                dist = metric(clusters[i],clusters[j],utils.squareDistance)
+                if dist < min_dist:
+                    min_dist = dist
+                    a_index = i
+                    b_index = j
+        # pop this one first to preserve the index we're popping below
+        # otherwise could be out of range, or wrong, so we pop after 
+        # it in the list
+        B = clusters.pop(b_index)
+        A = clusters.pop(a_index)
+        clusters.append(A+B)
+
+    print "\n***CLUSTER MEANS***\n"
+    for c in range(len(clusters)):
+        n = len(clusters[c])
+        aggregate = [0.0]*n
+        for cluster in clusters[c]:
+            aggregate = map(sum,zip(aggregate,cluster))
+        means = map(lambda x: x/n, aggregate)
+        print "CLUSTER {}: {}\n".format(c+1,means)
+    
+    print "\n***NO. EXAMPLES PER CLUSTER***\n"
+    for c in range(len(clusters)):
+        print "CLUSTER {}: {}\n".format(c+1,len(clusters[c]))
+
+    # record distances between all pairs of examples 
+    # flat upper triangular matrix
+    #distances = []
+    #for i in range(len(clusters)):
+    #    distances.append([])
+    #    for j in range(i+1,len(data)):
+    #        distances[i].append(metric(clusters[i],clusters[j],squareDistance))
+
+    #N = len(data)
+    #for iteration in range(N-k):
+        # find a and b, the two 'closest' clusters
+    #    min_dists = []
+    #    for cluster in clusters:
+    #        min_dists.append(min(cluster))
+    #    shortest = min(min_dists)
+    #    min_index = min_dists.index(shortest)
+    #    for l in range(len(clusters[min_index])):
+    #        if clusters[min_index][l] == shortest:
+                # set to infinity, retain list structure
+    #            clusters[min_index][l] = sys.maxint
+
+
 
 # main
 # ----
@@ -113,7 +174,7 @@ def kmeans(data,k):
 def main():
     # Validate the inputs
     if(validateInput() == False):
-        print "Usage: clust numClusters numExamples"
+        print "Usage: clust.py numClusters numExamples"
         sys.exit(1);
 
     numClusters = int(sys.argv[1])
@@ -129,17 +190,27 @@ def main():
     if dataset == None:
         print "Unable to open data file"
 
-    data = parseInput(dataset)
+    full_data = parseInput(dataset)
     
     dataset.close()
     #printOutput(data,numExamples)
 
-    # ==================== #
-    # WRITE YOUR CODE HERE #
-    # ==================== #
-    
+    data = random.sample(full_data,numExamples)
+
+    print "\nK-MEANS:"
     kmeans(data,numClusters)
 
+    print "\nHAC, MIN:"
+    hac(data,numClusters,utils.cmin)
+
+    print "\nHAC, MAX:"
+    hac(data,numClusters,utils.cmax)
+
+    print "\nHAC, MEAN:"
+    hac(data,numClusters,utils.cmean)
+    
+    print "\nHAC, CENTROID:"
+    hac(data,numClusters,utils.ccent)
 
 if __name__ == "__main__":
     validateInput()
