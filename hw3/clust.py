@@ -166,10 +166,10 @@ def main():
     
     random.seed()
 
-    #Initialize the data
     
-    #dataset = file(DATAFILE, "r")
-    dataset = file(SMALL_DATAFILE, "r")
+    #Initialize the full dataset for K-means
+    
+    dataset = file(DATAFILE, "r")
     if dataset == None:
         print "Unable to open data file"
 
@@ -180,9 +180,23 @@ def main():
 
     data = random.sample(full_data,numExamples)
 
-    #print "\nK-MEANS:"
-    #kmeans(data,numClusters)
+    print "\nK-MEANS:"
+    kmeans(data,numClusters)
+    
+    
+    #Initialize the small dataset for HAC
+    
+    dataset = file(SMALL_DATAFILE, "r")
+    if dataset == None:
+        print "Unable to open data file"
 
+    full_data = parseInput(dataset)
+    
+    dataset.close()
+    #printOutput(data,numExamples)
+    
+    data = random.sample(full_data,numExamples)
+    
     print "\nHAC, MIN:"
     hac(data,numClusters,utils.cmin)
 
@@ -194,6 +208,7 @@ def main():
     
     print "\nHAC, CENTROID:"
     hac(data,numClusters,utils.ccent)
+
 
 if __name__ == "__main__":
     validateInput()
