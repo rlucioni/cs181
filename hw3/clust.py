@@ -1,6 +1,7 @@
 # clust.py
 # -------
-# YOUR NAME HERE
+# Renzo Lucioni (HUID: 90760092)
+# Daniel Broudy (HUID: 30797418)
 
 import sys
 import random
@@ -142,6 +143,10 @@ def hac(data, k, metric):
         n = len(clusters[c])
         means = map(lambda x: x/n, aggregate)
         print "CLUSTER {}: {}\n".format(c+1,means)
+
+    # print "\n***CLUSTERS***\n"
+    # for c in range(len(clusters)):
+    #     print "CLUSTER {}: {}".format(c+1, clusters[c])
     
     print "\n***NO. EXAMPLES PER CLUSTER***\n"
     for c in range(len(clusters)):

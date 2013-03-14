@@ -17,7 +17,7 @@ p1, = plt.plot(xs, ys, color='b')
 
 plt.grid(b=1)
 
-plt.title('Mean Squared Error vs. K, 1000 Examples')
+plt.title('Mean Squared Error vs. K on 1000 Examples')
 plt.xlabel('K')
 plt.ylabel('Mean Squared Error')
 plt.axis([0,11,0,2.2])

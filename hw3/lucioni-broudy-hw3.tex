@@ -32,12 +32,39 @@
 			\item If we were to choose the best $K$ for this data based on the plot we generated above, we would choose $K = 8$, since this value of $K$ has a relatively low mean squared error (MSE) without the risk of overcomplicating the model. Choosing a higher value of $K$ will of course result in a lower MSE, but doing this defeats the purpose of clustering, since we are overfitting to the data. In the extreme case, every example in the data will have its own cluster, and the MSE will be 0, but this model does not generalize well.
 		\end{enumerate}
 	\item
-	\begin{enumerate}
-			\item The requested table and scatterplot are below.
-				\begin{center}
-				
+		\begin{enumerate}
+			\item The requested table and scatterplots are below. \\
+				\begin{center}  
+				\begin{tabular}{| c | c | c | c | } \hline
+				\multicolumn{2}{| c |}{\emph{min}} & \multicolumn{2}{| c |}{\emph{max}}  \\    \hline         
+				Cluster & Instances & Cluster& Instances  \\ \hline
+				1 & 1 & 1 & 7\\
+				2 & 1 & 2 & 35 \\
+				3 & 20 & 3 & 21 \\
+				4 & 78 & 4 & 37 \\ \hline
+				\end{tabular}
 				\end{center}
-			\item
+				\hfill \\
+				In the following scatterplots, red circles correspond to cluster 1, blue triangles correspond to cluster 2, green squares correspond to cluster 3, and black stars correspond to cluster 4.
+				\includegraphics[scale=0.8]{hac-min.pdf}
+				\includegraphics[scale=0.8]{hac-max.pdf} 
+			\item The requested table and scatterplot are below. \\
+				\begin{center}  
+				\begin{tabular}{| c | c | c | c | } \hline
+				\multicolumn{2}{| c |}{\emph{mean}} & \multicolumn{2}{| c |}{\emph{centroid}}  \\    \hline         
+				Cluster & Instances & Cluster& Instances  \\ \hline
+				1 & 1 & 1 & 1\\
+				2 & 26 & 2 & 50 \\
+				3 & 50 & 3 & 130 \\
+				4 & 123 & 4 & 19 \\ \hline
+				\end{tabular}
+				\end{center} 
+				\hfill \\
+				In the following scatterplots, red circles correspond to cluster 1, blue triangles correspond to cluster 2, green squares correspond to cluster 3, and black stars correspond to cluster 4.
+				\includegraphics[scale=0.8]{hac-mean.pdf}
+				\includegraphics[scale=0.8]{hac-centroid.pdf} 
+				Outliers affect the centroid less.
+
 		\end{enumerate}
 	\item
 \end{enumerate}
