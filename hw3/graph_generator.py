@@ -15,7 +15,9 @@ ys = [(a+b)/2 for a,b in zip([1.97360905671, 1.74778748234, 1.65399446656, 1.450
 
 p1, = plt.plot(xs, ys, color='b')
 
-plt.title('Mean Squared Error vs. K, 1000 Examples')
+plt.grid(b=1)
+
+plt.title('Mean Squared Error vs. K on 1000 Examples')
 plt.xlabel('K')
 plt.ylabel('Mean Squared Error')
 plt.axis([0,11,0,2.2])

@@ -1,6 +1,7 @@
 # clust.py
 # -------
-# YOUR NAME HERE
+# Renzo Lucioni (HUID: 90760092)
+# Daniel Broudy (HUID: 30797418)
 
 import sys
 import random
@@ -8,6 +9,7 @@ import math
 import utils
 
 DATAFILE = "adults.txt"
+SMALL_DATAFILE = "adults-small.txt"
 
 #validateInput()
 
@@ -104,6 +106,52 @@ def kmeans(data,k):
         print "CLUSTER {}: {}\n".format(p+1,prototypes[p])
 
 
+def hac(data, k, metric):
+    # make each example a singleton cluster
+    clusters = []
+    for example in data:
+        clusters.append([example])
+    
+    N = len(data)
+    for iteration in range(N-k):
+        C = len(clusters)
+        a_index = None
+        b_index = None
+        min_dist = sys.maxint
+        for i in range(C-1):
+            for j in range(i+1,C):
+                dist = metric(clusters[i],clusters[j],utils.squareDistance)
+                if dist < min_dist:
+                    min_dist = dist
+                    a_index = i
+                    b_index = j
+        # pop this one first to preserve the index we're popping below
+        # otherwise could be out of range, or wrong, so we pop after 
+        # it in the list
+        B = clusters.pop(b_index)
+        A = clusters.pop(a_index)
+        clusters.append(A+B)
+
+    print "\n***CLUSTER MEANS***\n"
+    for c in range(len(clusters)):
+        # will be 3 for the adults-small.txt data
+        num_attr = len(clusters[c][0])
+        aggregate = [0.0]*num_attr
+        for cluster in clusters[c]:
+            aggregate = map(sum,zip(aggregate,cluster))
+        # numbers of examples in cluster
+        n = len(clusters[c])
+        means = map(lambda x: x/n, aggregate)
+        print "CLUSTER {}: {}\n".format(c+1,means)
+
+    # print "\n***CLUSTERS***\n"
+    # for c in range(len(clusters)):
+    #     print "CLUSTER {}: {}".format(c+1, clusters[c])
+    
+    print "\n***NO. EXAMPLES PER CLUSTER***\n"
+    for c in range(len(clusters)):
+        print "CLUSTER {}: {}\n".format(c+1,len(clusters[c]))
+
 
 # main
 # ----
@@ -113,7 +161,7 @@ def kmeans(data,k):
 def main():
     # Validate the inputs
     if(validateInput() == False):
-        print "Usage: clust numClusters numExamples"
+        print "Usage: clust.py numClusters numExamples"
         sys.exit(1);
 
     numClusters = int(sys.argv[1])
@@ -123,22 +171,48 @@ def main():
     
     random.seed()
 
-    #Initialize the data
+    
+    #Initialize the full dataset for K-means
     
     dataset = file(DATAFILE, "r")
     if dataset == None:
         print "Unable to open data file"
 
-    data = parseInput(dataset)
+    full_data = parseInput(dataset)
     
     dataset.close()
     #printOutput(data,numExamples)
 
-    # ==================== #
-    # WRITE YOUR CODE HERE #
-    # ==================== #
-    
+    data = random.sample(full_data,numExamples)
+
+    print "\nK-MEANS:"
     kmeans(data,numClusters)
+    
+    
+    #Initialize the small dataset for HAC
+    
+    dataset = file(SMALL_DATAFILE, "r")
+    if dataset == None:
+        print "Unable to open data file"
+
+    full_data = parseInput(dataset)
+    
+    dataset.close()
+    #printOutput(data,numExamples)
+    
+    data = random.sample(full_data,numExamples)
+    
+    print "\nHAC, MIN:"
+    hac(data,numClusters,utils.cmin)
+
+    print "\nHAC, MAX:"
+    hac(data,numClusters,utils.cmax)
+
+    print "\nHAC, MEAN:"
+    hac(data,numClusters,utils.cmean)
+    
+    print "\nHAC, CENTROID:"
+    hac(data,numClusters,utils.ccent)
 
 
 if __name__ == "__main__":
