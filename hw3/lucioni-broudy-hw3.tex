@@ -249,8 +249,11 @@ k-means is appropriate in dealing with clear categories and clear clusters, if y
 				\hfill \\
 				In the following scatterplots, red circles correspond to cluster 1, blue triangles correspond to cluster 2, green squares correspond to cluster 3, and black stars correspond to cluster 4.
 				\includegraphics[scale=0.8]{hac-mean.pdf}
+				The mean and centroid metrics provide compromises between the min and max metrics 
+				
 				\includegraphics[scale=0.8]{hac-centroid.pdf} 
-				REMARK ON DIFFERENCES AND WHETHER THEY MAKE SENSE GIVEN THE DEF OF THE METRICS. Outliers affect the centroid less.
+				We expect the centroid metric to grow convex structures and for those structures to be less effected by outliers. We also expect them to be relatively similar because they are compromises between min and max. This aligns relatively well with what we see in the graph above.
+				%REMARK ON DIFFERENCES AND WHETHER THEY MAKE SENSE GIVEN THE DEF OF THE METRICS. Outliers affect the centroid less.
 
 		\end{enumerate}
 	%%%%%%%%%%%%%%%%%%%%3.
