@@ -16,14 +16,14 @@
 \subproblem %a
 % 2epsilon to the m
 %width of the range is 2epsilon then for m dimensions
-To do this problem i will first ignore the fact that it is a M dimensional hypercube and the just repeat the probability M times. We know that {\bf x} is in the center, we then chose a {\bf y}, what is the probability that it is within $\epsilon$ of {\bf x}. The range that it is to be within is a range of $2\epsilon$, because it can be within $\epsilon$ in either direction. That makes the 1-dimentional probability, $2\epsilon$ we then repeat that in M dimensions and get the probability is $(2\epsilon)^{M}$.
+To do this problem, I will first ignore the fact that it is an $M$-dimensional hypercube and then just repeat the probability $M$ times. We know that {\bf x} is in the center; we then choose a {\bf y}. What is the probability that it is within $\epsilon$ of {\bf x}? The range that it is to be within is a range of $2\epsilon$, because it can be within $\epsilon$ in either direction. That makes the 1-dimensional probability $2\epsilon$. We then repeat that in $M$ dimensions and get the probability is $(2\epsilon)^{M}$.
 
 
 %To do this problem we will first ignore the fact that it is a M dimensional hypercube and instead consider the 1 dimensional case then repeat it M times. First what do we know. We know that $x_m$ and $y_m$ are each some number uniformly chosen between 0 and 1 inclusive. We are then looking at the absolute value of their difference. Because these are both drawn from a uniform distribution we know the absolute value of their difference will give us another distribution. This distribution will be a triangle distribution from zero to 1 that peaks at 0.5 . Now that we have our distribution we can think what is the probability that the absolute value of the difference will be between zero and one. To find this probability we integrate our triangle function between zero and one. This integration is easy because it is triangular. We find the probability that the $max_m \| x_m-y_m \| \leq \epsilon $ for the 1-dimensional hypercube to be 1/2. To then apply this to the $M$-dimensional hypercube we just have to think of applying this probability $M$ times to find the probability that in each dimension $max_m \| x_m-y_m \| \leq \epsilon $. If you do this you get $(1/2)^M$.
 
 \subproblem %b
 %pick one then the other has that chance of being within range, at most because maybe the first one you pick is closer to the edge of the hypercube so you don't have as much room to work with.
-In this case just think of it like we pick one and then pick the other, the first one we pick is like {\bf x} and the second one we pick is like {\bf y}. {\bf y} has a chance of at most $p$ of being in a range of $\epsilon$ of {\bf x}. This probability could be less that $p$ because if the first value you pick is towards the edge of the M-dimensional unit hypercube then the space that the other value can be in is reduced, this would cause the probability to be less than $p$ but it remains true that the probability that $max_m\| x_m - y_m \| \leq \epsilon$ is at most $p$
+In this case, just think of it as if we pick one and then pick the other - the first one we pick is like {\bf x} and the second one we pick is like {\bf y}. {\bf y} has a chance of at most $p$ of being in a range of $\epsilon$ of {\bf x}. This probability could be less that $p$ because if the first value you pick is towards the edge of the $M$-dimensional unit hypercube, then the space that the other value can be in is reduced. This would cause the probability to be less than $p$, but it remains true that the probability that $max_m\| x_m - y_m \| \leq \epsilon$ is at most $p$.
 
 \subproblem %c
 Euclidian distance for these two points can be defined as 
@@ -47,26 +47,20 @@ max_m \| x_m-y_m \| =  max_m \| x_m-y_m \| \\
 \|\| {\bf x - y} \|\|  \geq  max_m \| x_m-y_m \| 
 \end{eqnarray}
 
-From these equations it is clear that $\|\| {\bf x - y} \|\|  \geq  max_m \| x_m-y_m \| $ if this is true then the probability that $\|\| {\bf x - y} \|\| \leq \epsilon$ is also at most $p$, this is clearly true because the we just proved that for any two points the euclidian distances is $\geq  max_m \| x_m-y_m \| $ therefore any two points are even less likely to be within a euclidian distance of $\epsilon$ then they are to be with in a 1-dimensional distance of $\epsilon$. This means they cannot have a greater probability of being within a distance of $\epsilon$ of each other, only a equal or lesser chance. therefore $\|\| {\bf x - y} \|\| \leq \epsilon$ is also at most $p$
+From these equations it is clear that $\|\| {\bf x - y} \|\|  \geq  max_m \| x_m-y_m \| $. If this is true, then the probability that $\|\| {\bf x - y} \|\| \leq \epsilon$ is also at most $p$. This is clearly true because we just proved that for any two points, the Euclidian distance is greater than or equal to $max_m \| x_m-y_m \| $. Therefore, any two points are even less likely to be within a Euclidian distance of $\epsilon$ than they are to be with in a 1-dimensional distance of $\epsilon$. This means they cannot have a greater probability of being within a distance of $\epsilon$ of each other, only a equal or lesser chance. Therefore, $\|\| {\bf x - y} \|\| \leq \epsilon$ is also at most $p$
 
 \subproblem %d  \delta is just a parameter, 
-Now we must find the lower bound on the number $N$ of points needed to guarantee, with a probability of at least 1-$\delta$, that the nearest neighbor of a newly selected point $x$ is within a radius $\epsilon$. 
-
-Well we know the probability that some other point is within $\epsilon$ is $(2\epsilon)^M$. 
-
-We know that the probability that two points are not within $\epsilon$ of each other is 1-p
-
-The probability that N points are not within epsilon is $(1-p)^N$. so we set $(1-p)^N = \delta$ to solve this expression we take the log of both sides. 
+Now we must find the lower bound on the number $N$ of points needed to guarantee, with a probability of at least 1-$\delta$, that the nearest neighbor of a newly selected point $x$ is within a radius $\epsilon$. We know the probability that some other point is within $\epsilon$ is $(2\epsilon)^M$. We know that the probability that two points are not within $\epsilon$ of each other is $1-p$. The probability that $N$ points are not within $\epsilon$ is $(1-p)^N$. So, we set $(1-p)^N = \delta$. To solve this expression, we take the log of both sides:
 
 \[log((1-p)^N) =log( \delta)\]
 \[ N =\frac{log( \delta)}{log((1-p))}\]
 
-We can determine that this N is a minimum because as you increase the number of points you increase the chance that a near neighbor would exist. Therefore this equation lays out a minimum value for N to have the probability be at least 1-$\delta$
+We can determine that this $N$ is a minimum because as we increase the number of points, we increase the chance that a near neighbor would exist. Therefore, this equation lays out a minimum value for $N$ to have the probability be at least 1-$\delta$:
 %Because $p$ is a maximum, this expression for N is actually a minimum because $p$ could be smaller in which case N wouldn't have to be as big to be equal to $\delta$ in the above expression. So in the end you want an N greater than the expression on the right.
 \[ N \geq \frac{log( \delta)}{log((1-(2\epsilon)^M))}\]
 
 \subproblem %e we can conclude it is not good.
-We can conclude that the HAC algorithm is not very effective on high dimensional spaces. As we discussed in lecture HAC fails on high dimensional data due to what is called the curse of dimensionality. One of the negative sides of the HAC algorithm is that it depends on the inter-point distances. As we can see from our calculations as the dimension M increases the number of points you need to have to guarantee that points are within $\epsilon$ of each other with some probability 1-$\delta$ increases dramatically.  
+We can conclude that the HAC algorithm is not very effective in high-dimensional spaces. As we discussed in lecture, HAC fails on high-dimensional data due to what is called ``the curse of dimensionality." One of the negative facets of the HAC algorithm is that it depends on the inter-point distances. As we can see from our calculations, as the dimension $M$ increases, the number of points you need to have to guarantee that points are within $\epsilon$ of each other with some probability 1-$\delta$ increases dramatically.  
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \problem{25}  %2
@@ -98,12 +92,12 @@ FB\\
 \subproblem  %b
 %more basin because it factors in the prior pr(\theta) this is like factoring in how rare the values could be
 % lecture 11 - bottome page 8
-MAP method can be consider more bayesian because it factors in prior knowledge to help prevent over fitting. MAP is not fully bayesian because it picks a single set of values for parameters $\theta$ and then uses them for classification and inference as if they are correct, point approximations.
+The MAP method can be considered more Bayesian because it factors in prior knowledge to help prevent overfitting. MAP is not fully Bayesian because it picks a single set of values for parameters $\theta$ and then uses them for classification and inference as if they are correct point approximations.
 
 
 \subproblem %c
 %what does MAP enjoy over ML and enjoy over FB methods 
-MAP enjoys the benefit of prior knowledge which it can use to penalize setting and attribute that is too unlikely given prior hypotheses. This helps prevent over fitting to the data. MAP enjoys simplicity over the Full Bayesian Method. You don't have to calculate the full posterior distribution. 
+MAP enjoys the benefit of prior knowledge which it can use to penalize setting an attribute that is too unlikely given prior hypotheses. This helps prevent overfitting the data. MAP also enjoys simplicity over the Full Bayesian Method. We do not have to calculate the full posterior distribution. 
 
 \subproblem %d
 \begin{center}
@@ -112,23 +106,22 @@ MAP enjoys the benefit of prior knowledge which it can use to penalize setting a
   \includegraphics{beta-2-5}
   \end{center}
   
-  Beta[1,1] is a uniform prior. this is similar to having had 1 win and 1 loss in the past which is  very little prior information.
-  Beta[3,3] is like having more information that you have had more ties, and so you would expect more ties in the future, you have reason to expect a relatively balanced win-loss ratio.
-  Beta[2,5] is like having a team that has a record closer to 2-5, so you expect to lean one direction but not all the way one direction. 
+Beta[1,1] is a uniform prior. This is similar to having had 1 win and 1 loss in the past which is very little prior information. Beta[3,3] is like having more information that you have had more ties, and so you would expect more ties in the future. That is, you have reason to expect a relatively balanced win-loss ratio. Beta[2,5] is like having a team that has a record closer to 2-5, so you expect to lean one direction but not all the way one direction. 
 
 \subproblem %e
 %COME BACK TO THIS, ask someone else
-Beta is the conjugate prior to bernoulli. Beta is between zero and one. Beta takes two parameters. The main reason is Beta distribution's are useful when used together with MAP estimation for reasoning with Bernoulli random variables because the beta distribution is a suitable model for the random behavior of percentages and proportions.
+Beta is the conjugate prior to Bernoulli. Beta is between 0 and 1. Beta takes two parameters. The main reason Beta distributions are useful when used together with MAP estimation for reasoning with Bernoulli random variables is because the Beta distribution is a suitable model for the random behavior of percentages and proportions.
 
 \subproblem %f
 Harvard football when 9-1 in the 2011 fall season! 
-Harvard football also won their first three games in the 2012 season! We are trying to predict the 4th game of that season.
+Harvard football also won their first three games in the 2012 season! We are trying to predict the 4th game of that season. \\
 
 ML\\
 \[ \theta_{ML} = \frac{N_1}{N} = \frac{3}{3} = 1з\]
 
 
-MAP\\
+MAP \\
+
 Given a prior on $\theta$ that is Beta(9,1).\\
 
 \[ \theta_{MAP} = argmax_{\theta} p(\theta \| D) =  \frac{\alpha + N_1 - 1}{ \alpha + \beta + N - 2} = \frac{11}{11}за\]
@@ -140,7 +133,7 @@ FB\\
 
 \[  = \int_0^1 \theta \cdot p(\theta \| D) d\theta\]
 
-\[  = E[\theta \| D ] =  \frac{\alpha + N_1}{ \alpha + \beta + N} = \frac{9 + 3}{ 13} = \frac{12}{13}  \]
+\[  = E[\theta \| D ] =  \frac{\alpha + N_1}{ \alpha + \beta + N} = \frac{9 + 3}{ 13} = \frac{12}{13}  \] \\
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -155,7 +148,8 @@ FB\\
 
 We can ignore the sums and such for now.
 \[  = \frac{\delta}{\delta \mu}  r_{kn} \|\| x_n - \mu_k \|\|^2 \]
-we rewrite the $\|\| k_n - \mu_k \|\|^2$ as a dot product
+
+We rewrite the $\|\| k_n - \mu_k \|\|^2$ as a dot product
 \[  =   r_{kn} \frac{\delta}{\delta \mu}( x_n - \mu_k )\cdot( x_n - \mu_k ) \]
 
 \[  =   r_{kn} \frac{\delta}{\delta \mu} \left( (x_n^1 - \mu_k^1 )^2 + (x_n^2 - \mu_k^2 )^2 + ... \right) \]
@@ -164,21 +158,20 @@ we rewrite the $\|\| k_n - \mu_k \|\|^2$ as a dot product
 
 \[  0 =  \sum_{n=1}^N \sum_{k=1}^K r_{kn} \left( (2 (\mu_k - x_n ) \right) \]
 
-now when we want to talk about one $\mu_k$
+Now when we want to talk about one $\mu_k$
 
 \[ \sum_{n=1}^N r_{nk}\mu_k - \sum_{n=1}^N r_{nk}x_n = 0 \]
 
 \[   \mu_k = \frac{\sum_{n=1}^N r_{nk}x_n}{\sum_{n=1}^N r_{nk}}  \]
 
 
-We thus have the update rule for $\mu$
+We thus have the update rule for $\mu$. \\
 
-The update rule for $r_{nk}$ cant really be done by taking a partial because it isn't continuous.
-Instead we know that only one of the $r_{nk}$ values equals one and we want to minimize the loss function 
+The update rule for $r_{nk}$ cannot really be done by taking a partial because it is not continuous. Instead, we know that only one of the $r_{nk}$ values equals 1 and we want to minimize the loss function.
 
 \[ \L( \{\ \mu_k\}_{k=1}^k , \{r_n\}_{n=1}^N ) = \sum_{n=1}^N \sum_{k=1}^K r_{kn} \|\| x_n - \mu_k \|\|^2 \]
 
-So you want to pick the $r_{nk}$ that minimizes the loss function by picking the one that corresponds to the  
+So, we want to pick the $r_{nk}$ that minimizes the loss function by picking the one that corresponds to the  
 \[ r_{nk} = argmin_{k^{'}} \|\| x_n - \mu_k^{'} \|\|^2\]
 
 
@@ -195,9 +188,11 @@ So you want to pick the $r_{nk}$ that minimizes the loss function by picking the
 % PCA is a well known approach for dimensionality reduction
 % PCA is a relaxed solution of k-means clustering.
 % in k-means finding distance in the high dimension in PCA we are projecting it down to lower dimensions. 
-In some ways you can think of PCA as a relaxed solution to k-means clustering. In k-means we are finding the distance from the mean in a high dimension space, in PCA we are projecting the data down into a set of linearly uncorrected variables called principle components. We know PCA works well for dimensionality reduction. 
-k-means is appropriate in dealing with clear categories and clear clusters, if you wanted to separate boys from girls or apples from oranges from bananas, k-means would be very good at categorizing those objects based upon some observations. On the other hand like the example shown in class PCA does well in dealing with images where there are a lot of different colors and shapes that can be projected down into a simpler dimension.
+In some ways, we can think of PCA as a relaxed solution to $K$-means clustering. In $K$-means, we are finding the distance from the mean in a high-dimensional space. In PCA, we are projecting the data down into a set of linearly uncorrected variables called principle components. We know PCA works well for dimensionality reduction. 
+$K$-means is appropriate for dealing with clear categories and clear clusters. That is, if you wanted to separate boys from girls or apples from oranges from bananas, $K$-means would be a very good choice for categorizing these objects based on some observations. On the other hand, like the example shown in class, PCA does well in dealing with images where there are a lot of different colors and shapes that can be projected down into a simpler dimension.
 
+
+\pagebreak
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \problem{75} %4
@@ -211,6 +206,7 @@ k-means is appropriate in dealing with clear categories and clear clusters, if y
 				\end{center}
 			\item If we were to choose the best $K$ for this data based on the plot we generated above, we would choose $K = 8$, since this value of $K$ has a relatively low mean squared error (MSE) without the risk of overcomplicating the model. Choosing a higher value of $K$ will of course result in a lower MSE, but doing this defeats the purpose of clustering, since we are overfitting to the data. In the extreme case, every example in the data will have its own cluster, and the MSE will be 0, but this model does not generalize well.
 		\end{enumerate}
+	\pagebreak
 	%%%%%%%%%%%%%%%%%%%%% 2.
 	\item
 		\begin{enumerate}
@@ -230,10 +226,10 @@ k-means is appropriate in dealing with clear categories and clear clusters, if y
 				In the following scatterplots, red circles correspond to cluster 1, blue triangles correspond to cluster 2, green squares correspond to cluster 3, and black stars correspond to cluster 4.
 				\includegraphics[scale=0.8]{hac-min.pdf}
 				
-				With the min metric we expect clusters that "snake" from example to example. Min causes the "chaining effect " which we can see in our graph, many of the clusters have the long thin shape you would expect with snaking. Yes this makes sense with the definition of the min metric.\\
+				With the \emph{min} metric, we expect clusters that ``snake" from example to example. The \emph{min} metric causes the ``chaining effect " which we can see in our graph. That is, many of the clusters have the long thin shape you would expect with snaking. This makes sense given our definition of the \emph{min} metric.\\
 				
 				\includegraphics[scale=0.8]{hac-max.pdf} 
-				For the max metric we expect clusters to grow in more convex structures than in min. This appears to be more or less true in the graph we produced above.			
+				For the \emph{max} metric, we expect to see clusters growing in more convex structures than for the \emph{min} metric. This appears to be more or less the case in the graph we produced above.		
 			\item %b
 			The requested table and scatterplot are below. \\
 				\begin{center}  
@@ -246,18 +242,19 @@ k-means is appropriate in dealing with clear categories and clear clusters, if y
 				4 & 123 & 4 & 19 \\ \hline
 				\end{tabular}
 				\end{center} 
-				\hfill \\
+				\pagebreak
 				In the following scatterplots, red circles correspond to cluster 1, blue triangles correspond to cluster 2, green squares correspond to cluster 3, and black stars correspond to cluster 4.
 				\includegraphics[scale=0.8]{hac-mean.pdf}
-				The mean and centroid metrics provide compromises between the min and max metrics 
+				The \emph{mean} and \emph{centroid} metrics are both compromises between the \emph{min} and \emph{max} metrics, and as such we expect them to be similar. See below.
 				
 				\includegraphics[scale=0.8]{hac-centroid.pdf} 
-				We expect the centroid metric to grow convex structures and for those structures to be less affected by outliers. We also expect them to be relatively similar because they are compromises between min and max. This aligns relatively well with what we see in the graph above.
+				We expect the \emph{centroid} metric to grow convex structures and for those structures to be unaffected by outliers in the data. As we can see, the \emph{mean} and \emph{centroid} plots are relatively similar; there are no stark contrasts apart from clustering the data where $\emph{income}=1$ horizontally, as in the \emph{centroid} case, instead of vertically, as in the \emph{mean} case. These observations align well with what we see in the graph above.
 		\end{enumerate}
+	\pagebreak
 	%%%%%%%%%%%%%%%%%%%%3.
 	\item
 		\begin{enumerate}
-		\item When run on the {\tt adults} dataset with \emph{numexamples} = 1000 and $K$ = 4, it takes (on average) about 30 iterations for our parameters to converge. 
+		\item When run on the {\tt adults} dataset with \emph{numexamples} = 1000 and $K$ = 4, it takes, on average, about 30 iterations for our parameters to converge. 
 		\item The requested plot is below:
 			\begin{center}
 			\includegraphics[scale=0.8]{autoclass-likelihoods.pdf} 
