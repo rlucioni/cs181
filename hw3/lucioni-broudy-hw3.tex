@@ -202,6 +202,7 @@ k-means is appropriate in dealing with clear categories and clear clusters, if y
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \problem{75} %4
 \begin{enumerate}
+	%%%%%%%%%%%%%%%%%%%%%1.
 	\item 
 		\begin{enumerate}
 			\item The requested graph is below.
@@ -210,9 +211,11 @@ k-means is appropriate in dealing with clear categories and clear clusters, if y
 				\end{center}
 			\item If we were to choose the best $K$ for this data based on the plot we generated above, we would choose $K = 8$, since this value of $K$ has a relatively low mean squared error (MSE) without the risk of overcomplicating the model. Choosing a higher value of $K$ will of course result in a lower MSE, but doing this defeats the purpose of clustering, since we are overfitting to the data. In the extreme case, every example in the data will have its own cluster, and the MSE will be 0, but this model does not generalize well.
 		\end{enumerate}
+	%%%%%%%%%%%%%%%%%%%%% 2.
 	\item
 		\begin{enumerate}
-			\item The requested table and scatterplots are below. \\
+			\item %a 
+			       The requested table and scatterplots are below. \\
 				\begin{center}  
 				\begin{tabular}{| c | c | c | c | } \hline
 				\multicolumn{2}{| c |}{\emph{min}} & \multicolumn{2}{| c |}{\emph{max}}  \\    \hline         
@@ -226,8 +229,14 @@ k-means is appropriate in dealing with clear categories and clear clusters, if y
 				\hfill \\
 				In the following scatterplots, red circles correspond to cluster 1, blue triangles correspond to cluster 2, green squares correspond to cluster 3, and black stars correspond to cluster 4.
 				\includegraphics[scale=0.8]{hac-min.pdf}
+				
+				With the min metric we expect clusters that "snake" from example to example. Min causes the "chaining effect " which we can see in our graph, many of the clusters have the long thin shape you would expect with snaking. Yes this makes sense with the definition of the min metric.\\
+				
 				\includegraphics[scale=0.8]{hac-max.pdf} 
-			\item The requested table and scatterplot are below. \\
+				For the max metric we expect clusters to grow in more convex structures than in min. This appears to be more or less true in the graph we produced above.
+			
+			\item %b
+			The requested table and scatterplot are below. \\
 				\begin{center}  
 				\begin{tabular}{| c | c | c | c | } \hline
 				\multicolumn{2}{| c |}{\emph{mean}} & \multicolumn{2}{| c |}{\emph{centroid}}  \\    \hline         
@@ -245,6 +254,7 @@ k-means is appropriate in dealing with clear categories and clear clusters, if y
 				Outliers affect the centroid less.
 
 		\end{enumerate}
+	%%%%%%%%%%%%%%%%%%%%3.
 	\item
 \end{enumerate}
 
