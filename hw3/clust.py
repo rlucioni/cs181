@@ -153,6 +153,9 @@ def hac(data, k, metric):
         print "CLUSTER {}: {}\n".format(c+1,len(clusters[c]))
 
 def autoclass(data,k):
+    # threshold used to determine when to stop
+    threshold = 0.001
+
     # find means for all attributes
     # should be 48
     num_attr = len(data[0])
@@ -171,6 +174,10 @@ def autoclass(data,k):
             else:
                 example[i] = 0
 
+    responsibilities = []
+    for d in data:
+        responsibilities.append([0]*k)
+
     # intialize all theta_k (starting parameters)
     thetas = []
     for j in range(k):
@@ -183,52 +190,80 @@ def autoclass(data,k):
             temp.append(random.random())
         thetas.append(temp)
 
-    # expectation:
-    E = [0]*k
-    Ed = [[0]*k]*num_attr
-    for m in range(len(data)):
-        ps = []
+    clusters = []
+
+    for iteration in range(5):
+        print "ITERATION {}".format(iteration+1)
+        # expectation
+        E_N = [0]*k
+        E_D = [[0]*k]*num_attr
+        for m in range(len(data)):
+            for s in responsibilities[m]:
+                s = 0
+            ps = []
+            for j in range(k):
+                prod = 1.0
+                for i in range(num_attr):
+                    subprod = (thetas[j][i+1]**data[m][i])*(1-thetas[j][i+1])**(1-data[m][i])
+                    prod *= subprod
+                ps.append(thetas[j][0]*prod)
+            
+            responsibilities[m][ps.index(max(ps))] = 1
+            
+            gammas = []
+            for p in ps:
+                gammas.append(p/float(sum(ps)))
+
+            E_N = [a+b for a,b in zip(E_N,gammas)]
+
+            for a in range(num_attr):
+                if data[m][a] == 1:
+                    E_D[a] = [x+y for x,y in zip(E_D[a],gammas)]
+
+        # maximization
         for j in range(k):
-            prod = 1.0
-            for i in range(num_attr):
-                sub_prod = (thetas[j][i+1]**data[m][i])*(1-thetas[j][i+1])**(1-data[m][i])
-                prod *= subprod
-            ps.append(thetas[j][0]*prod)
-        
-        gammas = []
-        for p in ps: 
-            gammas.append(p/float(sum(ps)))
+            thetas[j][0] = E_N[j]/n
+            for d in range(num_attr):
+                thetas[j][d+1] = E_D[d][j]/E_N[j]
 
-        E = [a+b for a,b in zip(E,gammas)]
+        clusters = []
+        for i in range(k):
+            clusters.append([])
 
-        for a in range(len(num_attr)):
-            if data[m][a] == 1:
-                for z in k:
-                    Ed[a][z] += gammas[z]
+        for d in range(len(data)):
+            for j in range(len(responsibilities[d])):
+                if responsibilities[d][j] == 1:
+                    clusters[j].append(data[d])
+                    break
+
+        k_sums = []
+        # clusters
+        for c in range(len(clusters)):
+            running_sum = math.log(thetas[c][0])
+            # examples
+            for i in range(len(clusters[c])):
+                # attributes
+                for j in range(len(clusters[c][i])):
+                    running_sum += (clusters[c][i][j]*math.log(thetas[c][j+1])) + ((1-clusters[c][i][j])*math.log(1-(thetas[c][j+1])))
+            k_sums.append(running_sum)
+
+        log_likelihood = sum(k_sums)
+        print log_likelihood
+
+    # print "\n***CLUSTER MEANS***\n"
+    # for c in range(len(clusters)):
+    #     aggregate = [0.0]*num_attr
+    #     for example in clusters[c]:
+    #         aggregate = map(sum,zip(aggregate,example))
+    #     # numbers of examples in cluster
+    #     n = len(clusters[c])
+    #     if n == 0:
+    #         means = map(lambda x: x*0, aggregate)
+    #     else:
+    #         means = map(lambda x: x/n, aggregate)
+    #     print "CLUSTER {}: {}\n".format(c+1,means)
 
 
-
-
-
-
-
-    # for each x_n
-        # for all k, calculate all p_k
-        # increment E[N_k] by P(Y=k|X=x_n)
-        # for all attributes (d)
-            # if x_nd == 1
-                # for all k, increment E[N_d1^(k)] by P(Y=k|X=x_n) (manipulate p_ks)
-        # print log likelihood of the data and iteration number
-            # log likelihood of data = eqn 20
-
-    # maximization:
-    # for all k
-        # update theta_kc
-        # for all d, update theta_d^(k)
-
-    # for each x_n, calculate all p_k again and assign x_n to the cluster associated with the largest p_k
-
-    # print means of the clusters
 
 
 # main
