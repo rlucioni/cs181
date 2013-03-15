@@ -49,6 +49,10 @@ def printOutput(data, numExamples):
         print ','.join([str(x) for x in instance])
 
 
+###########
+# K-MEANS #
+###########
+
 def kmeans(data,k):
     # threshold used to determine when to stop
     threshold = 0.01
@@ -106,6 +110,10 @@ def kmeans(data,k):
         print "CLUSTER {}: {}\n".format(p+1,prototypes[p])
 
 
+#######
+# HAC #
+#######
+
 def hac(data, k, metric):
     # make each example a singleton cluster
     clusters = []
@@ -152,9 +160,15 @@ def hac(data, k, metric):
     for c in range(len(clusters)):
         print "CLUSTER {}: {}\n".format(c+1,len(clusters[c]))
 
+
+#############
+# AUTOCLASS #
+#############
+
 def autoclass(data,k):
     # threshold used to determine when to stop - TF Andrew Mao suggested anywhere between 1e-5 and 1e-10
     threshold = 0.000001
+    # initialize to negative infinity so it's never chosen as a maximum (i.e., bigger than log_likelihood)
     high = -sys.maxint
 
     # find means for all attributes
@@ -252,11 +266,12 @@ def autoclass(data,k):
                     if thetas[c][j+1] > 0 and thetas[c][j+1] < 1:
                         running_sum += (clusters[c][i][j]*math.log(thetas[c][j+1])) + ((1-clusters[c][i][j])*math.log(1.0-(thetas[c][j+1])))
             log_likelihood += running_sum
-        print log_likelihood
+        #print log_likelihood
 
         if log_likelihood > high + threshold:
             high = log_likelihood
         else:
+            print "\nLOG LIKELIHOOD: {}".format(log_likelihood)
             break
 
     print "\n***CLUSTER MEANS***\n"
@@ -278,7 +293,11 @@ def autoclass(data,k):
 # main
 # ----
 # The main program loop
-# You should modify this function to run your experiments
+
+### NOTE: Main will run K-means, Autoclass, and HAC, consecutively and in this order, with 
+###       the provided arguments for numClusters and numExamples. The data is sampled before 
+###       being passed to the clustering algorithms. K-means and Autoclass are run on the full 
+###       adults.txt dataset, while HAC is run on the smaller adults-small.txt.
 
 def main():
     # Validate the inputs
@@ -307,36 +326,37 @@ def main():
 
     data = random.sample(full_data,numExamples)
 
-    # print "\nK-MEANS:"
-    # kmeans(data,numClusters)
+    print "\nK-MEANS:"
+    kmeans(data,numClusters)
 
+    print "\nAUTOCLASS:\n"
     autoclass(data,numClusters)
     
     
     #Initialize the small dataset for HAC
     
-    # dataset = file(SMALL_DATAFILE, "r")
-    # if dataset == None:
-    #     print "Unable to open data file"
+    dataset = file(SMALL_DATAFILE, "r")
+    if dataset == None:
+        print "Unable to open data file"
 
-    # full_data = parseInput(dataset)
+    full_data = parseInput(dataset)
     
-    # dataset.close()
-    # #printOutput(data,numExamples)
+    dataset.close()
+    #printOutput(data,numExamples)
     
-    # data = random.sample(full_data,numExamples)
+    data = random.sample(full_data,numExamples)
     
-    # print "\nHAC, MIN:"
-    # hac(data,numClusters,utils.cmin)
+    print "\nHAC, MIN:"
+    hac(data,numClusters,utils.cmin)
 
-    # print "\nHAC, MAX:"
-    # hac(data,numClusters,utils.cmax)
+    print "\nHAC, MAX:"
+    hac(data,numClusters,utils.cmax)
 
-    # print "\nHAC, MEAN:"
-    # hac(data,numClusters,utils.cmean)
+    print "\nHAC, MEAN:"
+    hac(data,numClusters,utils.cmean)
     
-    # print "\nHAC, CENTROID:"
-    # hac(data,numClusters,utils.ccent)
+    print "\nHAC, CENTROID:"
+    hac(data,numClusters,utils.ccent)
 
 
 if __name__ == "__main__":

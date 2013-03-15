@@ -252,15 +252,30 @@ k-means is appropriate in dealing with clear categories and clear clusters, if y
 				The mean and centroid metrics provide compromises between the min and max metrics 
 				
 				\includegraphics[scale=0.8]{hac-centroid.pdf} 
-				We expect the centroid metric to grow convex structures and for those structures to be less effected by outliers. We also expect them to be relatively similar because they are compromises between min and max. This aligns relatively well with what we see in the graph above.
-				%REMARK ON DIFFERENCES AND WHETHER THEY MAKE SENSE GIVEN THE DEF OF THE METRICS. Outliers affect the centroid less.
-
+				We expect the centroid metric to grow convex structures and for those structures to be less affected by outliers. We also expect them to be relatively similar because they are compromises between min and max. This aligns relatively well with what we see in the graph above.
 		\end{enumerate}
 	%%%%%%%%%%%%%%%%%%%%3.
 	\item
+		\begin{enumerate}
+		\item When run on the {\tt adults} dataset with \emph{numexamples} = 1000 and $K$ = 4, it takes (on average) about 30 iterations for our parameters to converge. 
+		\item The requested plot is below:
+			\begin{center}
+			\includegraphics[scale=0.8]{autoclass-likelihoods.pdf} 
+			\end{center}
+		\item The run-time performance of Autoclass is noticeably worse than that of $K$-means. With $K=4$, $K$-means is capable of running on the entire dataset in approximately 10 seconds, as determined by the Unix {\tt time} utility. However, Autoclass requires about half that time to run on merely 1000 examples, and would take significantly longer than $K$-means to run on the entire dataset.
+		\item The requested plot of the log likelihood against $K$ is below.
+		\begin{center}
+		\includegraphics[scale=0.8]{autoclass-likelihoods-v-k.pdf} 
+		\end{center}
+		If we were to choose the best $K$ for this data, we would choose $K = 8$, since this value of $K$ is associated with a relatively high log likelihood but does not risk overcomplicating the model. Choosing a higher value of $K$ may result in a lower log likelihood, but doing this would make us prone to overfitting the data, giving us a model that may not generalize well.
+
+		\end{enumerate}
 \end{enumerate}
 
 \end{document}
+
+
+
 
 
 
