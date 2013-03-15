@@ -152,6 +152,84 @@ def hac(data, k, metric):
     for c in range(len(clusters)):
         print "CLUSTER {}: {}\n".format(c+1,len(clusters[c]))
 
+def autoclass(data,k):
+    # find means for all attributes
+    # should be 48
+    num_attr = len(data[0])
+    aggregate = [0.0]*num_attr
+    for example in data:
+        aggregate = map(sum,zip(aggregate,example))
+    n = len(data)
+    # means for all attributes - we'll use these as cutoffs
+    means = map(lambda x: x/n, aggregate)
+
+    # now we process the data to make all attribute values binary
+    for example in data:
+        for i in range(len(example)):
+            if example[i] >= means[i]:
+                example[i] = 1
+            else:
+                example[i] = 0
+
+    # intialize all theta_k (starting parameters)
+    thetas = []
+    for j in range(k):
+        temp = []
+        # theta_kc
+        temp.append(1/float(k))
+        #for j in range(len(data[0]))
+        for d in range(num_attr):
+            # theta_d^j
+            temp.append(random.random())
+        thetas.append(temp)
+
+    # expectation:
+    E = [0]*k
+    Ed = [[0]*k]*num_attr
+    for m in range(len(data)):
+        ps = []
+        for j in range(k):
+            prod = 1.0
+            for i in range(num_attr):
+                sub_prod = (thetas[j][i+1]**data[m][i])*(1-thetas[j][i+1])**(1-data[m][i])
+                prod *= subprod
+            ps.append(thetas[j][0]*prod)
+        
+        gammas = []
+        for p in ps: 
+            gammas.append(p/float(sum(ps)))
+
+        E = [a+b for a,b in zip(E,gammas)]
+
+        for a in range(len(num_attr)):
+            if data[m][a] == 1:
+                for z in k:
+                    Ed[a][z] += gammas[z]
+
+
+
+
+
+
+
+    # for each x_n
+        # for all k, calculate all p_k
+        # increment E[N_k] by P(Y=k|X=x_n)
+        # for all attributes (d)
+            # if x_nd == 1
+                # for all k, increment E[N_d1^(k)] by P(Y=k|X=x_n) (manipulate p_ks)
+        # print log likelihood of the data and iteration number
+            # log likelihood of data = eqn 20
+
+    # maximization:
+    # for all k
+        # update theta_kc
+        # for all d, update theta_d^(k)
+
+    # for each x_n, calculate all p_k again and assign x_n to the cluster associated with the largest p_k
+
+    # print means of the clusters
+
 
 # main
 # ----
@@ -185,34 +263,36 @@ def main():
 
     data = random.sample(full_data,numExamples)
 
-    print "\nK-MEANS:"
-    kmeans(data,numClusters)
+    # print "\nK-MEANS:"
+    # kmeans(data,numClusters)
+
+    autoclass(data,numClusters)
     
     
     #Initialize the small dataset for HAC
     
-    dataset = file(SMALL_DATAFILE, "r")
-    if dataset == None:
-        print "Unable to open data file"
+    # dataset = file(SMALL_DATAFILE, "r")
+    # if dataset == None:
+    #     print "Unable to open data file"
 
-    full_data = parseInput(dataset)
+    # full_data = parseInput(dataset)
     
-    dataset.close()
-    #printOutput(data,numExamples)
+    # dataset.close()
+    # #printOutput(data,numExamples)
     
-    data = random.sample(full_data,numExamples)
+    # data = random.sample(full_data,numExamples)
     
-    print "\nHAC, MIN:"
-    hac(data,numClusters,utils.cmin)
+    # print "\nHAC, MIN:"
+    # hac(data,numClusters,utils.cmin)
 
-    print "\nHAC, MAX:"
-    hac(data,numClusters,utils.cmax)
+    # print "\nHAC, MAX:"
+    # hac(data,numClusters,utils.cmax)
 
-    print "\nHAC, MEAN:"
-    hac(data,numClusters,utils.cmean)
+    # print "\nHAC, MEAN:"
+    # hac(data,numClusters,utils.cmean)
     
-    print "\nHAC, CENTROID:"
-    hac(data,numClusters,utils.ccent)
+    # print "\nHAC, CENTROID:"
+    # hac(data,numClusters,utils.ccent)
 
 
 if __name__ == "__main__":
