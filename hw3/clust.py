@@ -63,8 +63,8 @@ def kmeans(data,k):
         # update responsibilities 
         for i in range(len(data)):
             # zero out the responsibility vector
-            for s in responsibilities[i]:
-                s = 0
+            for s in range(len(responsibilities[i])):
+                responsibilities[i][s] = 0
             # calculate closest_prototype
             distances = []
             for p in prototypes:
@@ -153,8 +153,9 @@ def hac(data, k, metric):
         print "CLUSTER {}: {}\n".format(c+1,len(clusters[c]))
 
 def autoclass(data,k):
-    # threshold used to determine when to stop
-    threshold = 0.001
+    # threshold used to determine when to stop - TF Andrew Mao suggested anywhere between 1e-5 and 1e-10
+    threshold = 0.000001
+    high = -sys.maxint
 
     # find means for all attributes
     # should be 48
@@ -192,14 +193,17 @@ def autoclass(data,k):
 
     clusters = []
 
-    for iteration in range(5):
-        print "ITERATION {}".format(iteration+1)
+    count = 0
+    while(True):
+        count += 1
+        print "ITERATION {}".format(count)
         # expectation
         E_N = [0]*k
         E_D = [[0]*k]*num_attr
         for m in range(len(data)):
-            for s in responsibilities[m]:
-                s = 0
+            for s in range(len(responsibilities[m])):
+                responsibilities[m][s] = 0
+            
             ps = []
             for j in range(k):
                 prod = 1.0
@@ -236,32 +240,37 @@ def autoclass(data,k):
                     clusters[j].append(data[d])
                     break
 
-        k_sums = []
+        log_likelihood = 0.0
         # clusters
         for c in range(len(clusters)):
-            running_sum = math.log(thetas[c][0])
+            running_sum = 0.0
             # examples
             for i in range(len(clusters[c])):
                 # attributes
+                running_sum += math.log(thetas[c][0])
                 for j in range(len(clusters[c][i])):
-                    running_sum += (clusters[c][i][j]*math.log(thetas[c][j+1])) + ((1-clusters[c][i][j])*math.log(1-(thetas[c][j+1])))
-            k_sums.append(running_sum)
-
-        log_likelihood = sum(k_sums)
+                    if thetas[c][j+1] > 0 and thetas[c][j+1] < 1:
+                        running_sum += (clusters[c][i][j]*math.log(thetas[c][j+1])) + ((1-clusters[c][i][j])*math.log(1.0-(thetas[c][j+1])))
+            log_likelihood += running_sum
         print log_likelihood
 
-    # print "\n***CLUSTER MEANS***\n"
-    # for c in range(len(clusters)):
-    #     aggregate = [0.0]*num_attr
-    #     for example in clusters[c]:
-    #         aggregate = map(sum,zip(aggregate,example))
-    #     # numbers of examples in cluster
-    #     n = len(clusters[c])
-    #     if n == 0:
-    #         means = map(lambda x: x*0, aggregate)
-    #     else:
-    #         means = map(lambda x: x/n, aggregate)
-    #     print "CLUSTER {}: {}\n".format(c+1,means)
+        if log_likelihood > high + threshold:
+            high = log_likelihood
+        else:
+            break
+
+    print "\n***CLUSTER MEANS***\n"
+    for c in range(len(clusters)):
+        aggregate = [0.0]*num_attr
+        for example in clusters[c]:
+            aggregate = map(sum,zip(aggregate,example))
+        # numbers of examples in cluster
+        n = len(clusters[c])
+        if n == 0:
+            means = map(lambda x: x*0, aggregate)
+        else:
+            means = map(lambda x: x/n, aggregate)
+        print "CLUSTER {}: {}\n".format(c+1,means)
 
 
 
