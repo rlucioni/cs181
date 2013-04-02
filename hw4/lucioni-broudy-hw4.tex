@@ -41,37 +41,38 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \problem{14} %1
 
+The diagram below illustrates the directed graph structure of the network.
+
 \begin{center}
 \begin{emp}(0,0)
   % it's good practice to pick a basic size unit and make all your
   % distances relative to that unit
   u := 2cm;
-  %hugenodes;
+  ubernodes;
   % create a node, and position its center at the origin
-  node.q1(btex $q_1$ etex); q1.c = origin;
+  node.q1(btex $MAI$ etex); q1.c = origin;
 
   % position the other nodes relative to it
-  node.q2(btex $q_2$ etex); q2.c = q1.c + (1.5u,0);
-  node.q3(btex $q_3$ etex); q3.c = q1.c + (0,-1.5u);
-  node.q4(btex $q_4$ etex); q4.c = q1.c + (1.5u,-1.5u);
+  node.q2(btex $NAI$ etex); q2.c = q1.c + (1.5u,0);
+  node.q3(btex $RD$ etex); q3.c = q1.c + (3u,0);
+  node.q4(btex $VRAS$ etex); q4.c = q1.c + (0.75u,-1.5u);
+  node.q5(btex $SMOS$ etex); q5.c = q1.c + (2.25u,-1.5u);
+  node.q6(btex $VP$ etex); q6.c = q1.c + (1.5u,-3u);
 
   % mark q1 as a start node
-  makestart(q1);
+  %makestart(q1);
 
   % mark q4 as an accept node
-  makefinal(q1);
+  %makefinal(q1);
 
   % draw the nodes
-  drawboxed(q1,q2,q3,q4);
+  drawboxed(q1,q2,q3,q4,q5,q6);
 
-  edge(q1,q2,curve,btex a etex);
-  edge(q2,q1,curve,btex a etex);
-  edge(q1,q3,curve,btex b etex);
-  edge(q3,q1,curve,btex b etex);
-  edge(q3,q4,curve,btex a etex);
-  edge(q4,q3,curve,btex a etex);
-  edge(q4,q2,curve,btex b etex);
-  edge(q2,q4,curve,btex b etex);
+  edge(q1,q4,right,btex etex);
+  edge(q2,q4,right,btex etex);
+  edge(q3,q5,right,btex etex);
+  edge(q4,q6,right,btex etex);
+  edge(q5,q6,right,btex etex);
 
 \end{emp}
 \end{center}

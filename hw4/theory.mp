@@ -8,6 +8,19 @@ verbatimtex
 \begin {document}
 etex;
 
+% set up for uber nodes
+def ubernodes =
+    node_radius := 0.75cm;
+    final_radius := node_radius-.08cm;
+    loop_size := 0.8cm;
+    loop_emerge := 9;
+    ahlength := 4bp;
+    edgecolor := black;
+    edgedash := 0;
+    edgedirected := 1;
+    curve := 25;
+enddef;
+
 % set up for huge nodes
 def hugenodes =
     node_radius := 0.6cm;
