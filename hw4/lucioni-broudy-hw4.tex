@@ -1,0 +1,103 @@
+\documentclass[solution, letterpaper]{cs121}
+
+\usepackage{tikz-qtree}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{ae,aecompl}
+
+% allow metapost figures to be included inline
+% note: you must invoke latex using:
+%
+%     pdflatex -shell-escape <inputfile>
+%
+% to allow it to invoke external commands. See the very end of the
+% document as well.
+\usepackage{emp,ifpdf}
+\usepackage{graphicx}
+
+% convert metapost figures to .eps or .pdf automatically when
+% including them
+\ifpdf\DeclareGraphicsRule{*}{mps}{*}{}\fi
+
+% include the metapost macros
+\empprelude{input boxes; input theory}
+
+%% Please fill in your name and collaboration statement here.
+%\newcommand{\studentName}{Renzo Lucioni and Daniel Broudy}
+%\newcommand{\collaborationStatement}{I collaborated with...}
+\newcommand{\solncolor}{red}
+\begin{document}
+
+% create a metapost file for figures to be dumped to.  It's easiest
+% to use a single file for all the figures in the document
+\begin{empfile}
+
+\header{4}{April 12, 2013, at 12:00 PM}{}{}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\problem{14} %1
+
+The diagram below illustrates the directed graph structure of the network.
+
+\begin{center}
+\begin{emp}(0,0)
+  % it's good practice to pick a basic size unit and make all your
+  % distances relative to that unit
+  u := 2cm;
+  ubernodes;
+  % create a node, and position its center at the origin
+  node.q1(btex $MAI$ etex); q1.c = origin;
+
+  % position the other nodes relative to it
+  node.q2(btex $NAI$ etex); q2.c = q1.c + (1.5u,0);
+  node.q3(btex $RD$ etex); q3.c = q1.c + (3u,0);
+  node.q4(btex $VRAS$ etex); q4.c = q1.c + (0.75u,-1.5u);
+  node.q5(btex $SMOS$ etex); q5.c = q1.c + (2.25u,-1.5u);
+  node.q6(btex $VP$ etex); q6.c = q1.c + (1.5u,-3u);
+
+  % mark q1 as a start node
+  %makestart(q1);
+
+  % mark q4 as an accept node
+  %makefinal(q1);
+
+  % draw the nodes
+  drawboxed(q1,q2,q3,q4,q5,q6);
+
+  edge(q1,q4,right,btex etex);
+  edge(q2,q4,right,btex etex);
+  edge(q3,q5,right,btex etex);
+  edge(q4,q6,right,btex etex);
+  edge(q5,q6,right,btex etex);
+
+\end{emp}
+\end{center}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\problem{24} %2
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\problem{25} %3
+
+
+
+\end{empfile}
+
+% this invokes metapost on the figures. You must run latex a second
+% time for the figures to be included.
+\immediate\write18{mpost -tex=latex \jobname}
+
+\end{document}
+
+
+
+
+
+
