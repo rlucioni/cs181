@@ -77,14 +77,168 @@ The diagram below illustrates the directed graph structure of the network.
 \end{emp}
 \end{center}
 
+Parameterization:\\
+ P(RD,SMOS,VRAS,MAI,NAI,VP) = 
+P(MAI)P(NAI)P(RD)P(VRAS | MAI, NAI)P(SMOS | RD)P(VP | VRAS, SMOS)\\
+
+P(MAI)\\
+P(NAI)\\
+P(RD)\\
+For these three they are binary. They are not conditional on anything else, they are straight up probabilities.
+
+P(VRAS | MAI, NAI)\\
+\begin{center}
+\begin{tabular}{ l |c r }
+   VRAS = 0 & NAI = 0 & NAI = 1 \\
+   \hline
+  MAI = 0 & .5 & .2 \\
+  MAI = 1 & .2 & .1 \\
+\end{tabular}
+\end{center}
+
+\begin{center}
+\begin{tabular}{ l |c r }
+   VRAS = 1 & NAI = 0 & NAI = 1 \\
+   \hline
+  MAI = 0 & 0 & 1 \\
+  MAI = 1 & 1 & 1 \\
+\end{tabular}
+\end{center}
+
+
+P(SMOS | RD)\\
+%SMOS $\in$ \{ 0,1\}\\
+%RD $\in$ \{ 0,1\}\\
+\begin{center}
+\begin{tabular}{ l |c r }
+   & RD = 0 & RD = 1 \\
+   \hline
+  SMOS = 0 & .8 & .2 \\
+  SMOS = 1 & .1 & .9 \\
+\end{tabular}
+\end{center}
+
+
+P(VP | VRAS, SMOS)\\
+\begin{center}
+\begin{tabular}{ l |c r }
+   VP = 0 & SMOS = 0 & SMOS = 1 \\
+   \hline
+  VRAS = 0 & .7 & .1 \\
+  VRAS = 1 & .1 & .1 \\
+\end{tabular}
+\end{center}
+
+\begin{center}
+\begin{tabular}{ l |c r }
+   VP = 1 & SMOS = 0 & SMOS = 1 \\
+   \hline
+  VRAS = 0 & .1 & .1 \\
+  VRAS = 1 & .1 & .7 \\
+\end{tabular}
+\end{center}
+
+\subproblem %b
+ We made the assumption that VRAS and SMOS are independent. We could have plausibly not made this assumption and added an edge from SMOS to VRAS because if you have silly messages on the screen you probably have V-Rases all over the place.  
+ 
+ Another adjustment we could make is to collapse the MAI node and the NAI node because it doesn't really matter if you have more than one virus software, its more important if it you just have Virus software present. 
+
+\subproblem %c
+
+\begin{center}
+\begin{emp}(0,0)
+  % it's good practice to pick a basic size unit and make all your
+  % distances relative to that unit
+  u := 2cm;
+  ubernodes;
+  % create a node, and position its center at the origin
+  node.q1(btex $MAI$ etex); q1.c = origin;
+
+  % position the other nodes relative to it
+  node.q2(btex $NAI$ etex); q2.c = q1.c + (1.5u,0);
+  node.q3(btex $RD$ etex); q3.c = q1.c + (3u,0);
+  node.q4(btex $VRAS$ etex); q4.c = q1.c + (0.75u,-2.5u);
+  node.q5(btex $SMOS$ etex); q5.c = q1.c + (2.25u,-2.5u);
+  node.q6(btex $VP$ etex); q6.c = q1.c + (1.5u,-4u);
+  node.q7(btex $VRM$ etex); q7.c = q1.c + (.3u,-1.2u);
+  node.q8(btex $VRN$ etex); q8.c = q1.c + (1.2u,-1.2u);
+
+  % mark q1 as a start node
+  %makestart(q1);
+
+  % mark q4 as an accept node
+  %makefinal(q1);
+
+  % draw the nodes
+  drawboxed(q1,q2,q3,q4,q5,q6,q7,q8)
+
+  edge(q7,q4,right,btex etex);
+  edge(q8,q4,right,btex etex);
+  edge(q3,q5,right,btex etex);
+  edge(q4,q6,right,btex etex);
+  edge(q5,q6,right,btex etex);
+  edge(q1,q7,right,btex etex);
+  edge(q2,q8,right,btex etex);
+
+\end{emp}
+\end{center}
+
+P(VRM | MAI\\
+\begin{center}
+\begin{tabular}{ l |c r }
+   & VRM = 0 & VRM = 1 \\
+   \hline
+  MAI = 0 & .1 & .1 \\
+  MAI = 1 & 1 & .7 \\
+\end{tabular}
+\end{center}
+
+
+P(VRN | NAI\\
+\begin{center}
+\begin{tabular}{ l |c r }
+   & VRN = 0 & VRN = 1 \\
+   \hline
+  NAI = 0 & .1 & .1 \\
+  NAI = 1 & 1 & .7 \\
+\end{tabular}
+\end{center}
+
+
+P(VRAS | VRM, VRM)\\
+\begin{center}
+\begin{tabular}{ l |c r }
+   VRAS = 0 & VRN = 0& VRN = 1 \\
+   \hline
+  VRM = 0 & .5 & .2 \\
+  VRM = 1 & .2 & .1 \\
+\end{tabular}
+\end{center}
+
+\begin{center}
+\begin{tabular}{ l |c r }
+   VRAS = 1 & VRN = 0 & VRN = 1 \\
+   \hline
+  VRM = 0 & .1 & .2 \\
+  VRM = 1 & .2 & .5 \\
+\end{tabular}
+\end{center}
+We are operating under the assumption that if one virus software reports the other is very likely to have reported as well.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \problem{24} %2
-
+\subproblem 
+- For graph (a) I and D are independent of A given knowledge of B. D is conditionally independent because knowledge of B make is independent. I is just always independent of A.\\
+- For graph (b) 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \problem{25} %3
+
+% (0.2*NormalDistribution[1, 25]) + (0.3*NormalDistribution[-2, 1])+(0.05*NormalDistribution[3, 4])
+\subproblem %a
+
+  \includegraphics[width=170mm]{mixture_o_gaussians.pdf}
 
 
 
