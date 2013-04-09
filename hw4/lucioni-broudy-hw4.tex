@@ -311,7 +311,10 @@ Below is a histogram of 500 samples drawn using our rejection sampler:
 
 We got XXX rejections before we got 500 acceptances. This is a X.XX rejection rate.
 
-\subproblem %d
+\subproblem %d\\
+
+We implemented Metropolis-Hastings using a simple Gaussian proposal and a burn in period of 500 samples. 
+For our first runs we used a proposal function with a variance of 5 and then we would get an acceptance rate of around 285/500. We then tried a variance of 15 and found that the graph got decidedly worse, also the acceptance rate dropped to 115/500, this graph had more spices.  
 
 \begin{center}
 \includegraphics[scale=0.8]{hasty_metro_histogram.pdf}
