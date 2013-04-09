@@ -248,9 +248,10 @@ We are operating under the assumption that if one virus software reports the oth
 % (0.2*NormalDistribution[1, 25]) + (0.3*NormalDistribution[-2, 1])+(0.05*NormalDistribution[3, 4])
 \subproblem %a
 
-  \includegraphics[width=170mm]{mixture_o_gaussians.pdf}
+\includegraphics[width=170mm]{mixture_o_gaussians.pdf}
 
-
+\subproblem %b
+To generate data directly from the above distribution, we use the inversion method discussed in class. That is, we assume we have the CDF and inverse CDF of the distribution $f(x)$, then draw a point $u$ uniformly from the vertical axis. We input this point to the inverse of the CDF to get a corresponding value $u'$ on the horizontal axis. We use $u'$ as our sample.
 
 \end{empfile}
 
