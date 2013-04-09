@@ -314,7 +314,7 @@ We got 495 rejections before we got 500 acceptances, constituting a rejection ra
 \subproblem %d\\
 
 We implemented Metropolis-Hastings using a simple Gaussian proposal and a burn in period of 500 samples. 
-For our first runs we used a proposal function with a variance of 5 and then we would get an acceptance rate of around 285/500. We then tried a variance of 15 and found that the graph got decidedly worse, also the acceptance rate dropped to 115/500, this graph had more spikes. To experiment we ran with a small variance of 1. This had a high acceptance rate of 435/500. This graph was much smoother than the one with a variance of 15, it was almost too smooth and didn't really capture the peaks and troughs. Finally we did a variance of 3, this seemed like a happy medium, the peaks were captured and relatively smooth.
+For our first runs we used a proposal function with a variance of 5 and then we would get an acceptance rate of around 285/500. We then tried a variance of 15 and found that the graph got decidedly worse, also the acceptance rate dropped to 115/500, this graph had more spikes. To experiment we ran with a small variance of 1. This had a high acceptance rate of 435/500. This graph was much smoother than the one with a variance of 15, it was almost too smooth and didn't really capture the peaks and troughs. Finally we did a variance of 3, this seemed like a happy medium, the peaks were captured and relatively smooth the acceptance rate was 0.70.
 
 \begin{center}
 \includegraphics[scale=0.8]{hasty_metro_histogram.pdf}
