@@ -22,9 +22,9 @@ mean3 = 3
 variance3 = 4
 sigma3 = sqrt(variance3)
 
-factor_upper = 3
-mean_upper = 2
-variance_upper = 36
+factor_upper = 2
+mean_upper = 0
+variance_upper = 24
 sigma_upper = sqrt(variance_upper)
 
 
