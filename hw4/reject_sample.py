@@ -11,7 +11,7 @@ val = 0
 yval = 0
 data = [] 
 
-func = lambda x: .2*utils.norm(1,25) + .3*utils.norm(-2,1) + .5*utils.norm(3,4)
+func = lambda x: .2*utils.norm(x, 1,25) + .3*utils.norm(x, -2,1) + .5*utils.norm(x, 3,4)
 
 while (hit < 500):
     val = random.gauss(0,24)
