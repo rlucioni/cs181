@@ -1,5 +1,6 @@
 from math import *
 import scipy.special as sp
+#import math
 
 
 #Cumulative Distribution Function
@@ -11,7 +12,7 @@ def cdfinv(mu, sigma): return lambda y: (mu - (sqrt(2)*sigma * sp.erfcinv(2*y)))
 #Normal Distribution (Gaussian Distribution)
 #e^(-(x-mu)^2/(2 sigma^2))/(sqrt(2 pi) sigma)
 def norm(mu,var):
-    sigma = math.sqrt(var)
-    return lambda x: exp((-(x-mu)^2)/(2*var))/(sqrt(2*pi)*sigma)
+    sigma = sqrt(var)
+    return lambda x: exp((-(x-mu)**2)/(2*var))/(sqrt(2*pi)*sigma)
 
 
