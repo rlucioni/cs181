@@ -1,7 +1,5 @@
 from math import *
 import scipy.special as sp
-#import math
-
 
 #Cumulative Distribution Function
 #P (X<=x) = 1/2 erfc((mu-x)/(sqrt(2) sigma))

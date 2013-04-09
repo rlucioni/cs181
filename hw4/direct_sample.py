@@ -16,8 +16,8 @@ for i in range(500):
     else:
         data.append(.5*random.gauss(3,2))
 
-hist, bins = np.histogram(data,bins = 50)
+hist, bins = np.histogram(data,bins=50,density=True)
 width = 0.7*(bins[1]-bins[0])
 center = (bins[:-1]+bins[1:])/2
 plt.bar(center, hist, align = 'center', width = width)
-savefig('direct-sample-histogram-1.pdf')
+#savefig('direct-sample-histogram.pdf')
