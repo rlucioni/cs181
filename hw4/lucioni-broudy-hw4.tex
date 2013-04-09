@@ -255,16 +255,32 @@ We are operating under the assumption that if one virus software reports the oth
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \problem{25} %3
-
-% (0.2*NormalDistribution[1, 25]) + (0.3*NormalDistribution[-2, 1])+(0.05*NormalDistribution[3, 4])
+% Normal(mu, sigma^2)
+% (0.2*NormalDistribution[1, 25]) + (0.3*NormalDistribution[-2, 1])+(0.5*NormalDistribution[3, 4])
 \subproblem %a
-
+Below is the requested plot of the given density function.
+\begin{center}
 \includegraphics[scale=0.8]{mixture_o_gaussians.pdf}
+\end{center}
 
 \subproblem %b
 In this problem, we are given three Gaussian densities, $\mathcal{N}(x:1,5)$, $\mathcal{N}(x:-2,1)$, and $\mathcal{N}(x:3,2)$. We are interested in sampling directly from the given mixture of these three Gaussian densities. To generate data directly from the distribution, we use {\tt random.gauss(mu, sigma)}, Python's builtin function for sampling from a Gaussian distribution, and a biased ``three-sided coin." That is, we randomly generate a number between 1 and 10, inclusive. If the number is 1 or 2, we sample from the first Gaussian. If the number is 3, 4, or 5, we sample from the second Gaussian. If the number is 6, 7, 8, 9, or 10, we sample from the third Gaussian distribution. The effect is sampling from the first Gaussian with probability 0.2, from the second Gaussian with probability 0.3, and from the third Gaussian with probability 0.5. Below is a histogram of 500 samples drawn in this way:
+\begin{center}
+\includegraphics[scale=0.8]{direct-sample-histogram-1.pdf}
+\end{center}
 
-\includegraphics[scale=0.8]{direct-sample-histogram.pdf}
+\subproblem %c
+In this problem, we pretend we do not know how to perform the ``direct" sampling in (B), and implement a rejection sampler for the given density. We use the upper bounding function $q(x) = XXX$. Below is the requested plot of $q(x)$ against the given density function.
+\begin{center}
+%\includegraphics[scale=0.8]{mixture-w-envelope.pdf}
+\end{center}
+
+Below is a histogram of 500 samples drawn using our rejection sampler:
+\begin{center}
+%\includegraphics[scale=0.8]{rejection-sample-histogram.pdf}
+\end{center}
+
+We got XXX rejections before we got 500 acceptances. This is a X.XX rejection rate.
 
 \end{empfile}
 
