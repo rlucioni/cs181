@@ -293,7 +293,7 @@ Below is the requested plot of the given density function.
 \end{center}
 
 \subproblem %b
-In this problem, we are given three Gaussian densities: $\mathcal{N}(1,25)$, $\mathcal{N}(-2,1)$, and $\mathcal{N}(3,4)$. We are interested in sampling directly from the given mixture of these three Gaussian densities. To generate data directly from the distribution, we use {\tt random.gauss(mu, sigma)}, Python's builtin function for sampling from a Gaussian distribution, and a biased ``three-sided coin." That is, we randomly generate a number between 1 and 10, inclusive. If the number is 1 or 2, we sample from the first Gaussian. If the number is 3, 4, or 5, we sample from the second Gaussian. If the number is 6, 7, 8, 9, or 10, we sample from the third Gaussian distribution. The effect is sampling from the first Gaussian with probability 0.2, from the second Gaussian with probability 0.3, and from the third Gaussian with probability 0.5. Below is a histogram of 500 samples drawn in this way:
+In this problem, we are given three Gaussian densities: $\mathcal{N}(1,25)$, $\mathcal{N}(-2,1)$, and $\mathcal{N}(3,4)$. We are interested in sampling directly from the given mixture of these three Gaussian densities. To generate data directly from the distribution, we use {\tt random.gauss(mu, sigma)}, Python's built-in function for sampling from a Gaussian distribution, and a biased ``three-sided coin." That is, we randomly generate a number between 1 and 10, inclusive. If the number is 1 or 2, we sample from the first Gaussian. If the number is 3, 4, or 5, we sample from the second Gaussian. If the number is 6, 7, 8, 9, or 10, we sample from the third Gaussian distribution. The effect is sampling from the first Gaussian with probability 0.2, from the second Gaussian with probability 0.3, and from the third Gaussian with probability 0.5. Below is a histogram of 500 samples drawn in this way:
 \begin{center}
 \includegraphics[scale=0.8]{direct-sample-histogram.pdf}
 \end{center}
@@ -309,10 +309,10 @@ Below is a histogram of 500 samples drawn using our rejection sampler:
 \includegraphics[scale=0.8]{rejection-sample-histogram.pdf}
 \end{center}
 
-We got 495 rejections before we got 500 acceptances, constituting a rejection rate of 0.99 rejections per hit.
+We got 495 rejections before we got 500 acceptances, constituting a rejection rate of 0.99.
 
 \subproblem %d
-We implemented Metropolis-Hastings using a simple Gaussian proposal and a burn in period of 500 samples. For our first runs we used a proposal function with a variance of 5 and then we would get an acceptance rate of $0.57$. We then tried a variance of 15 and found that the graph got decidedly worse, also the acceptance rate dropped to $0.23$, this graph had more spikes. To experiment we ran with a small variance of 1. This had a high acceptance rate of $0.87$. This graph was much smoother than the one with a variance of 15, it was almost too smooth and didn't really capture the peaks and troughs. Finally we did a variance of 3, this seemed like a happy medium, the peaks were captured and relatively smooth;  the acceptance rate was $0.70$.
+In this problem we implement the Metropolis-Hastings algorithm using a simple Gaussian proposal. To begin with, we used a proposal function with a variance of 5. This resulted in an acceptance rate of $0.57$. We then tried using a variance of 15 and found that the histogram became noticeably worse, showing many spikes. The acceptance rate dropped to $0.23$. Next, we tried a small variance of 1. This resulted in a high acceptance rate of $0.87$. The resulting histogram was much smoother than the one with a variance of 15, but was so smooth that it failed to capture the peaks and troughs of the mixture distribution. Finally, we tried a variance of 3, resulting in an acceptance rate of $0.70$, and a relatively smooth histogram which captured the peaks and troughs of the mixture distribution. This histogram is included below. We also experimented with using a burn-in period of 500 samples, but realized that since we already know what our target distribution looks like, the burn-in period is not useful. 
 
 \begin{center}
 \includegraphics[scale=0.8]{hasty_metro_histogram.pdf}

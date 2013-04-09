@@ -20,4 +20,4 @@ hist, bins = np.histogram(data,bins=50,density=True)
 width = 0.7*(bins[1]-bins[0])
 center = (bins[:-1]+bins[1:])/2
 plt.bar(center, hist, align = 'center', width = width)
-#savefig('direct-sample-histogram.pdf')
+savefig('direct-sample-histogram.pdf')
