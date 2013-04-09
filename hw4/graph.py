@@ -9,7 +9,7 @@ plt.clf()
 # (0.2*NormalDistribution[1, 25]) + (0.3*NormalDistribution[-2, 1]) + (0.5*NormalDistribution[3, 4])
 factor1 = .2
 mean1 = 1
-variance1 = 2
+variance1 = 25
 sigma1 = sqrt(variance1)
 
 factor2 = .3
