@@ -22,22 +22,21 @@ mean3 = 3
 variance3 = 4
 sigma3 = sqrt(variance3)
 
-
-factorwrap = 1
-meanwrap = 3
-variancewrap = 4
-sigmawrap = sqrt(variance3)
+factor_upper = 3
+mean_upper = 2
+variance_upper = 36
+sigma_upper = sqrt(variance_upper)
 
 
 #x = arange(-10,10,1)
 #x = arange(-7,10,.01)
 x = np.linspace(-7,10,100)
 
-func1 =factor1* mlab.normpdf(x,mean1,sigma1)
-func2 =factor2* mlab.normpdf(x,mean2,sigma2)
-func3 =factor3* mlab.normpdf(x,mean3,sigma3)
+func1 =factor1*mlab.normpdf(x,mean1,sigma1)
+func2 =factor2*mlab.normpdf(x,mean2,sigma2)
+func3 =factor3*mlab.normpdf(x,mean3,sigma3)
+func_upper =factor_upper*mlab.normpdf(x,mean_upper,sigma_upper)
 
-funcwrap =factorwrap* mlab.normpdf(x,meanwrap,sigmawrap)
 #cdf1 = utils.cdf(mean1, sigma1)
 #y = map(cdf1, x)
 #plot(x,y)
@@ -46,11 +45,10 @@ funcwrap =factorwrap* mlab.normpdf(x,meanwrap,sigmawrap)
 
 plt.plot(x,func1+func2+func3)
 
-plt.plot(x,funcwrap)
+plt.plot(x,func_upper)
 #plt.plot(x,mlab.normpdf(x,mean1,sigma1))
 #plt.plot(x,intg1)
 
 plt.show
-#savefig('test.pdf')
-#savefig('mixture_o_gaussians.pdf')
-savefig('mixture_o_gaussians_thats_a_wrap.pdf')
+#savefig('mixture-o-gaussians.pdf')
+savefig('mixture-w-envelope.pdf')
