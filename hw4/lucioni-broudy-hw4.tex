@@ -246,12 +246,44 @@ We are operating under the assumption that if one virus software reports the oth
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \problem{24} %2
 \subproblem 
-%- For graph (a) I and D are independent of A given knowledge of B. D is conditionally independent because knowledge of B make is independent. I is just always independent of A.\\
-- For graph (a) There are no variables that are Independent of A given the knowledge of B\\
+- For graph (a) There are no variables that are Independent of A given the knowledge of B. There is a head-tail or a tail-tail connection to all other nodes (or a path that is a combination of these) and none of them are known so none of the paths are blocking. Therefore none of the nodes are independent of A given knowledge of B.\\
 %see Reading http://research.microsoft.com/en-us/um/people/cmbishop/prml/Bishop-PRML-sample.pdf 
 %page 378.
 
 - For graph (b) only F and C are independent of A given J. In this case we would think the path through G would be blocked because G is is a head to head node. With the knowledge of J, G does not block the path between A and D because J is a decedent node of G, this creates an induced dependence between A and D. This is not the case between D and E, H does not create induced dependence because it is unknown, that being said the existence of B, an unknown tail tail connection, means there is a dependence between D and E. Now finally between E and F we get independence because I is a head-head node and none of its descendants are known. This leaves us with the conclusion that F and C are the only two nodes that are independent of A when J is known. Knowledge of J creates a lot more dependence in this directed graph.
+
+\subproblem \\%b
+%P(A,B,C,D,E,F,G,H,I) = P(G)P(H)P(I|G,H)P(D|G)P(E|G)(P(F|H)P(C|E,F)P(B|D)P(A|B,C)\\
+
+%TODO: make smaller
+\[P(A,B,C,D,E,F,G,H,I) = \frac{1}{Z}\Psi_1(G)\Psi_2(H)\Psi_3(I,G,H)\Psi_4(D,G)\Psi_5(E,G)\Psi_6(F,H)\Psi_7(C,E,F)\Psi_8(B,D)\Psi_9(A,B,C)\]
+
+%P(A,B,C,D,E,F,G,H,I) = P(A)P(B)P(C)P(D|B)P(E|B)P(F|C)P(G|A,D)P(H|D,E)P(I|E,F)P(J|G)\\
+
+%TODO: make smaller
+\[P(A,B,C,D,E,F,G,H,I) = \frac{1}{Z}\Psi_1(A)\Psi_2(B)\Psi_3(C)\Psi_4(D,B)\Psi_5(E,B)\Psi_6(F,C)\Psi_7(G,A,D)\Psi_8(H,D,E)\Psi_9(I,E,F)\Psi_{10}(J,G)\]
+
+\subproblem %c
+\begin{center}
+\includegraphics[width=100mm]{factor_graph_a.png}
+\end{center}
+
+\begin{center}
+\includegraphics[width=100mm]{factor_graph_b.png}
+\end{center}
+
+\subproblem %d
+
+\begin{center}
+\includegraphics[width=100mm]{undirected_graph_a.png}
+\end{center}
+
+\begin{center}
+\includegraphics[width=100mm]{undirected_graph_b.png}
+\end{center}
+
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \problem{25} %3
