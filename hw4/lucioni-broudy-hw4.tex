@@ -254,15 +254,15 @@ We are operating under the assumption that if one virus software reports the oth
 
 \subproblem \\%b
 %P(A,B,C,D,E,F,G,H,I) = P(G)P(H)P(I|G,H)P(D|G)P(E|G)(P(F|H)P(C|E,F)P(B|D)P(A|B,C)\\
-
 %TODO: make smaller
-\[P(A,B,C,D,E,F,G,H,I) = \frac{1}{Z}\Psi_1(G)\Psi_2(H)\Psi_3(I,G,H)\Psi_4(D,G)\Psi_5(E,G)\Psi_6(F,H)\Psi_7(C,E,F)\Psi_8(B,D)\Psi_9(A,B,C)\]
-
+\begin{equation*}
+\resizebox{1\hsize}{!}{$P(A,B,C,D,E,F,G,H,I) = \frac{1}{Z}\Psi_1(G)\Psi_2(H)\Psi_3(I,G,H)\Psi_4(D,G)\Psi_5(E,G)\Psi_6(F,H)\Psi_7(C,E,F)\Psi_8(B,D)\Psi_9(A,B,C)$}
+\end{equation*}
 %P(A,B,C,D,E,F,G,H,I) = P(A)P(B)P(C)P(D|B)P(E|B)P(F|C)P(G|A,D)P(H|D,E)P(I|E,F)P(J|G)\\
-
 %TODO: make smaller
-\[P(A,B,C,D,E,F,G,H,I) = \frac{1}{Z}\Psi_1(A)\Psi_2(B)\Psi_3(C)\Psi_4(D,B)\Psi_5(E,B)\Psi_6(F,C)\Psi_7(G,A,D)\Psi_8(H,D,E)\Psi_9(I,E,F)\Psi_{10}(J,G)\]
-
+\begin{equation*}
+\resizebox{1\hsize}{!}{$P(A,B,C,D,E,F,G,H,I) = \frac{1}{Z}\Psi_1(A)\Psi_2(B)\Psi_3(C)\Psi_4(D,B)\Psi_5(E,B)\Psi_6(F,C)\Psi_7(G,A,D)\Psi_8(H,D,E)\Psi_9(I,E,F)\Psi_{10}(J,G)$}
+\end{equation*}
 \subproblem %c
 \begin{center}
 \includegraphics[width=100mm]{factor_graph_a.png}
@@ -281,9 +281,6 @@ We are operating under the assumption that if one virus software reports the oth
 \begin{center}
 \includegraphics[width=100mm]{undirected_graph_b.png}
 \end{center}
-
-
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \problem{25} %3
