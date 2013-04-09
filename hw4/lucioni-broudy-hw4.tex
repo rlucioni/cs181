@@ -78,75 +78,86 @@ The diagram below illustrates the directed graph structure of the network.
 \end{emp}
 \end{center}
 
-The following describes a parameterization of the noise in the causal effects of the above dependencies.
+The following describes a parameterization of the noise in the causal effects of the above dependencies. WE NEED TO PROVIDE PRIOR PROBABILITY TABLES AS PART OF THE PARAMETRIZATION
+\begin{equation*}
+\resizebox{1\hsize}{!}{$P(RD,SMOS,VRAS,MAI,NAI,VP) = P(MAI)P(NAI)P(RD)P(VRAS | MAI, NAI)P(SMOS | RD)P(VP | VRAS, SMOS)$}
+\end{equation*}
 
-$P(RD,SMOS,VRAS,MAI,NAI,VP) = 
-P(MAI)P(NAI)P(RD)P(VRAS | MAI, NAI)P(SMOS | RD)P(VP | VRAS, SMOS)$\\
-
-Nodes $MAI$, $NAI$, and $RD$ are binary attributes which are not conditional on any other attributes. They are each associated with a probability vector.
-
+The nodes $MAI$, $NAI$, and $RD$ are binary attributes which are not conditional on any other attributes. They are each associated with a probability vector.
 \begin{center}
 \begin{tabular}{ l |c r }
    $MAI = 0$ & $MAI = 1$ \\
    \hline
-  .5 & .5 \\
-\end{tabular}
-\end{center}
-
-P(VRAS | MAI, NAI)\\
-\begin{center}
-\begin{tabular}{ l |c r }
-   VRAS = 0 & NAI = 0 & NAI = 1 \\
-   \hline
-  MAI = 0 & .5 & .2 \\
-  MAI = 1 & .2 & .1 \\
+  .6 & .4 \\
 \end{tabular}
 \end{center}
 
 \begin{center}
 \begin{tabular}{ l |c r }
-   VRAS = 1 & NAI = 0 & NAI = 1 \\
+   $NAI = 0$ & $NAI = 1$ \\
    \hline
-  MAI = 0 & 0 & 1 \\
-  MAI = 1 & 1 & 1 \\
-\end{tabular}
-\end{center}
-
-
-P(SMOS | RD)\\
-%SMOS $\in$ \{ 0,1\}\\
-%RD $\in$ \{ 0,1\}\\
-\begin{center}
-\begin{tabular}{ l |c r }
-   & RD = 0 & RD = 1 \\
-   \hline
-  SMOS = 0 & .8 & .2 \\
-  SMOS = 1 & .1 & .9 \\
-\end{tabular}
-\end{center}
-
-
-P(VP | VRAS, SMOS)\\
-\begin{center}
-\begin{tabular}{ l |c r }
-   VP = 0 & SMOS = 0 & SMOS = 1 \\
-   \hline
-  VRAS = 0 & .7 & .1 \\
-  VRAS = 1 & .1 & .1 \\
+  .3 & .7 \\
 \end{tabular}
 \end{center}
 
 \begin{center}
 \begin{tabular}{ l |c r }
-   VP = 1 & SMOS = 0 & SMOS = 1 \\
+   $RD = 0$ & $RD = 1$ \\
    \hline
-  VRAS = 0 & .1 & .1 \\
-  VRAS = 1 & .1 & .7 \\
+  .2 & .8 \\
+\end{tabular}
+\end{center}
+
+$VRAS$ is conditional on $MAI$ and $NAI$ and is associated with the following conditional probability tables.
+\begin{center}
+\begin{tabular}{ l |c r }
+   $VRAS = 0$ & $NAI = 0$ & $NAI = 1$ \\
+   \hline
+  $MAI = 0$ & .5 & .2 \\
+  $MAI = 1$ & .2 & .1 \\
+\end{tabular}
+\end{center}
+
+\begin{center}
+\begin{tabular}{ l |c r }
+   $VRAS = 1$ & $NAI = 0$ & $NAI = 1$ \\
+   \hline
+  $MAI = 0$ & .1 & .2 \\
+  $MAI = 1$ & .2 & .5 \\
+\end{tabular}
+\end{center}
+
+$SMOS$ is conditional on $RD$ and is associated with the following conditional probability table.
+\begin{center}
+\begin{tabular}{ l |c r }
+   & $RD = 0$ & $RD = 1$ \\
+   \hline
+  $SMOS = 0$ & .8 & .2 \\
+  $SMOS = 1$ & .1 & .9 \\
+\end{tabular}
+\end{center}
+
+$VP$ is conditional on $VRAS$ and $SMOS$ and is associated with the following conditional probability tables.
+\begin{center}
+\begin{tabular}{ l |c r }
+   $VP = 0$ & $SMOS = 0$ & $SMOS = 1$ \\
+   \hline
+  $VRAS = 0$ & .7 & .1 \\
+  $VRAS = 1$ & .1 & .1 \\
+\end{tabular}
+\end{center}
+
+\begin{center}
+\begin{tabular}{ l |c r }
+   $VP = 1$ & $SMOS = 0$ & $SMOS = 1$ \\
+   \hline
+  $VRAS = 0$ & .1 & .1 \\
+  $VRAS = 1$ & .1 & .7 \\
 \end{tabular}
 \end{center}
 
 \subproblem %b
- We made the assumption that VRAS and SMOS are independent. We could have plausibly not made this assumption and added an edge from SMOS to VRAS because if you have silly messages on the screen you probably have V-Rases all over the place.  
+We made the assumption that $VRAS$ and $SMOS$ are independent; this assumption is expressed in the graph structure. It would be plausible for us to not make this assumption, meaning we would have added an edge from $SMOS$ to $VRAS$ to our network. Including this edge is reasonable because if you have silly messages on your screen you probably have V-Rases all over the place.  
  
  Another adjustment we could make is to collapse the MAI node and the NAI node because it doesn't really matter if you have more than one virus software, its more important if it you just have Virus software present. 
 
@@ -248,10 +259,12 @@ We are operating under the assumption that if one virus software reports the oth
 % (0.2*NormalDistribution[1, 25]) + (0.3*NormalDistribution[-2, 1])+(0.05*NormalDistribution[3, 4])
 \subproblem %a
 
-\includegraphics[width=170mm]{mixture_o_gaussians.pdf}
+\includegraphics[scale=0.8]{mixture_o_gaussians.pdf}
 
 \subproblem %b
-To generate data directly from the above distribution, we use the inversion method discussed in class. That is, we assume we have the CDF and inverse CDF of the distribution $f(x)$, then draw a point $u$ uniformly from the vertical axis. We input this point to the inverse of the CDF to get a corresponding value $u'$ on the horizontal axis. We use $u'$ as our sample.
+In this problem, we are given three Gaussian densities, $\mathcal{N}(x:1,5)$, $\mathcal{N}(x:-2,1)$, and $\mathcal{N}(x:3,2)$. We are interested in sampling directly from the given mixture of these three Gaussian densities. To generate data directly from the distribution, we use {\tt random.gauss(mu, sigma)}, Python's builtin function for sampling from a Gaussian distribution, and a biased ``three-sided coin." That is, we randomly generate a number between 1 and 10, inclusive. If the number is 1 or 2, we sample from the first Gaussian. If the number is 3, 4, or 5, we sample from the second Gaussian. If the number is 6, 7, 8, 9, or 10, we sample from the third Gaussian distribution. The effect is sampling from the first Gaussian with probability 0.2, from the second Gaussian with probability 0.3, and from the third Gaussian with probability 0.5. Below is a histogram of 500 samples drawn in this way:
+
+\includegraphics[scale=0.8]{direct-sample-histogram.pdf}
 
 \end{empfile}
 
