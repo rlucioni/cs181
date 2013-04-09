@@ -11,8 +11,8 @@ def cdfinv(mu, sigma): return lambda y: (mu - (sqrt(2)*sigma * sp.erfcinv(2*y)))
 
 #Normal Distribution (Gaussian Distribution)
 #e^(-(x-mu)^2/(2 sigma^2))/(sqrt(2 pi) sigma)
-def norm(mu,var):
+def norm(x,mu,var):
     sigma = sqrt(var)
-    return lambda x: exp((-(x-mu)**2)/(2*var))/(sqrt(2*pi)*sigma)
+    return exp((-(x-mu)**2)/(2*var))/(sqrt(2*pi)*sigma)
 
 
