@@ -41,6 +41,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \problem{14} %1
 
+\subproblem %a
 The diagram below illustrates the directed graph structure of the network.
 
 \begin{center}
@@ -77,14 +78,20 @@ The diagram below illustrates the directed graph structure of the network.
 \end{emp}
 \end{center}
 
-Parameterization:\\
- P(RD,SMOS,VRAS,MAI,NAI,VP) = 
-P(MAI)P(NAI)P(RD)P(VRAS | MAI, NAI)P(SMOS | RD)P(VP | VRAS, SMOS)\\
+The following describes a parameterization of the noise in the causal effects of the above dependencies.
 
-P(MAI)\\
-P(NAI)\\
-P(RD)\\
-For these three they are binary. They are not conditional on anything else, they are straight up probabilities.
+$P(RD,SMOS,VRAS,MAI,NAI,VP) = 
+P(MAI)P(NAI)P(RD)P(VRAS | MAI, NAI)P(SMOS | RD)P(VP | VRAS, SMOS)$\\
+
+Nodes $MAI$, $NAI$, and $RD$ are binary attributes which are not conditional on any other attributes. They are each associated with a probability vector.
+
+\begin{center}
+\begin{tabular}{ l |c r }
+   $MAI = 0$ & $MAI = 1$ \\
+   \hline
+  .5 & .5 \\
+\end{tabular}
+\end{center}
 
 P(VRAS | MAI, NAI)\\
 \begin{center}
