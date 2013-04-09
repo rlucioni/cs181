@@ -41,6 +41,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \problem{14} %1
 
+\subproblem %a
 The diagram below illustrates the directed graph structure of the network.
 
 \begin{center}
@@ -77,14 +78,20 @@ The diagram below illustrates the directed graph structure of the network.
 \end{emp}
 \end{center}
 
-Parameterization:\\
- P(RD,SMOS,VRAS,MAI,NAI,VP) = 
-P(MAI)P(NAI)P(RD)P(VRAS | MAI, NAI)P(SMOS | RD)P(VP | VRAS, SMOS)\\
+The following describes a parameterization of the noise in the causal effects of the above dependencies.
 
-P(MAI)\\
-P(NAI)\\
-P(RD)\\
-For these three they are binary. They are not conditional on anything else, they are straight up probabilities.
+$P(RD,SMOS,VRAS,MAI,NAI,VP) = 
+P(MAI)P(NAI)P(RD)P(VRAS | MAI, NAI)P(SMOS | RD)P(VP | VRAS, SMOS)$\\
+
+Nodes $MAI$, $NAI$, and $RD$ are binary attributes which are not conditional on any other attributes. They are each associated with a probability vector.
+
+\begin{center}
+\begin{tabular}{ l |c r }
+   $MAI = 0$ & $MAI = 1$ \\
+   \hline
+  .5 & .5 \\
+\end{tabular}
+\end{center}
 
 P(VRAS | MAI, NAI)\\
 \begin{center}
@@ -241,9 +248,10 @@ We are operating under the assumption that if one virus software reports the oth
 % (0.2*NormalDistribution[1, 25]) + (0.3*NormalDistribution[-2, 1])+(0.05*NormalDistribution[3, 4])
 \subproblem %a
 
-  \includegraphics[width=170mm]{mixture_o_gaussians.pdf}
+\includegraphics[width=170mm]{mixture_o_gaussians.pdf}
 
-
+\subproblem %b
+To generate data directly from the above distribution, we use the inversion method discussed in class. That is, we assume we have the CDF and inverse CDF of the distribution $f(x)$, then draw a point $u$ uniformly from the vertical axis. We input this point to the inverse of the CDF to get a corresponding value $u'$ on the horizontal axis. We use $u'$ as our sample.
 
 \end{empfile}
 
