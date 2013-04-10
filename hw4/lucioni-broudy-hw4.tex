@@ -78,90 +78,75 @@ The diagram below illustrates the directed graph structure of the network.
 \end{emp}
 \end{center}
 
-The following describes a parameterization of the noise in the causal effects of the above dependencies. WE NEED TO PROVIDE PRIOR PROBABILITY TABLES AS PART OF THE PARAMETRIZATION
+The following describes a parameterization of the noise in the causal effects of the above dependencies. To begin with, we have the following factorization of the directed graph:
 \begin{equation*}
 \resizebox{1\hsize}{!}{$P(RD,SMOS,VRAS,MAI,NAI,VP) = P(MAI)P(NAI)P(RD)P(VRAS | MAI, NAI)P(SMOS | RD)P(VP | VRAS, SMOS)$}
 \end{equation*}
 
-The nodes $MAI$, $NAI$, and $RD$ are binary attributes which are not conditional on any other attributes. They are each associated with a probability vector.
+$MAI$, $NAI$, and $RD$ are root nodes (i.e., nodes with no predecessors). As such, they are not conditional on any other attributes. Thus, we have the following three prior probability tables.
 \begin{center}
-\begin{tabular}{ l |c r }
+\begin{tabular}{ c |c }
    $MAI = 0$ & $MAI = 1$ \\
    \hline
-  .6 & .4 \\
+  0.6 & 0.4 \\
 \end{tabular}
 \end{center}
 
 \begin{center}
-\begin{tabular}{ l |c r }
+\begin{tabular}{ c |c }
    $NAI = 0$ & $NAI = 1$ \\
    \hline
-  .3 & .7 \\
+  0.3 & 0.7 \\
 \end{tabular}
 \end{center}
 
 \begin{center}
-\begin{tabular}{ l |c r }
+\begin{tabular}{ c |c }
    $RD = 0$ & $RD = 1$ \\
    \hline
-  .2 & .8 \\
+  0.2 & 0.8 \\
 \end{tabular}
 \end{center}
 
-$VRAS$ is conditional on $MAI$ and $NAI$ and is associated with the following conditional probability tables.
+The remaining nodes, $VRAS$, $SMOS$, and $VP$, are non-root nodes. Therefore, each is associated with a conditional probability table. $VRAS$ is conditional on $MAI$ and $NAI$, and is associated with the following conditional probability table.
 \begin{center}
-\begin{tabular}{ l |c r }
-   $VRAS = 0$ & $NAI = 0$ & $NAI = 1$ \\
+\begin{tabular}{ c |c c }
+   & $VRAS = 0$ & $VRAS = 1$ \\
    \hline
-  $MAI = 0$ & .5 & .2 \\
-  $MAI = 1$ & .2 & .1 \\
+  $MAI = 0, NAI = 0 $ & 1.0 & 0.0 \\
+  $MAI = 0, NAI = 1 $ & 0.5 & 0.5 \\
+  $MAI = 1, NAI = 0 $ & 0.4 & 0.6 \\
+  $MAI = 1, NAI = 1 $ & 0.2 & 0.8 \\
 \end{tabular}
 \end{center}
 
+$SMOS$ is conditional on $RD$, and is associated with the following conditional probability table.
 \begin{center}
-\begin{tabular}{ l |c r }
-   $VRAS = 1$ & $NAI = 0$ & $NAI = 1$ \\
+\begin{tabular}{ c |c c }
+   & $SMOS = 0$ & $SMOS = 1$ \\
    \hline
-  $MAI = 0$ & .1 & .2 \\
-  $MAI = 1$ & .2 & .5 \\
+  $RD = 0$ & 0.8 & 0.2 \\
+  $RD = 1$ & 0.5 & 0.5 \\
 \end{tabular}
 \end{center}
 
-$SMOS$ is conditional on $RD$ and is associated with the following conditional probability table.
+$VP$ is conditional on $VRAS$ and $SMOS$, and is associated with the following conditional probability table.
 \begin{center}
-\begin{tabular}{ l |c r }
-   & $RD = 0$ & $RD = 1$ \\
+\begin{tabular}{ c |c c }
+   & $VP = 0$ & $VP = 1$ \\
    \hline
-  $SMOS = 0$ & .8 & .2 \\
-  $SMOS = 1$ & .1 & .9 \\
-\end{tabular}
-\end{center}
-
-$VP$ is conditional on $VRAS$ and $SMOS$ and is associated with the following conditional probability tables.
-\begin{center}
-\begin{tabular}{ l |c r }
-   $VP = 0$ & $SMOS = 0$ & $SMOS = 1$ \\
-   \hline
-  $VRAS = 0$ & .7 & .1 \\
-  $VRAS = 1$ & .1 & .1 \\
-\end{tabular}
-\end{center}
-
-\begin{center}
-\begin{tabular}{ l |c r }
-   $VP = 1$ & $SMOS = 0$ & $SMOS = 1$ \\
-   \hline
-  $VRAS = 0$ & .1 & .1 \\
-  $VRAS = 1$ & .1 & .7 \\
+  $VRAS = 0, SMOS = 0 $ & 0.98 & 0.02 \\
+  $VRAS = 0, SMOS = 1 $ & 0.3 & 0.7 \\
+  $VRAS = 1, SMOS = 0 $ & 0.45 & 0.55 \\
+  $VRAS = 1, SMOS = 1 $ & 0.001 & 0.999 \\
 \end{tabular}
 \end{center}
 
 \subproblem %b
-We made the assumption that $VRAS$ and $SMOS$ are independent; this assumption is expressed in the graph structure. It would be plausible for us to not make this assumption, meaning we would have added an edge from $SMOS$ to $VRAS$ to our network. Including this edge is reasonable because if you have silly messages on your screen you probably have V-Rases all over the place.  
- 
- Another adjustment we could make is to collapse the MAI node and the NAI node because it doesn't really matter if you have more than one virus software, its more important if it you just have Virus software present. 
+We made the assumption that $VRAS$ and $SMOS$ are independent. This assumption is expressed in the graph structure above. We made this decision because silly messages on the screen do not necessarily have any bearing on whether your antivirus software reports that a virus is present on your computer, and vice-versa. That is, $SMOS$ and $VRAS$ are not necessarily related. It would be plausible for us to \emph{not} make this assumption, meaning we would have added an edge from $SMOS$ to $VRAS$ to our network. Including this new edge would be reasonable because if you have silly messages on your screen, you might also expect your antivirus to report that there is a virus present on your computer, whether or not one is actually present notwithstanding.
 
 \subproblem %c
+The diagram below illustrates the directed graph structure of the network with the new variables $VRM$ and $VRN$ included.
 
 \begin{center}
 \begin{emp}(0,0)
@@ -201,47 +186,40 @@ We made the assumption that $VRAS$ and $SMOS$ are independent; this assumption i
 \end{emp}
 \end{center}
 
-P(VRM | MAI\\
+$VRM$ is conditional on $MAI$, and is associated with the following conditional probability table.
 \begin{center}
-\begin{tabular}{ l |c r }
-   & VRM = 0 & VRM = 1 \\
+\begin{tabular}{ c |c c }
+   & $VRM = 0$ & $VRM = 1$ \\
    \hline
-  MAI = 0 & .1 & .1 \\
-  MAI = 1 & 1 & .7 \\
+  $MAI = 0$ & 1.0 & 0.0 \\
+  $MAI = 1$ & 0.4 & 0.6 \\
 \end{tabular}
 \end{center}
 
-
-P(VRN | NAI\\
+$VRN$ is conditional on $NAI$, and is associated with the following conditional probability table.
 \begin{center}
-\begin{tabular}{ l |c r }
-   & VRN = 0 & VRN = 1 \\
+\begin{tabular}{ c |c c }
+   & $VRN = 0$ & $VRN = 1$ \\
    \hline
-  NAI = 0 & .1 & .1 \\
-  NAI = 1 & 1 & .7 \\
+  $NAI = 0$ & 1.0 & 0.0 \\
+  $NAI = 1$ & 0.5 & 0.5 \\
 \end{tabular}
 \end{center}
 
-
-P(VRAS | VRM, VRM)\\
+$VRAS$ is now conditional on $VRM$ and $VRN$, and is associated with the following conditional probability table.
 \begin{center}
-\begin{tabular}{ l |c r }
-   VRAS = 0 & VRN = 0& VRN = 1 \\
+\begin{tabular}{ c |c c }
+   & $VRAS = 0$ & $VRAS = 1$ \\
    \hline
-  VRM = 0 & .5 & .2 \\
-  VRM = 1 & .2 & .1 \\
+  $VRM = 0, VRN = 0 $ & 1.0 & 0.0 \\
+  $VRM = 0, VRN = 1 $ & 0.0 & 1.0 \\
+  $VRM = 1, VRN = 0 $ & 0.0 & 1.0 \\
+  $VRM = 1, VRN = 1 $ & 0.0 & 1.0 \\
 \end{tabular}
 \end{center}
 
-\begin{center}
-\begin{tabular}{ l |c r }
-   VRAS = 1 & VRN = 0 & VRN = 1 \\
-   \hline
-  VRM = 0 & .1 & .2 \\
-  VRM = 1 & .2 & .5 \\
-\end{tabular}
-\end{center}
-We are operating under the assumption that if one virus software reports the other is very likely to have reported as well.
+\subproblem %d
+Including nodes $VRM$ and $VRN$ helps the modeling process by making the inference more accurate? 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \problem{24} %2
