@@ -51,4 +51,4 @@ plt.plot(x,func_upper)
 
 plt.show
 #savefig('mixture-o-gaussians.pdf')
-savefig('mixture-w-envelope.pdf')
+#savefig('mixture-w-envelope.pdf')

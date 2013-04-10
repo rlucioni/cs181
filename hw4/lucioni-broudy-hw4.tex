@@ -113,7 +113,7 @@ The remaining nodes, $VRAS$, $SMOS$, and $VP$, are non-root nodes. Therefore, ea
 \begin{tabular}{ c |c c }
    & $VRAS = 0$ & $VRAS = 1$ \\
    \hline
-  $MAI = 0, NAI = 0 $ & 1.0 & 0.0 \\
+  $MAI = 0, NAI = 0 $ & 0.98 & 0.02 \\
   $MAI = 0, NAI = 1 $ & 0.5 & 0.5 \\
   $MAI = 1, NAI = 0 $ & 0.4 & 0.6 \\
   $MAI = 1, NAI = 1 $ & 0.2 & 0.8 \\
@@ -144,6 +144,8 @@ $VP$ is conditional on $VRAS$ and $SMOS$, and is associated with the following c
 
 \subproblem %b
 We made the assumption that $VRAS$ and $SMOS$ are independent. This assumption is expressed in the graph structure above. We made this decision because silly messages on the screen do not necessarily have any bearing on whether your antivirus software reports that a virus is present on your computer, and vice-versa. That is, $SMOS$ and $VRAS$ are not necessarily related. It would be plausible for us to \emph{not} make this assumption, meaning we would have added an edge from $SMOS$ to $VRAS$ to our network. Including this new edge would be reasonable because if you have silly messages on your screen, you might also expect your antivirus to report that there is a virus present on your computer, whether or not one is actually present notwithstanding.
+
+\pagebreak
 
 \subproblem %c
 The diagram below illustrates the directed graph structure of the network with the new variables $VRM$ and $VRN$ included.
@@ -186,12 +188,12 @@ The diagram below illustrates the directed graph structure of the network with t
 \end{emp}
 \end{center}
 
-$VRM$ is conditional on $MAI$, and is associated with the following conditional probability table.
+Now we give new conditional probability tables for $VRM$, $VRN$, and $VRAS$, whose parents are different from (A). Note that these tables capture the noise present in the network. $VRM$ is conditional on $MAI$, and is associated with the following conditional probability table.
 \begin{center}
 \begin{tabular}{ c |c c }
    & $VRM = 0$ & $VRM = 1$ \\
    \hline
-  $MAI = 0$ & 1.0 & 0.0 \\
+  $MAI = 0$ & 0.99 & 0.01 \\
   $MAI = 1$ & 0.4 & 0.6 \\
 \end{tabular}
 \end{center}
@@ -201,7 +203,7 @@ $VRN$ is conditional on $NAI$, and is associated with the following conditional 
 \begin{tabular}{ c |c c }
    & $VRN = 0$ & $VRN = 1$ \\
    \hline
-  $NAI = 0$ & 1.0 & 0.0 \\
+  $NAI = 0$ & 0.95 & 0.05 \\
   $NAI = 1$ & 0.5 & 0.5 \\
 \end{tabular}
 \end{center}
@@ -211,51 +213,58 @@ $VRAS$ is now conditional on $VRM$ and $VRN$, and is associated with the followi
 \begin{tabular}{ c |c c }
    & $VRAS = 0$ & $VRAS = 1$ \\
    \hline
-  $VRM = 0, VRN = 0 $ & 1.0 & 0.0 \\
-  $VRM = 0, VRN = 1 $ & 0.0 & 1.0 \\
-  $VRM = 1, VRN = 0 $ & 0.0 & 1.0 \\
-  $VRM = 1, VRN = 1 $ & 0.0 & 1.0 \\
+  $VRM = 0, VRN = 0 $ & 0.99 & 0.01 \\
+  $VRM = 0, VRN = 1 $ & 0.1 & 0.9 \\
+  $VRM = 1, VRN = 0 $ & 0.15 & 0.85 \\
+  $VRM = 1, VRN = 1 $ & 0.03 & 0.97 \\
 \end{tabular}
 \end{center}
 
 \subproblem %d
-Including nodes $VRM$ and $VRN$ helps the modeling process by making the inference more accurate? 
+One could argue that including $VRM$ and $VRN$ helps the modeling process by bringing the model closer to the ``truth." However, one can also argue that adding $VRM$ and $VRN$ hinders the modeling process by making the model more complex, potentially making the model less accurate and requiring more computation time. The goal in specifying a Bayesian network structure is to build the simplest structure with which to accurately describe the system under consideration. As we have presented it, including $VRM$ and $VRN$ helps the modeling process because doing so reduces the noise in the conditional probability table associated with $VRAS$.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \problem{24} %2
 \subproblem 
-- For graph (a) there are no variables that are Independent of A given the knowledge of B. There is a head-tail or a tail-tail connection to all other nodes (or a path that is a D-separation of these) and none of the middle nodes in these tail-tail or head-tail's are known so they do not blocking. Knowledge of B does block the dependence of A on D through B but A is still not independent of D through a different path. Therefore none of the nodes are independent of A given knowledge of B.\\
+For graph (a), there are no variables that are independent of $A$, given the knowledge of $B$. There is a head-tail or a tail-tail connection to all other nodes (or a path that is a D-separation of these) and none of the middle nodes in these tail-tail or head-tail connections are known, so they do not block. Knowledge of $B$ does block the dependence of $A$ on $D$ through $B$, but $A$ is still dependent on $D$ through a different path. Therefore, none of the nodes are independent of $A$, given knowledge of $B$.\\
 %see Reading http://research.microsoft.com/en-us/um/people/cmbishop/prml/Bishop-PRML-sample.pdf 
 %page 378.
 
-- For graph (b) only F and C are independent of A given J. In this case we would think the path through G would be blocked because G is is a head to head node. With the knowledge of J, G does not block the path between A and D because J is a decedent node of G, this creates an induced dependence between A and D. This is not the case between D and E, H does not create induced dependence because it is unknown and none of its descendants are known, that being said the existence of B, an unknown tail tail connection means there is a dependence between D and E. Now finally between E and F we get independence because I is a head-head node and none of its descendants are known. This leaves us with the conclusion that F and C are the only two nodes that are independent of A when J is known. Knowledge of J induces a lot more dependence in this directed graph.
+For graph (b), only $F$ and $C$ are independent of $A$, given knowledge of $J$. In this case, we would think the path through $G$ would be blocked because $G$ is a head-to-head node. With knowledge of $J$, $G$ does not block the path between $A$ and $D$ because $J$ is a decedent node of $G$, this creates an induced dependence between $A$ and $D$. This is not the case between $D$ and $E$. $H$ does not create an induced dependence because it is unknown, and none of its descendants are known. That being said, the existence of $B$, an unknown tail-tail connection, means there is a dependence between $D$ and $E$. Finally, we get independence between $E$ and $F$ because $I$ is a head-head node and none of its descendants are known. Thus we conclude that $F$ and $C$ are the only two nodes that are independent of $A$, given knowledge of $J$. Knowledge of $J$ induces a lot more dependence in this directed graph.
 
-\subproblem \\%b
-%P(A,B,C,D,E,F,G,H,I) = P(G)P(H)P(I|G,H)P(D|G)P(E|G)(P(F|H)P(C|E,F)P(B|D)P(A|B,C)\\
-%TODO: make smaller
+\subproblem %b
+For graph (a), we have:
 \begin{equation*}
 \resizebox{1\hsize}{!}{$P(A,B,C,D,E,F,G,H,I) = \frac{1}{Z}\Psi_1(G)\Psi_2(H)\Psi_3(I,G,H)\Psi_4(D,G)\Psi_5(E,G)\Psi_6(F,H)\Psi_7(C,E,F)\Psi_8(B,D)\Psi_9(A,B,C)$}
 \end{equation*}
-%P(A,B,C,D,E,F,G,H,I) = P(A)P(B)P(C)P(D|B)P(E|B)P(F|C)P(G|A,D)P(H|D,E)P(I|E,F)P(J|G)\\
-%TODO: make smaller
+
+For graph (b), we have:
 \begin{equation*}
 \resizebox{1\hsize}{!}{$P(A,B,C,D,E,F,G,H,I) = \frac{1}{Z}\Psi_1(A)\Psi_2(B)\Psi_3(C)\Psi_4(D,B)\Psi_5(E,B)\Psi_6(F,C)\Psi_7(G,A,D)\Psi_8(H,D,E)\Psi_9(I,E,F)\Psi_{10}(J,G)$}
 \end{equation*}
+
+\pagebreak
+
 \subproblem %c
+Using the factorization from part (B) gives us the following factor graph representation of (a).
 \begin{center}
 \includegraphics[width=100mm]{factor_graph_a.png}
 \end{center}
 
+Using the factorization from part (B) gives us the following factor graph representation of (b).
 \begin{center}
 \includegraphics[width=100mm]{factor_graph_b.png}
 \end{center}
 
-\subproblem %d
+\pagebreak
 
+\subproblem %d
+Using the factorization from part (B) gives us the following undirected graphical model representation of (a).
 \begin{center}
 \includegraphics[width=100mm]{undirected_graph_a.png}
 \end{center}
 
+Using the factorization from part (B) gives us the following undirected graphical model representation of (b).
 \begin{center}
 \includegraphics[width=100mm]{undirected_graph_b.png}
 \end{center}
@@ -270,11 +279,15 @@ Below is the requested plot of the given density function.
 \includegraphics[scale=0.8]{mixture-o-gaussians.pdf}
 \end{center}
 
+\pagebreak
+
 \subproblem %b
 In this problem, we are given three Gaussian densities: $\mathcal{N}(1,25)$, $\mathcal{N}(-2,1)$, and $\mathcal{N}(3,4)$. We are interested in sampling directly from the given mixture of these three Gaussian densities. To generate data directly from the distribution, we use {\tt random.gauss(mu, sigma)}, Python's built-in function for sampling from a Gaussian distribution, and a biased ``three-sided coin." That is, we randomly generate a number between 1 and 10, inclusive. If the number is 1 or 2, we sample from the first Gaussian. If the number is 3, 4, or 5, we sample from the second Gaussian. If the number is 6, 7, 8, 9, or 10, we sample from the third Gaussian distribution. The effect is sampling from the first Gaussian with probability 0.2, from the second Gaussian with probability 0.3, and from the third Gaussian with probability 0.5. Below is a histogram of 500 samples drawn in this way:
 \begin{center}
 \includegraphics[scale=0.8]{direct-sample-histogram.pdf}
 \end{center}
+
+\pagebreak
 
 \subproblem %c
 In this problem, we pretend we do not know how to perform the ``direct" sampling in (B), and implement a rejection sampler for the given density. We use the upper bounding function $\mathcal{N}(0,24)$ with $c=2$. Below is the requested plot of our upper bounding function against the given density function.
@@ -282,12 +295,12 @@ In this problem, we pretend we do not know how to perform the ``direct" sampling
 \includegraphics[scale=0.8]{mixture-w-envelope.pdf}
 \end{center}
 
-Below is a histogram of 500 samples drawn using our rejection sampler:
+Below is a histogram of 500 samples drawn using our rejection sampler. We got 495 rejections before we got 500 acceptances, constituting a rejection rate of 0.99.
 \begin{center}
 \includegraphics[scale=0.8]{rejection-sample-histogram.pdf}
 \end{center}
 
-We got 495 rejections before we got 500 acceptances, constituting a rejection rate of 0.99.
+\pagebreak
 
 \subproblem %d
 In this problem we implement the Metropolis-Hastings algorithm using a simple Gaussian proposal. To begin with, we used a proposal function with a variance of 5. This resulted in an acceptance rate of $0.57$. We then tried using a variance of 15 and found that the histogram became noticeably worse, showing many spikes. The acceptance rate dropped to $0.23$. Next, we tried a small variance of 1. This resulted in a high acceptance rate of $0.87$. The resulting histogram was much smoother than the one with a variance of 15, but was so smooth that it failed to capture the peaks and troughs of the mixture distribution. Finally, we tried a variance of 3, resulting in an acceptance rate of $0.70$, and a relatively smooth histogram which captured the peaks and troughs of the mixture distribution. This histogram is included below. We also experimented with using a burn-in period of 500 samples, but realized that since we already know what our target distribution looks like, the burn-in period is not useful. 
