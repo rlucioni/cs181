@@ -18,7 +18,7 @@ EPOCH_SIZE = 10
 # list of all possible states.
 def get_states():
   # should return a **list** of states. Each state should be an integer.
-  states = range(302)
+  states = range(throw.START_SCORE+1)
   return states
 
 # Returns a list of all possible actions, or targets, which include both a
