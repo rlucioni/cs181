@@ -18,7 +18,8 @@ EPOCH_SIZE = 10
 # list of all possible states.
 def get_states():
   # should return a **list** of states. Each state should be an integer.
-  return []
+  states = range(302)
+  return states
 
 # Returns a list of all possible actions, or targets, which include both a
 # wedge number and a ring.
