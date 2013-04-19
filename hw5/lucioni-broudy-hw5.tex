@@ -2,6 +2,9 @@
 
 \usepackage{tikz-qtree}
 \usepackage{graphicx}
+\usepackage{amsmath}
+
+\DeclareMathOperator*{\argmax}{\arg\!\max}
 
 %% Please fill in your name and collaboration statement here.
 %\newcommand{\studentName}{Renzo Lucioni and Daniel Broudy}
@@ -14,6 +17,18 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \problem{10} %1
 
+\subproblem{}
+In this problem, our team decides to use a decision theoretic (i.e., greedy) strategy to decide where the dart thrower should aim. We have access to a probability distribution $P$ over the $N$ possible results of a dart throw, given a target $a \in A$, where $A$ is a finite set of targets. We also have access to a utility function $U$ which specifies the value to us of a dart throw result given our current score, which we denote with the random variable $S = s$. For clarity, note that a dart throw result is a certain number of points, and the utility is the \emph{value to us} of that dart throw result. We represent the result of a dart throw aimed at target $a$ with the random variable $R(a) = r_n(a)$, for all $n \in N$. The following equation returns $a^*$, the optimal action given the current score $s$, by adhering to the maximum expected utility (MEU) principle and choosing the action which maximizes the expected utility.
+
+\begin{eqnarray*}
+a^* &=& \argmax_{a \in A} \mathbb{E}\left[U(R(a),S)\right] \\
+&=& \argmax_{a \in A} \sum_{n=1}^N P(r_n(a) | a) U(r_n(a),s)
+\end{eqnarray*}
+
+\subproblem{}
+Since the proposed utility function dictates a greedy approach, always preferring larger score reductions to smaller ones, we think the proposed utility function is useful only in a setting where long-term planning is not required. The game of ``301" requires greedy, short-term planning in the early game, where it is best to rack up points quickly, as well as long-term planning in the mid to late game, where it is best to recalculate your ``out" number sequences after each throw in an effort to end the game (i.e., get to 0) as quickly as possible. Note that the latter rarely involves consistently shooting for the largest point values, but instead shooting for a series of smaller numbers which sum to the current score.
+
+A dart player designed using the greedy proposal will only consider the reward for the next, most immediate throw. With the above in mind, we would expect this dart player to make good decisions in the early game, preferring the largest point values it can achieve in an effort to ``get in" (i.e., lower the score) quickly. However, we would expect this dart player to make poor decisions in the mid to late game, since it would be unable to sacrifice short-term gain (i.e., choosing smaller point values) for long-term benefit (i.e., winning the game), continuing to select the largest valued throws possible instead of attempting to string together a series of lesser valued but smarter throws.
 
 
 \problem{28} %2
@@ -30,9 +45,3 @@
 
 
 \end{document}
-
-
-
-
-
-
