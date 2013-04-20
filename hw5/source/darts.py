@@ -11,6 +11,7 @@ import modelbased
 import modelfree
 
 GAMMA = .5
+#GAMMA = 0
 EPOCH_SIZE = 10
 
 

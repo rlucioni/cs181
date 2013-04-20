@@ -7,14 +7,14 @@ from random import *
 # with the rightmost edge (angle 0).
 
 ### The standard dartboard #
-##NUM_WEDGES = 20
-##wedges = [6, 13, 4, 18, 1, 20, 5, 12, 9, 14, 11, 8, 16, 7, 19, 3, 17, 2, 15, 10]
-##START_SCORE = 301
+#NUM_WEDGES = 20
+#wedges = [6, 13, 4, 18, 1, 20, 5, 12, 9, 14, 11, 8, 16, 7, 19, 3, 17, 2, 15, 10]
+#START_SCORE = 301
 
 # A medium-size dartboard #
-##NUM_WEDGES = 8
-##wedges = [ 4, 6, 2, 7, 1, 8, 3, 5 ]
-##START_SCORE = 100
+#NUM_WEDGES = 8
+#wedges = [ 4, 6, 2, 7, 1, 8, 3, 5 ]
+#START_SCORE = 100
 
 # A much smaller dartboard #
 NUM_WEDGES = 4

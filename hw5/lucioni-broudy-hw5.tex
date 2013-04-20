@@ -46,11 +46,10 @@ Our reward function awards 0 reward to dart throw results (i.e., number of point
 We choose to use an infinite rather than finite horizon when finding an optimal policy in the darts scenario because we know that the dart throwing agent will die at some point (i.e., win the game), but we do not have an upper bound on how long it will take for it to end the game and die. In this case, it is possible, albeit extremely unlikely, for the agent to go on living forever, with the game never ending. As such, the agent's total reward might be unbounded, so the problem of maximizing the total reward in a finite number of steps is ill-posed.
 
 \subproblem{} %e
-
+After uncommenting print statements which listed the optimal target given the current state for all states, it appears that the intuition behind the optimal policy resulting from value iteration using the small game is to go for the largest possible point value given the current score in the safest manner possible. That is, in each state (i.e., score) the agent chooses a point value which will get it as close as possible to ending the game. If there are multiple ways to achieve this point value, it seems that the agent chooses the method which will still allow it to make a dent in the score if it misses, as opposed to risking point value higher than the score, in which case the score does not decrease.
 
 \subproblem{} %f
-
-
+As the discount factor $\gamma$ approaches 1, the agent's optimal policy becomes less intent on winning the game immediately, trying for point values which are not necessarily the largest possible, given the score. When $\gamma \geq 1$, the agent attempts to live forever by always aiming for a miss, since this allows it to accumulate substantial reward indefinitely. When $\gamma$ approaches 0, the agent's optimal policy attempts to end the game as quickly as possible by trying for the largest point values possible, given the score. It seems that the range $0 \leq \gamma \leq 0.5$ is the sweet spot for creating this strictly greedy behavior. Common across all optimal policies are an apparent preference for the outer ring of the board, as well as the fact that the game eventually ends.
 
 \problem{25} %3
 

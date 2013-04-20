@@ -23,8 +23,8 @@ EPSILON = .001
 def start_game(gamma):
 
   infiniteValueIteration(gamma)
-  #for ele in PI:
-    #print "score: ", ele, "; ring: ", PI[ele].ring, "; wedge: ", PI[ele].wedge
+  for ele in PI:
+    print "score: ", ele, "; ring: ", PI[ele].ring, "; wedge: ", PI[ele].wedge
   
   return PI[throw.START_SCORE]
 
