@@ -26,7 +26,7 @@ angles = []
 
 
 # A location on a dartboard consists of the wedge number, and a ring.
-# Wedges are numbered from 1 to 20. Rings are as follows.
+# Wedges are numbered from 1 to 20 IN THE STANDARD CASE ONLY. Rings are as ALWAYS follows.
 CENTER, INNER_RING, FIRST_PATCH, MIDDLE_RING, SECOND_PATCH, OUTER_RING, MISS = \
         range(7)
     

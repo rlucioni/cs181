@@ -41,7 +41,11 @@ def get_actions():
 def R(s,a):
   # takes a state s and action a
   # returns the reward for completing action a in state s
-  return 0
+  points = throw.location_to_score(a)
+  if points > s: 
+    return 0
+  else:
+    return points
 
 
 # Play a single game 
@@ -104,8 +108,8 @@ def main():
 #*************************************************
 
 # Default is to solve MDP and play 1 game
-    #throw.use_simple_thrower()
-    #test(1, "mdp")    
+    throw.use_simple_thrower()
+    test(1, "mdp")    
 
 #*************************************************#
 # Uncomment the lines below to run the modelbased #

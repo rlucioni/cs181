@@ -32,15 +32,42 @@ def get_target(score):
 
   return PI[score]
 
-# define transition matrix/ function
+# define transition matrix/function
 def T(a, s, s_prime):
   # takes an action a, current state s, and next state s_prime
   # returns the probability of transitioning to s_prime when taking action a in state s
-  return 0
+
+  p_transition = 0.0
+  probabilities = [0.4, 0.2, 0.2, 0.1, 0.1]
+
+  # trick to allow wrap around
+  wedge_list = throw.wedges*3
+
+  # calculate all 5 wedges you could end up in when aiming for a.wedge
+  wedge_index = len(throw.wedges) + throw.wedges.index(a.wedge)
+  candidate_wedges = [wedge_list[wedge_index], wedge_list[wedge_index+1], wedge_list[wedge_index-1], wedge_list[wedge_index+2], wedge_list[wedge_index-2]]
+
+  # calulate all 5 regions/rings (some may be the same) you could end up in when aiming for a.ring, with prob array
+  if a.ring == throw.CENTER:
+    candidate_rings = [a.ring, throw.INNER_RING, throw.INNER_RING, throw.FIRST_PATCH, throw.FIRST_PATCH]
+  elif a.ring == throw.INNER_RING:
+    candidate_rings = [a.ring, throw.FIRST_PATCH, throw.CENTER, throw.MIDDLE_RING, throw.INNER_RING]
+  else:
+    candidate_rings = [a.ring, a.ring+1, a.ring-1, a.ring+2, a.ring-2]
+
+  # for each (ring, wedge) pair, calculate point value, and check if it gets you from s to s_prime
+  for w in range(len(candidate_wedges)):
+    for r in range(len(candidate_rings)):
+      # instantiation of location class
+      real_location = throw.location(candidate_rings[r],candidate_wedges[w])
+      if s - throw.location_to_score(real_location) == s_prime:
+        p_transition += probabilities[r]*probabilities[w]
+
+  return p_transition
 
 
 def infiniteValueIteration(gamma):
-  # takes a discount factor gamma and convergence cutoff epislon
+  # takes a discount factor gamma and convergence cutoff epsilon
   # returns
 
   V = {}

@@ -18,12 +18,12 @@
 \problem{10} %1
 
 \subproblem{} %a
-In this problem, our team decides to use a decision theoretic (i.e., greedy) strategy to decide where the dart thrower should aim. We have access to a probability distribution $P$ over the $N$ possible results of a dart throw, given a target $a \in A$, where $A$ is a finite set of targets. We also have access to a utility function $U$ which specifies the value to us of a dart throw result given our current score, which we denote with the random variable $S = s$. For clarity, note that a dart throw result is a certain number of points, and the utility is the \emph{value to us} of that dart throw result. We represent the result of a dart throw aimed at target $a$ with the random variable $R(a) = r_n(a)$, for all $n \in N$. The following equation returns $a^*$, the optimal action given the current score $s$, by adhering to the maximum expected utility (MEU) principle and choosing the action which maximizes the expected utility.
+In this problem, our team decides to use a decision theoretic (i.e., greedy) strategy to decide where the dart thrower should aim. We have access to a probability distribution $P$ over the $N$ possible results of a dart throw, given a target $a \in A$, where $A$ is a finite set of targets. We also have access to a utility function $U$ which specifies the value to us of a dart throw result given our current score, which we denote with the random variable $S = s$. For clarity, note that a dart throw result is a certain number of points, and the utility is the \emph{value to us} of that dart throw result. We represent the result of a dart throw aimed at target $a$ with the random variable $R(a) = r_n(a)$, for all $n \in N$. The following equations determine $a^*$, the optimal action given the current score $s$, by adhering to the maximum expected utility (MEU) principle and choosing the action which maximizes the expected utility.
 
-\begin{eqnarray*}
-a^* &=& \argmax_{a \in A} \mathbb{E}\left[U(R(a),S)\right] \\
-&=& \argmax_{a \in A} \sum_{n=1}^N P(r_n(a) | a) U(r_n(a),s)
-\end{eqnarray*}
+\begin{eqnarray}
+\mathbb{E}\left[U(R(a),S)\right] = \sum_{n=1}^N P(r_n(a) | a) U(r_n(a),s) \\
+a^* = \argmax_{a \in A} \mathbb{E}\left[U(R(a),S)\right] = \argmax_{a \in A} \sum_{n=1}^N P(r_n(a) | a) U(r_n(a),s)
+\end{eqnarray}
 
 \subproblem{} %b
 Since the proposed utility function dictates a greedy approach, always preferring larger score reductions to smaller ones, we think the proposed utility function is useful only in a setting where long-term planning is not required. The game of ``301" requires greedy, short-term planning in the early game, where it is best to rack up points quickly, as well as long-term planning in the mid to late game, where it is best to recalculate your ``out" number sequences after each throw in an effort to end the game (i.e., get to 0) as quickly as possible. Note that the latter rarely involves consistently shooting for the largest point values, but instead shooting for a series of smaller numbers which sum to the current score.
@@ -37,13 +37,13 @@ A dart player designed using the greedy proposal will only consider the reward f
 The \textsc{START\_SCORE}+1 possible game scores in the range [0,\textsc{START\_SCORE}] constitute the states of our MDP model. Meanwhile, each possible (throw at a) \emph{target} on the dartboard constitutes an action in our MDP model.
 
 \subproblem{} %b
-
+Our reward function awards 0 reward to dart throw results (i.e., number of points) over the current score. Dart throw results under the current score are awarded reward equal to their point value. The discount factor, $\gamma$, plays no role in defining our reward function.
 
 \subproblem{} %c
-
+(See {\tt mdp.py} for the completed transition function.)
 
 \subproblem{} %d
-
+We choose to use an infinite rather than finite horizon when finding an optimal policy in the darts scenario because we know that the dart throwing agent will die at some point (i.e., win the game), but we do not have an upper bound on how long it will take for it to end the game and die. In this case, it is possible, albeit extremely unlikely, for the agent to go on living forever, with the game never ending. As such, the agent's total reward might be unbounded, so the problem of maximizing the total reward in a finite number of steps is ill-posed.
 
 \subproblem{} %e
 
