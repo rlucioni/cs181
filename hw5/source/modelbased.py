@@ -22,11 +22,22 @@ def get_target(score):
 
 # Define your first exploration/exploitation strategy here. Return 0 to exploit and 1 to explore. 
 # You may want to pass arguments from the modelbased function. 
-def ex_strategy_one():
-  return 0
+
+# Epsilon-Greedy
+def ex_strategy_one(time):
+  epsilon = 0.5
+  # decay epsilon over time
+  if random.random() < epsilon/time:
+    return 1
+  else:
+    return 0
 
 # Define your first exploration/exploitation strategy here. Return 0 to exploit and 1 to explore. 
 # You may want to pass arguments from the modelbased function.
+
+# Boltzmann action selection
+# problem - if Boltzmann doesn't want us to use the current a, it returns another a (not just a 1 to explore and try a random a);
+# however, the code does not allow for this as it is
 def ex_strategy_two():
   return 1
 
@@ -77,7 +88,7 @@ def modelbased(gamma, epoch_size, num_games):
             # The following two statements implement two exploration-exploitation
             # strategies. Comment out the strategy that you wish not to use.
 			
-    	    #to_explore = ex_strategy_one()
+    	    #to_explore = ex_strategy_one(num_iterations)
     	    to_explore = ex_strategy_two()
     		
             if to_explore:
