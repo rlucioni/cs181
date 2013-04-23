@@ -12,7 +12,7 @@ import modelfree
 
 GAMMA = .5
 #GAMMA = 0
-EPOCH_SIZE = 10
+#EPOCH_SIZE = 10
 
 
 # <CODE HERE>: Complete this function, which should return a
@@ -98,9 +98,11 @@ def test(n, method):
     return score
 
 # <CODE HERE>: Feel free to modify the main function to set up your experiments.
-def main():
+def main(epoch_sz):
     throw.init_board()
-    num_games = 1000
+    #num_games = 1000
+    num_games = 15
+
 
 #************************************************#
 # Uncomment the lines below to run the mdp code, #
@@ -109,8 +111,8 @@ def main():
 #*************************************************
 
 # Default is to solve MDP and play 1 game
-    throw.use_simple_thrower()
-    test(1, "mdp")    
+    #throw.use_simple_thrower()
+    #test(1, "mdp")    
 
 #*************************************************#
 # Uncomment the lines below to run the modelbased #
@@ -123,9 +125,10 @@ def main():
 # multiple calls to main().
 # Then, initialize the throwing model and run
 # the modelbased algorithm.
-    #random.seed()
-    #throw.init_thrower()
+    random.seed()
+    throw.init_thrower()
     #modelbased.modelbased(GAMMA, EPOCH_SIZE, num_games)
+    modelbased.modelbased(GAMMA, epoch_sz, num_games)
 
 #*************************************************#
 # Uncomment the lines below to run the modelfree  #
@@ -140,7 +143,12 @@ def main():
 
 
 if __name__ =="__main__":
-    main()
+    #main()
+    print "BINARY E-E w/ cutoff"
+    #print "EPSILON-GREEDY"
+    for x in range(1,16):
+        print "EPOCH SIZE: {}".format(x)
+        main(x)
 
 
 

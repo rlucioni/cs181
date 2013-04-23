@@ -105,6 +105,7 @@ def infiniteValueIteration(gamma):
 
       # given current state, store the action that maximizes V in pi and the corresponding value in V
       PI[s] = actions[0]
+      V[s] = Q[s][PI[s]]
       for a in actions:
         if V[s] <= Q[s][a]:
           V[s] = Q[s][a]
