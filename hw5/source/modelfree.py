@@ -2,6 +2,9 @@ from random import *
 import throw
 import darts
  
+EXPLORE_TURNS = 5
+EPSILON = 0.5
+
 # The default player aims for the maximum score, unless the
 # current score is less than the number of wedges, in which
 # case it aims for the exact score it needs. 
@@ -20,15 +23,22 @@ def get_target(score):
   
   return(throw.location(throw.INNER_RING, throw.NUM_WEDGES))
 
+# Exploration/exploitation strategies below. Return 0 to exploit and 1 to explore (randomly). 
 
-# Exploration/exploitation strategy one.
-def ex_strategy_one():
-  return 0
+# Time-T Mode Switching
+def ex_strategy_one(time):
+  if time < EXPLORE_TURNS:
+    return 1
+  else:
+    return 0
 
-
-# Exploration/exploitation strategy two.
-def ex_strategy_two():
-  return 1
+# Epsilon-Greedy
+def ex_strategy_two(time):
+  # decay epsilon over time
+  if random.random() < EPSILON/time:
+    return 1
+  else:
+    return 0
 
 
 # The Q-learning algorithm:

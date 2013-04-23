@@ -3,6 +3,7 @@ import throw
 import darts
 
 EPSILON_VI = .001
+EPSILON = 0.5
 EXPLORE_TURNS = 5
 
 # NOTE: We did not implement the interface methods start_game and get_target.
@@ -24,7 +25,7 @@ def get_target(score):
 # Define your first exploration/exploitation strategy here. Return 0 to exploit and 1 to explore. 
 # You may want to pass arguments from the modelbased function. 
 
-# Binary Exploration-Exploitation with Cutoff
+# Time-T Mode Switching
 def ex_strategy_one(time):
   if time < EXPLORE_TURNS:
     return 1
@@ -36,9 +37,8 @@ def ex_strategy_one(time):
 
 # Epsilon-Greedy
 def ex_strategy_two(time):
-  epsilon = 0.5
   # decay epsilon over time
-  if random.random() < epsilon/time:
+  if random.random() < EPSILON/time:
     return 1
   else:
     return 0
