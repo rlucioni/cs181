@@ -60,13 +60,20 @@ DANBRO
 DANBRO
 
 \subproblem{} %c
-By (A), we know that if policy iteration terminates, it terminates with the optimal stationary policy. By (B), we know that the policy improves or stays that same after each iteration phase (i.e., every step the policy improves). This means that a given policy can be encountered at most once. Since there are a finite number of states and actions, there are a finite number of policies. Therefore, we must terminate by the time we have iterated through the finite number of policies. Therefore, policy iteration always terminates with an optimal stationary policy (assuming the policy space is convex).
+By (A), we know that if policy iteration terminates, it terminates with the optimal stationary policy. By (B), we know that the policy improves or stays that same after each iteration phase (i.e., every step the policy improves). This means that a given policy can be encountered at most once. Since there are a finite number of states and actions, there are a finite number of policies. Therefore, we must terminate by the time we have iterated through the finite number of policies. Assuming the policy space is convex, we can hence say that policy iteration always terminates with an optimal stationary policy.
 
 
 \problem{30} %4
 
 \subproblem{} %a
-We implemented time $T$ mode switching and the $\varepsilon$-Greedy strategies for balancing exploration and exploitation. See {\tt model based.py} for our implementations.
+We implemented time-$T$ mode switching and $\varepsilon$-Greedy strategies for balancing exploration and exploitation. See {\tt modelbased.py} for our implementations. The following graphs, one for each exploration/exploitation strategy, show the relationship between performance (average number of throws to complete a game) and epoch size used to update the optimal policy.
+
+\begin{center}
+\includegraphics[scale=0.8]{source/perf-v-epoch-mode-switch.pdf}
+\includegraphics[scale=0.8]{source/perf-v-epoch-greedy.pdf}
+\end{center}
+
+\emph{How are performance and epoch size related? How do the two strategies compare? It's hard to tell with these noisy graphs.}
 
 \subproblem{} %b
 DANBRO
