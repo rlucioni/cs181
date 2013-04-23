@@ -144,8 +144,8 @@ def main(epoch_sz):
 
 if __name__ =="__main__":
     #main()
-    print "BINARY E-E w/ cutoff"
-    #print "EPSILON-GREEDY"
+    #print "### TIME T MODE SWITCHING ###"
+    print "### EPSILON-GREEDY ###"
     for x in range(1,16):
         print "EPOCH SIZE: {}".format(x)
         main(x)
