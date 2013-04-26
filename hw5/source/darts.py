@@ -66,6 +66,10 @@ def play(method):
         targets.append(target)
         results.append(result)
         raw_score = throw.location_to_score(result)
+        #if raw_score > score:
+            # update Q[s][a]
+        #else:
+            #modelfree.Q_learning(score,target,raw_score)
         print "Target: wedge", target.wedge,", ring", target.ring
         print "Result: wedge", result.wedge,", ring", result.ring
         print "Raw Score:", raw_score
@@ -100,7 +104,7 @@ def test(n, method):
 def main(epoch_sz):
     throw.init_board()
     #num_games = 1000
-    num_games = 15
+    num_games = 100
 
 
 #************************************************#
@@ -124,7 +128,7 @@ def main(epoch_sz):
 # multiple calls to main().
 # Then, initialize the throwing model and run
 # the modelbased algorithm.
-    random.seed()
+    random.seed(42)
     throw.init_thrower()
     #modelbased.modelbased(GAMMA, EPOCH_SIZE, num_games)
     modelbased.modelbased(GAMMA, epoch_sz, num_games)
@@ -145,9 +149,12 @@ if __name__ =="__main__":
     #main()
     #print "### TIME T MODE SWITCHING ###"
     print "### EPSILON-GREEDY ###"
-    for x in range(1,16):
-        print "EPOCH SIZE: {}".format(x)
-        main(x)
+    print "EPOCH SIZE: 3"
+    main(3)
+    print "EPOCH SIZE: 10"
+    main(10)
+    print "EPOCH SIZE: 100"
+    main(100)
 
 
 

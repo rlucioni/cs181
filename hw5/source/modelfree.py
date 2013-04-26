@@ -42,5 +42,5 @@ def ex_strategy_two(time):
 
 
 # The Q-learning algorithm:
-def Q_learning():
+def Q_learning(state,action,result):
   return

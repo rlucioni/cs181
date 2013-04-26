@@ -80,6 +80,7 @@ def modelbased(gamma, epoch_size, num_games):
 
     # play num_games games, updating policy after every EPOCH_SIZE number of throws
     for g in range(1, num_games + 1):
+        print "GAME {}".format(g)
     
     	# run a single game
         s = throw.START_SCORE
