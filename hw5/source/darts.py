@@ -11,6 +11,8 @@ import modelbased
 import modelfree
 
 GAMMA = .5
+# For Q-Learning
+ALPHA = .3
 #EPOCH_SIZE = 10
 
 
@@ -132,7 +134,8 @@ def main(epoch_sz):
     throw.init_thrower()
     #modelbased.modelbased(GAMMA, EPOCH_SIZE, num_games)
     #modelbased.modelbased(GAMMA, epoch_sz, num_games)
-    modelfree.modelfree(GAMMA, epoch_sz, num_games)
+    print "RUNNING MODEL FREE!"
+    modelfree.Q_learning(GAMMA, ALPHA, num_games)
 
 #*************************************************#
 # Uncomment the lines below to run the modelfree  #
@@ -147,23 +150,15 @@ def main(epoch_sz):
 
 
 if __name__ =="__main__":
-    #main()
-<<<<<<< HEAD
-    print "### TIME T MODE SWITCHING ###"
-    #print "### EPSILON-GREEDY ###"
-    for x in range(1,21):
-        print "EPOCH SIZE: {}".format(x)
-        main(x)
-=======
+    main(0)
     #print "### TIME T MODE SWITCHING ###"
-    print "### EPSILON-GREEDY ###"
-    print "EPOCH SIZE: 3"
-    main(3)
-    print "EPOCH SIZE: 10"
-    main(10)
-    print "EPOCH SIZE: 100"
-    main(100)
->>>>>>> 14a929bc7a9eec8c07668de04a83b02a95dd8110
+#    print "### EPSILON-GREEDY ###"
+ #   print "EPOCH SIZE: 3"
+  #  main(3)
+  #  print "EPOCH SIZE: 10"
+  #  main(10)
+  #  print "EPOCH SIZE: 100"
+  #  main(100)
 
 
 

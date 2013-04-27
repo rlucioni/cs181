@@ -1,6 +1,8 @@
-from random import *
+#from random import *
+import random
 import throw
 import darts
+import copy
  
 EXPLORE_TURNS = 5
 EPSILON = 0.5
@@ -43,19 +45,75 @@ def ex_strategy_two(time):
     return 0
 
 
+def lookup_max_a(Q_table,state):
+  cur_val = 0
+  cur_index = -1
+  for a in range(len(actions)):
+    curent = Q_table[state][a]
+    if curent > cur_val:
+      cur_val = curent
+      cur_index = a
+  return cur_index
+
 # The Q-learning algorithm:
-<<<<<<< HEAD
-def Q_learning(state, action, results):
+def Q_learning(gamma, alpha, num_games):
   
+# set these to values that make sense!
+  #alpha = .5
+  #gamma = .3
+
   Q = {}
   states = darts.get_states()
   actions = darts.get_actions()
   
+  num_iterations = 0
+
   # Initialize all the Q values to zero
   for s in states:
+    Q[s]= {}
     for a in actions:
         Q[s][a] = 0
 
+   
+  for g in range(1, num_games + 1):
+    print "GAME {}".format(g)
+    # run a single game
+    s = throw.START_SCORE
+    while s > 0:
+      num_iterations += 1
+      # The following two statements implement two exploration-exploitation
+      # strategies. Comment out the strategy that you wish not to use.
+ 	  
+      to_explore = ex_strategy_one(num_iterations)
+      
+      #to_explore = ex_strategy_two(num_iterations)
+      if to_explore:
+     	#explore
+        a = random.randint(0, len(actions)-1)
+        action = actions[a]
+      else:
+        # exploit
+        a = lookup_max_a(Q,s)
+        action = actions[a]
 
 
-#def Q_learning(state,action,result):
+      # Get result of throw from dart thrower; update score if necessary
+      loc = throw.throw(action) 
+      #should reward be based on action of loc?
+      reward = darts.R(s,action) 
+      s_prime = s - throw.location_to_score(loc)
+      if s_prime < 0:
+        s_prime = s
+                
+      # now we update the q score table
+      #CONSIDER: is a copy call needed here?
+      oldQ = copy.deepcopy(Q[s][a])
+      nextQ = lookup_max_a(Q,s_prime)
+      newQ = oldQ + alpha(reward + gamma(nextQ) - oldQ)
+      Q[s][a] = newQ
+
+  print "Average turns = ", float(num_iterations)/float(num_games)
+
+
+
+
