@@ -12,10 +12,10 @@ import modelfree
 
 GAMMA = .5
 # For Q-Learning
-ALPHA = .5
+ALPHA = .3
 #EPOCH_SIZE = 10
 NUM_GAMES = 10000 
-BAD_THROW_PENALTY = -500000
+BAD_THROW_PENALTY = -5000
 
 
 # <CODE HERE>: Complete this function, which should return a
@@ -136,8 +136,6 @@ def main(epoch_sz):
     throw.init_thrower()
     #modelbased.modelbased(GAMMA, EPOCH_SIZE, num_games)
     #modelbased.modelbased(GAMMA, epoch_sz, num_games)
-    print "RUNNING MODEL FREE!"
-    modelfree.Q_learning(GAMMA, ALPHA, num_games)
 
 #*************************************************#
 # Uncomment the lines below to run the modelfree  #
@@ -149,6 +147,8 @@ def main(epoch_sz):
     #random.seed()
     #throw.init_thrower()
     #test(1, "modelfree")
+    print "RUNNING MODEL FREE!"
+    modelfree.Q_learning(GAMMA, ALPHA, num_games)
 
 
 if __name__ =="__main__":

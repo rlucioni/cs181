@@ -4,7 +4,7 @@ import throw
 import darts
 import copy
  
-EXPLORE_TURNS = 1000
+EXPLORE_TURNS = 10000
 EPSILON = 5
 
 
@@ -75,6 +75,7 @@ def Q_learning(gamma, alpha, num_games):
   
   num_iterations = 0
   
+  num_total_iterations = 1
   # Initialize all the Q values to zero
   for s in states:
     Q[s]= {}
@@ -83,17 +84,18 @@ def Q_learning(gamma, alpha, num_games):
    
   for g in range(1, num_games + 1):
     #print "Average turns = ", float(num_iterations)/float(g)
-    print "GAME {}".format(g)
+    #print "GAME {}".format(g)
     # run a single game
     s = throw.START_SCORE
     gamethrows = 0;
     while s > 0:
+      num_total_iterations += 1  
       gamethrows += 1
       # The following two statements implement two exploration-exploitation
       # strategies. Comment out the strategy that you wish not to use.
  	  
       #to_explore = ex_strategy_one(num_iterations)
-      #to_explore = ex_strategy_two(num_iterations)
+      #to_explore = ex_strategy_two(num_total_iterations)
       to_explore = ex_strategy_three(g, num_games)
       
       action = 0 
@@ -138,6 +140,7 @@ def Q_learning(gamma, alpha, num_games):
       #print "in game {},score {}, throw value {}, oldQ {}, newQ{}".format(g,s,throw.location_to_score(loc),oldQ,newQ)
 
       s = s_prime
-    print gamethrows
+    #print gamethrows
   print "Average turns = ", float(num_iterations)/float(num_games/2)
+  #print "Average turns = ", float(num_total_iterations)/float(num_games)
 
