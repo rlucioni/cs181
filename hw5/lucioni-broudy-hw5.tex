@@ -110,7 +110,7 @@ We implemented time-$T$ mode switching and $\varepsilon$-Greedy strategies for b
 \includegraphics[scale=0.8]{source/perf-v-epoch-size.pdf}
 \end{center}
 
-By studying the graph, we see that an epoch of size approximately 10 is correlated with the best performance (i.e., the lowest average number of throws to complete a game). The graph shows that while the time-$T$ mode switching and $\varepsilon$-Greedy strategies are similar in terms of performance, the time-$T$ mode switching strategy performs better in a situation where the epoch size is about 10. This makes sense, since completing a game on the medium-size board seems to take an average of 20 turns. This means that with an epoch size of 100, the policy will never be updated.
+By studying the graph, we see that an epoch of size approximately 10 is correlated with the best performance (i.e., the lowest average number of throws to complete a game). The graph shows that while the time-$T$ mode switching and $\varepsilon$-Greedy strategies are similar in terms of performance, the time-$T$ mode switching strategy performs better in a situation where the epoch size is about 10. This makes sense, since completing a game on the medium-size board seems to take an average of 20 turns. This means that with an epoch size of 100, the policy will be updated much less frequently. 
 
 \subproblem{} %b
 DANBRO
