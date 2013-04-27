@@ -30,6 +30,7 @@ Since the proposed utility function dictates a greedy approach, always preferrin
 
 A dart player designed using the greedy proposal will only consider the reward for the next, most immediate throw. With the above in mind, we would expect this dart player to make good decisions in the early game, preferring the largest point values it can achieve in an effort to ``get in" (i.e., lower the score) quickly. However, we would expect this dart player to make poor decisions in the mid to late game, since it would be unable to sacrifice short-term gain (i.e., choosing smaller point values) for long-term benefit (i.e., winning the game), continuing to select the largest valued throws possible instead of attempting to string together a series of lesser valued but smarter throws.
 
+\pagebreak
 
 \problem{28} %2
 
@@ -101,14 +102,15 @@ We can restate this as follows. We know from (A) that if we stop changing the po
 \problem{30} %4
 
 \subproblem{} %a
-We implemented time-$T$ mode switching and $\varepsilon$-Greedy strategies for balancing exploration and exploitation. See {\tt modelbased.py} for our implementations. The following graphs, one for each exploration/exploitation strategy, show the relationship between performance (average number of throws to complete a game) and epoch size used to update the optimal policy.
+We implemented time-$T$ mode switching and $\varepsilon$-Greedy strategies for balancing exploration and exploitation. See {\tt modelbased.py} for our implementations. The following graph show, for both exploration/exploitation strategies, the relationship between performance (average number of throws to complete a game) and epoch size used to update the optimal policy. Epoch sizes of 3, 10, and 100 were used.
 
 \begin{center}
-\includegraphics[scale=0.8]{source/perf-v-epoch-mode-switch.pdf}
-\includegraphics[scale=0.8]{source/perf-v-epoch-greedy.pdf}
+%\includegraphics[scale=0.8]{source/perf-v-epoch-mode-switch.pdf}
+%\includegraphics[scale=0.8]{source/perf-v-epoch-greedy.pdf}
+\includegraphics[scale=0.8]{source/perf-v-epoch-size.pdf}
 \end{center}
 
-\emph{How are performance and epoch size related? How do the two strategies compare? It's hard to tell with these noisy graphs.}
+By studying the graph, we see that an epoch of size approximately 10 is correlated with the best performance (i.e., the lowest average number of throws to complete a game). The graph shows that while the time-$T$ mode switching and $\varepsilon$-Greedy strategies are similar in terms of performance, the time-$T$ mode switching strategy performs better in a situation where the epoch size is about 10. This makes sense, since completing a game on the medium-size board seems to take an average of 20 turns.
 
 \subproblem{} %b
 DANBRO
