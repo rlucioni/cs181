@@ -80,6 +80,7 @@ def modelbased(gamma, epoch_size, num_games):
 
     # play num_games games, updating policy after every EPOCH_SIZE number of throws
     for g in range(1, num_games + 1):
+        print "GAME {}".format(g)
     
     	# run a single game
         s = throw.START_SCORE
@@ -169,10 +170,10 @@ def modelbased_value_iteration(gamma, T_matrix, pi_star):
 
           Q[a] += gamma * T_matrix[s][s_prime][a] * V[0][s_prime]
 
-          # find the action that maximizes Q and the maximum value of Q
-          if a == 0 or (Q[a] >= V[1][s]):
-            pi_star[s] = a
-            V[1][s] = Q[a]
+        # find the action that maximizes Q and the maximum value of Q
+        if a == 0 or (Q[a] >= V[1][s]):
+          pi_star[s] = a
+          V[1][s] = Q[a]
 
                   
     # values of v for iteration k become the values of v for iteration k-1

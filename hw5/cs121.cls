@@ -39,7 +39,7 @@
 %%% ========
 %%%    ps0: don't mention late days, no points per problem.
 %%%    Email submission instructions (JP)
-%%%    Updated header text, added new commands for student name and collaborators. Created new command subsolution to provide answer space. (MR)
+%%%    Updated header text, added new commands for student name and collaborators. Created new command sub to provide answer space. (MR)
 %%% Fall '11
 %%% ========
 %%%    Modified email submission instructions (JT)

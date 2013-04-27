@@ -44,17 +44,18 @@ def ex_strategy_two(time):
 
 
 # The Q-learning algorithm:
-def Q_learning(gamma, numruns):
+<<<<<<< HEAD
+def Q_learning(state, action, results):
   
   Q = {}
   states = darts.get_states()
   actions = darts.get_actions()
   
-  # intialize value of each state to 0
+  # Initialize all the Q values to zero
   for s in states:
-    Q[s] = {}
     for a in actions:
-        Q[s] = 0
+        Q[s][a] = 0
 
 
 
+#def Q_learning(state,action,result):

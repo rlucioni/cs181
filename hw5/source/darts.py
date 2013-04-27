@@ -66,6 +66,10 @@ def play(method):
         targets.append(target)
         results.append(result)
         raw_score = throw.location_to_score(result)
+        #if raw_score > score:
+            # update Q[s][a]
+        #else:
+            #modelfree.Q_learning(score,target,raw_score)
         print "Target: wedge", target.wedge,", ring", target.ring
         print "Result: wedge", result.wedge,", ring", result.ring
         print "Raw Score:", raw_score
@@ -144,11 +148,22 @@ def main(epoch_sz):
 
 if __name__ =="__main__":
     #main()
+<<<<<<< HEAD
     print "### TIME T MODE SWITCHING ###"
     #print "### EPSILON-GREEDY ###"
     for x in range(1,21):
         print "EPOCH SIZE: {}".format(x)
         main(x)
+=======
+    #print "### TIME T MODE SWITCHING ###"
+    print "### EPSILON-GREEDY ###"
+    print "EPOCH SIZE: 3"
+    main(3)
+    print "EPOCH SIZE: 10"
+    main(10)
+    print "EPOCH SIZE: 100"
+    main(100)
+>>>>>>> 14a929bc7a9eec8c07668de04a83b02a95dd8110
 
 
 
