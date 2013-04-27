@@ -45,7 +45,7 @@ def ex_strategy_two(time):
     return 0
 
 
-def lookup_max_a(Q_table,state):
+def lookup_max_a(Q_table,state,actions):
   cur_val = 0
   cur_index = -1
   for a in range(len(actions)):
@@ -93,7 +93,7 @@ def Q_learning(gamma, alpha, num_games):
         action = actions[a]
       else:
         # exploit
-        a = lookup_max_a(Q,s)
+        a = lookup_max_a(Q,s,actions)
         action = actions[a]
 
 
@@ -107,10 +107,11 @@ def Q_learning(gamma, alpha, num_games):
                 
       # now we update the q score table
       #CONSIDER: is a copy call needed here?
-      oldQ = copy.deepcopy(Q[s][a])
-      nextQ = lookup_max_a(Q,s_prime)
-      newQ = oldQ + alpha(reward + gamma(nextQ) - oldQ)
+      #oldQ = copy.deepcopy(Q[s][a])
+      nextQ = lookup_max_a(Q,s_prime,actions)
+      newQ = oldQ + alpha(reward + gamma(nextQ) - Q[s][a])
       Q[s][a] = newQ
+      s = s_prime
 
   print "Average turns = ", float(num_iterations)/float(num_games)
 
