@@ -71,7 +71,7 @@ def Q_learning(gamma, alpha, num_games):
   # Initialize all the Q values to zero
   for s in states:
     Q[s]= {}
-    for a in actions:
+    for a in range(len(actions)):
         Q[s][a] = 0
 
    
@@ -107,9 +107,9 @@ def Q_learning(gamma, alpha, num_games):
                 
       # now we update the q score table
       #CONSIDER: is a copy call needed here?
-      #oldQ = copy.deepcopy(Q[s][a])
+      oldQ = copy.deepcopy(Q[s][a])
       nextQ = lookup_max_a(Q,s_prime,actions)
-      newQ = oldQ + alpha(reward + gamma(nextQ) - Q[s][a])
+      newQ = oldQ + alpha*(reward + gamma*(nextQ) - Q[s][a])
       Q[s][a] = newQ
       s = s_prime
 
