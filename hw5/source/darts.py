@@ -135,7 +135,7 @@ def main(epoch_sz):
     #modelbased.modelbased(GAMMA, EPOCH_SIZE, num_games)
     #modelbased.modelbased(GAMMA, epoch_sz, num_games)
     print "RUNNING MODEL FREE!"
-    #modelfree.Q_learning(GAMMA, ALPHA, num_games)
+    modelfree.Q_learning(GAMMA, ALPHA, num_games)
 
 #*************************************************#
 # Uncomment the lines below to run the modelfree  #
@@ -146,7 +146,7 @@ def main(epoch_sz):
 # code is provided. 
     #random.seed()
     #throw.init_thrower()
-    test(1, "modelfree")
+    #test(1, "modelfree")
 
 
 if __name__ =="__main__":
