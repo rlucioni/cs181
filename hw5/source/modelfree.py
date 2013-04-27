@@ -5,6 +5,8 @@ import darts
 EXPLORE_TURNS = 5
 EPSILON = 0.5
 
+
+
 # The default player aims for the maximum score, unless the
 # current score is less than the number of wedges, in which
 # case it aims for the exact score it needs. 
@@ -42,5 +44,17 @@ def ex_strategy_two(time):
 
 
 # The Q-learning algorithm:
-def Q_learning():
-  return
+def Q_learning(gamma, numruns):
+  
+  Q = {}
+  states = darts.get_states()
+  actions = darts.get_actions()
+  
+  # intialize value of each state to 0
+  for s in states:
+    Q[s] = {}
+    for a in actions:
+        Q[s] = 0
+
+
+

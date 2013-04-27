@@ -90,8 +90,8 @@ def modelbased(gamma, epoch_size, num_games):
             # The following two statements implement two exploration-exploitation
             # strategies. Comment out the strategy that you wish not to use.
 			
-    	    #to_explore = ex_strategy_one(num_iterations)
-    	    to_explore = ex_strategy_two(num_iterations)
+    	    to_explore = ex_strategy_one(num_iterations)
+    	    #to_explore = ex_strategy_two(num_iterations)
     		
             if to_explore:
             	# explore

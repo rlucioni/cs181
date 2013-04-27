@@ -100,7 +100,7 @@ def test(n, method):
 def main(epoch_sz):
     throw.init_board()
     #num_games = 1000
-    num_games = 15
+    num_games = 100
 
 
 #************************************************#
@@ -124,10 +124,11 @@ def main(epoch_sz):
 # multiple calls to main().
 # Then, initialize the throwing model and run
 # the modelbased algorithm.
-    random.seed()
+    random.seed(42)
     throw.init_thrower()
     #modelbased.modelbased(GAMMA, EPOCH_SIZE, num_games)
-    modelbased.modelbased(GAMMA, epoch_sz, num_games)
+    #modelbased.modelbased(GAMMA, epoch_sz, num_games)
+    modelfree.modelfree(GAMMA, epoch_sz, num_games)
 
 #*************************************************#
 # Uncomment the lines below to run the modelfree  #
@@ -143,9 +144,9 @@ def main(epoch_sz):
 
 if __name__ =="__main__":
     #main()
-    #print "### TIME T MODE SWITCHING ###"
-    print "### EPSILON-GREEDY ###"
-    for x in range(1,16):
+    print "### TIME T MODE SWITCHING ###"
+    #print "### EPSILON-GREEDY ###"
+    for x in range(1,21):
         print "EPOCH SIZE: {}".format(x)
         main(x)
 
