@@ -95,8 +95,8 @@ def Q_learning(gamma, alpha, num_games):
       # strategies. Comment out the strategy that you wish not to use.
  	  
       #to_explore = ex_strategy_one(num_iterations)
-      #to_explore = ex_strategy_two(num_total_iterations)
-      to_explore = ex_strategy_three(g, num_games)
+      to_explore = ex_strategy_two(num_total_iterations)
+      #to_explore = ex_strategy_three(g, num_games)
       
       action = 0 
       

@@ -2,12 +2,12 @@ import game_interface
 import random
 import time
 
-def get_move(view):
+def get_move(view, filename):
   # Choose a random direction.
   # If there is a plant in this location, then try and eat it.
   hasPlant = view.GetPlantInfo() == game_interface.STATUS_UNKNOWN_PLANT
   # Choose a random direction
-  f = open("images.txt", "a+")
+  f = open(filename, "a+")
   f.write(str(view.GetLife())+'\n')
   if hasPlant:
     for i in xrange(5):
