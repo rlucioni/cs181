@@ -14,6 +14,8 @@ GAMMA = .5
 # For Q-Learning
 ALPHA = .3
 #EPOCH_SIZE = 10
+NUM_GAMES = 10000 
+BAD_THROW_PENALTY = -5000
 
 
 # <CODE HERE>: Complete this function, which should return a
@@ -45,7 +47,7 @@ def R(s,a):
   # returns the reward for completing action a in state s
   points = throw.location_to_score(a)
   if points > s: 
-    return 0
+    return BAD_THROW_PENALTY
   else:
     return points
 
@@ -106,7 +108,7 @@ def test(n, method):
 def main(epoch_sz):
     throw.init_board()
     #num_games = 1000
-    num_games = 100
+    num_games = NUM_GAMES
 
 
 #************************************************#
@@ -134,8 +136,6 @@ def main(epoch_sz):
     throw.init_thrower()
     #modelbased.modelbased(GAMMA, EPOCH_SIZE, num_games)
     #modelbased.modelbased(GAMMA, epoch_sz, num_games)
-    print "RUNNING MODEL FREE!"
-    modelfree.Q_learning(GAMMA, ALPHA, num_games)
 
 #*************************************************#
 # Uncomment the lines below to run the modelfree  #
@@ -147,6 +147,8 @@ def main(epoch_sz):
     #random.seed()
     #throw.init_thrower()
     #test(1, "modelfree")
+    print "RUNNING MODEL FREE!"
+    modelfree.Q_learning(GAMMA, ALPHA, num_games)
 
 
 if __name__ =="__main__":
