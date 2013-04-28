@@ -22,9 +22,9 @@ def get_move(view,img_filename,val_filename):
   diff = cur_val - prev_val
   # label the previous images
   if diff > 10:
-    g.write('NUTRITIOUS\n######\n')
+    g.write('#N\n')
   elif diff < -10:
-    g.write('POISONOUS\n######\n')
+    g.write('#P\n')
   g.flush()
   g.close()
  
