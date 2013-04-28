@@ -1,16 +1,22 @@
 #!/bin/sh
 
 echo "RUNNING SIMPLE NETWORK..."
-python neural_net_main.py -e 100 -r 0.1 -t simple >> simple-1_0.txt
+python neural_net_main.py -e 100 -r 0.1 -t simple >> results.txt
 wait
 #python neural_net_main.py -e 100 -r 0.1 -t simple >> simple-0_1.txt
 #wait
 #python neural_net_main.py -e 100 -r 0.001 -t simple >> simple-0_001.txt
 #wait
 
-#echo "RUNNING HIDDEN NETWORK..."
-#python neural_net_main.py -e 100 -r 1.0 -t hidden >> hidden30-1_0.txt
-#wait
+echo "RUNNING HIDDEN NETWORK..."
+python neural_net_main.py -e 500 -r 0.1 -t hidden >> results.txt
+wait
+python neural_net_main.py -e 500 -r 0.01 -t hidden >> results.txt
+wait
+python neural_net_main.py -e 500 -r 1.0 -t hidden >> results.txt
+wait
+#python neural_net_main.py -e 100 -r 0.1 -t hidden >> hidden30-0_1.txt
+#python neural_net_main.py -e 100 -r 0.1 -t hidden >> hidden30-0_1.txt
 #python neural_net_main.py -e 100 -r 0.1 -t hidden >> hidden30-0_1.txt
 #wait
 #python neural_net_main.py -e 100 -r 0.01 -t hidden >> hidden30-0_01.txt

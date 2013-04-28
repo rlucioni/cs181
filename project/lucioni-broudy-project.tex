@@ -13,8 +13,33 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\section{Overview}
+To implement our player for the final project, we chose to use an artificial neural network (ANN), a finite state machine policy (FSMP), and THIRD METHOD. The following writeup describes the motivation behind using each of these methods, details the design of each method, discusses the application of each method in the context of playing the game, and then evaluates the performance of each method. 
 
+\section{Artificial Neural Network (ANN)}
+\subsection{Motivation}
+When our player requests a plant observation, it receives a noisy image. The player must be able to decide what kind of plant, nutritious or poisonous, is depicted in the image. In order to give our player this capability, we trained a neural network on labeled images. As we learned in Homework 2, a multi-layer feed-forward neural network is a good approach to image classification, superior to decision trees, boosted decision stumps, and perceptrons. 
 
+Like perceptrons, multi-layer feed-forward neural networks are capable of making use of all pixels in an image, allowing them to learn the relationships between pixels. However, unlike perceptrons, neural networks can also use hidden layers to recognize non-linearly separable functions. This allows neural networks to recognize rotations, translations, and skews that would have defeated a perceptron. Thus, neural networks are both accurate and robust when determining the class of an input image, whether it be a digit or a plant.
+
+\subsection{Design}
+
+\subsection{Application}
+The neural network we trained for this component of the game is able to distinguish between the two kinds of plant images. Our player uses the neural network's output to determine what kind of plant it is looking at.
+
+\subsection{Evaluation}
+
+\section{Finite State Machine Policy (FSMP)}
+\subsection{Motivation}
+\subsection{Design}
+\subsection{Application}
+\subsection{Evaluation}
+
+\section{THIRD METHOD}
+\subsection{Motivation}
+\subsection{Design}
+\subsection{Application}
+\subsection{Evaluation}
 
 
 \end{document}
