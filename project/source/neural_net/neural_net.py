@@ -210,7 +210,7 @@ class NetworkFramework(object):
     # Loop through the specified number of training epochs.
     #for i in range(epochs):
     for i in range(max_epochs):
-      if i == max_epochs or timer == 5:
+      if i == max_epochs: # or timer == 5:
         return(performance_log)
 
       # This calls your function in neural_net_impl.py.
@@ -236,7 +236,7 @@ class NetworkFramework(object):
           timer += 1
 
       # also check if we've dropped too low
-      if max_perf_validate - perf_validate > 0.05:
+      if max_perf_validate - perf_validate > 0.5:
           return(performance_log)
     
     #return(performance_log)

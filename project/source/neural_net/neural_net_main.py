@@ -47,13 +47,13 @@ def main():
     assert len(image.pixels[0]) == 36
 
   # Load the validation set.
-  validation = DataReader.GetImages('validation-500.txt', -1)
+  validation = DataReader.GetImages('validation-1k.txt', -1)
   for image in validation:
     assert len(image.pixels) == 1
     assert len(image.pixels[0]) == 36
 
   # Load the test set.
-  test = DataReader.GetImages('test-500.txt', -1)
+  test = DataReader.GetImages('test-1k.txt', -1)
   for image in test:
     assert len(image.pixels) == 1
     assert len(image.pixels[0]) == 36
