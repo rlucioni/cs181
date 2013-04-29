@@ -31,6 +31,13 @@ def validateInput(args):
   assert '-t' in args_map, "A network type should be provided. Options are: simple | hidden | custom"
   return(args_map)
 
+def reconstruction():
+  network = SimpleNetwork()
+  network.PopulateSimpleWeights()
+  network.FeedForwardFn = FeedForward
+  network.TrainFn = Train
+  return network
+
 def main():
 
   # Parsing command line arguments
@@ -66,6 +73,7 @@ def main():
     network = HiddenNetwork()
   if networkType == 'custom':
     network = CustomNetwork()
+
 
   # Hooks user-implemented functions to network
   network.FeedForwardFn = FeedForward

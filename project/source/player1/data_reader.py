@@ -35,17 +35,29 @@ class DataReader:
     return images
 
   @staticmethod
+  def ConvertTuple(tup):
+    string = str(tup)
+    stripped = string[1:-1]
+    image = Image(-1)
+    image.pixels.append([float(r) for r in stripped.strip().split(", ")])
+    return image
+
+  @staticmethod
   def DumpWeights(weights, filename):
     """Dump the weights vector to filename"""
     outfile = open(filename, 'w')
     for weight in weights:
-      outfile.write('%r\n' % weight)
+      outfile.write('%r\n' % weight.value)
 
   @staticmethod
-  def ReadWeights(filename):
+  def ReadWeights(weights, filename):
     """Returns a weight vector retrieved by reading file filename"""
     infile = open(filename, 'r')
-    weights = []
+    weight_values = []
     for line in infile:
       weight = float(line.strip())
-      weights.append(weight)
+      weight_values.append(weight)
+    assert( len(weight_values) == len(weights))
+    for i in range(len(weights)):
+      weights[i].value = weight_values[i]
+    #return weights

@@ -1,4 +1,5 @@
 import math
+from data_reader import *
 
 class Weight:
   def __init__(self, value):
@@ -176,6 +177,14 @@ class NetworkFramework(object):
     for weight in self.network.weights:
       weight.value = 0
 
+  def DumpSimpleWeights(self):
+    DataReader.DumpWeights(self.network.weights, "player1/simple_weights.txt")
+
+  def PopulateSimpleWeights(self):
+    #assert(len(self.network.weights) == 0)
+    #self.network.weights = DataReader.ReadWeights("simple_weights.txt")
+    DataReader.ReadWeights(self.network.weights, "player1/simple_weights.txt")
+
   def Classify(self, image):
     input = self.Convert(image)
     self.FeedForwardFn(self.network, input)
@@ -211,6 +220,7 @@ class NetworkFramework(object):
     #for i in range(epochs):
     for i in range(max_epochs):
       if i == max_epochs: # or timer == 5:
+        self.DumpSimpleWeights()
         return(performance_log)
 
       # This calls your function in neural_net_impl.py.
@@ -237,9 +247,11 @@ class NetworkFramework(object):
 
       # also check if we've dropped too low
       if max_perf_validate - perf_validate > 0.5:
+          self.DumpSimpleWeights()
           return(performance_log)
     
-    #return(performance_log)
+    self.DumpSimpleWeights()
+    return(performance_log)
 
   def RegisterFeedForwardFunction(self, fn):
     self.FeedForwardFn = fn

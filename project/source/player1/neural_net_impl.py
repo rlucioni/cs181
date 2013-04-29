@@ -345,6 +345,7 @@ class SimpleNetwork(EncodedNetworkFramework):
         net.AddNode(n, net.OUTPUT)
         for k in range(36):
             n.AddInput(net.inputs[k], 0.0, net)
+            
 
 #<---- Problem 3, Question 7 --->
 
