@@ -25,5 +25,5 @@ def smart_get_move(view):
     eat = 0
 
   time.sleep(0.1)
-  #return (random.randint(0, 4), eat)
-  return (1, eat)
+  return (random.randint(0, 4), eat)
+  #return (1, eat)
