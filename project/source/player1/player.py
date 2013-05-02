@@ -27,7 +27,7 @@ def get_move(view):
   else:
     diff = 0
 
-  cur_state = -1
+  cur_state = 0
   if hasattr(view, 'old_hasPlant'):
     if view.old_hasPlant == 0:
       cur_state = SEEN_NOTHING
@@ -64,9 +64,9 @@ def get_move(view):
 
   view.ate = eat
   view.prev_state = cur_state
-  view.prev_action = modelfree.Q_get_move(q_table)
+  view.prev_action = modelfree.Q_get_move(q_table,cur_state)
 
   modelfree.Writeout_Q_table(q_table)
-  time.sleep(0.1)
+  #time.sleep(0.1)
   return (view.prev_action, eat)
   #return (1, eat)

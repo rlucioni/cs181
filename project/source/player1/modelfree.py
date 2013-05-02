@@ -52,7 +52,7 @@ def ex_strategy_three(game, totalgames):
 def lookup_max_a(Q_table,state):
   cur_val = 0
   action = 0
-  actions = get.actions()
+  actions = get_actions()
   for a in actions:
     curent = Q_table[state][a]
     if curent >= cur_val:
@@ -92,7 +92,7 @@ def Writeout_Q_table(Q_table):
 
 
 # get our next move
-def Q_get_move(Q_table):
+def Q_get_move(Q_table,s):
   #to_explore = ex_strategy_one(num_iterations)
   #to_explore = ex_strategy_two(num_total_iterations)
   #to_explore = ex_strategy_three(g, num_games)
@@ -111,13 +111,13 @@ def Q_get_move(Q_table):
   #  print "action {}".format(action)
   else:
     # exploit
-    num_iterations += 1
+    #num_iterations += 1
     #print "exploit\n"
     action = lookup_max_a(Q_table,s)
     #print "action {}".format(action)
     #action = a # actions[a]
 
-  return a
+  return action
 
 
 # The Q-learning algorithm:
