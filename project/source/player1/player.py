@@ -44,6 +44,7 @@ def get_move(view):
 
   eat = -1
   if hasPlant:
+    eat = -1  
     nutritious_count = 0
     while (eat == -1):
       unprocessed_image = view.GetImage()
