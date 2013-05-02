@@ -37,7 +37,7 @@ def run(options):
   game = game_interface.GameInterface(options.plant_bonus,
                                       options.plant_penalty,
                                       options.observation_cost,
-                                      100000,#options.starting_life,
+                                      options.starting_life,
                                       options.life_per_turn)
   player1_view = game.GetPlayer1View()
   player1_view = game.GetPlayer1View()
@@ -80,7 +80,7 @@ def run(options):
         else:
           print 'Player 1 wins: %d v. %d' % (l1, l2)
       # Wait for input
-      sys.stdin.read(1)
+      #sys.stdin.read(1)
       if options.display:
         game_interface.curses_close()
       break

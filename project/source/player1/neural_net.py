@@ -178,11 +178,13 @@ class NetworkFramework(object):
       weight.value = 0
 
   def DumpSimpleWeights(self):
+    # NOT PORTABLE
     DataReader.DumpWeights(self.network.weights, "player1/simple_weights.txt")
 
   def PopulateSimpleWeights(self):
     #assert(len(self.network.weights) == 0)
     #self.network.weights = DataReader.ReadWeights("simple_weights.txt")
+    # NOT PORTABLE
     DataReader.ReadWeights(self.network.weights, "player1/simple_weights.txt")
 
   def Classify(self, image):

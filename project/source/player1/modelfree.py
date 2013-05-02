@@ -8,22 +8,16 @@ EPSILON = 5
 ALPHA = .5
 GAMMA = .3
 
-# list of all possible states.
+# list of all possible states: ATE_NUTRITIOUS, ATE_POISONOUS, SEEN_NOTHING, PASSED
 def get_states():
   states = range(4)
   return states
-#state 1: see nothing
-#state 2: eaten Nut
-#state 3: eaten Pois
-#state 4: eaten Passed
 
-
-# Returns a list of all possible actions, or targets, which include both a
+# Returns a list of all possible actions
+# These are the directions (numbers defined in problem)
 def get_actions():
-  
   actions = range(4)  
   return actions
-  #these are the directions (numbers defined in problem.)
 
 # Exploration/exploitation strategies below. Return 0 to exploit and 1 to explore (randomly). 
 # Time-T Mode Switching
@@ -62,7 +56,7 @@ def lookup_max_a(Q_table,state):
 
 # load the Q table from a file
 def Load_Q_table():
-  # FILENAME WILL BE: q_table.txt
+  # NOT PORTABLE
   f = open("player1/q_table.txt", "r")
   
   Q = {}
@@ -72,18 +66,16 @@ def Load_Q_table():
   for s in states:
     Q[s]= {}
     for a in actions:
-        Q[s][a] = float(f.readline())#WHATDOESITEQUAL!
-
+        Q[s][a] = float(f.readline())
   Q_table = Q
   f.close()
   return Q_table
 
 def Writeout_Q_table(Q_table):
-  #FILENAME WILL BE: q_table.txt
   states = get_states()
   actions = get_actions()
+  # NOT PORTABLE
   f = open("player1/q_table.txt", "r+")
-  #f.seek(0)
   for s in states:
     for a in actions:
         f.write(str(Q_table[s][a])+'\n')
@@ -96,27 +88,18 @@ def Q_get_move(Q_table,s):
   #to_explore = ex_strategy_one(num_iterations)
   #to_explore = ex_strategy_two(num_total_iterations)
   #to_explore = ex_strategy_three(g, num_games)
-  to_explore = 1
+  to_explore = 0
   states = get_states()
   actions = get_actions()
 
   action = 0 
   
   if to_explore:
-  #explore
-    #print "explore\n"
     a = random.randint(0, len(actions)-1)
-    
     action = actions[a]
-  #  print "action {}".format(action)
   else:
-    # exploit
-    #num_iterations += 1
-    #print "exploit\n"
     action = lookup_max_a(Q_table,s)
-    #print "action {}".format(action)
     #action = a # actions[a]
-
   return action
 
 
@@ -131,13 +114,6 @@ def Q_learn_it(Q_table, prev_state, prev_action, cur_state, changeinhealth):
 
       # now we update the q score table
       oldQ = (Q_table[s][a])
-      #print "oldQ {}".format(oldQ)
       nextQaction = lookup_max_a(Q_table, s_prime)
-      #print "nextQaction {}".format(nextQaction)
       newQ = oldQ + ALPHA*(reward + GAMMA*(Q_table[s_prime][nextQaction]) - oldQ)
-      #print "newQ {}".format(newQ)
       Q_table[s][a] = newQ
-      #print "Q[s][a] {}".format(Q[s][a])
-      #print "in game {},score {}, throw value {}, oldQ {}, newQ{}".format(g,s,throw.location_to_score(loc),oldQ,newQ)
-
-
