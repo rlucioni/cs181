@@ -27,15 +27,18 @@ def get_move(view):
   else:
     diff = 0
 
+  cur_state = -1
   if hasattr(view, 'old_hasPlant'):
     if view.old_hasPlant == 0:
       cur_state = SEEN_NOTHING
     elif view.ate == 0:
       cur_state = PASSED
-    elif diff < game_interface.plant_penalty:
+    elif diff < 0:
       cur_state = ATE_POISONOUS
     elif diff > 1:
       cur_state = ATE_NUTRITIOUS
+  else:
+    cur_state = PASSED
 
   view.old_hasPlant = hasPlant
 

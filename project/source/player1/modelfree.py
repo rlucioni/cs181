@@ -62,7 +62,7 @@ def lookup_max_a(Q_table,state,actions):
 # load the Q table from a file
 def Load_Q_table():
   # FILENAME WILL BE: q_table.txt
-  f = open("q_table.txt", "r")
+  f = open("player1/q_table.txt", "r")
   
   Q = {}
   states = get_states()
@@ -81,7 +81,7 @@ def Writeout_Q_table(Q_table):
   #FILENAME WILL BE: q_table.txt
   states = get_states()
   actions = get_actions()
-  f = open("q_table.txt", "r+")
+  f = open("player1/q_table.txt", "r+")
   #f.seek(0)
   for s in states:
     for a in actions:
