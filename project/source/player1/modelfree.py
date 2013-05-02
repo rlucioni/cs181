@@ -49,9 +49,10 @@ def ex_strategy_three(game, totalgames):
     return 0
 
 
-def lookup_max_a(Q_table,state,actions):
+def lookup_max_a(Q_table,state):
   cur_val = 0
-  action = actions[0]
+  action = 0
+  actions = get.actions()
   for a in actions:
     curent = Q_table[state][a]
     if curent >= cur_val:
@@ -112,7 +113,7 @@ def Q_get_move(Q_table):
     # exploit
     num_iterations += 1
     #print "exploit\n"
-    action = lookup_max_a(Q_table,s, actions)
+    action = lookup_max_a(Q_table,s)
     #print "action {}".format(action)
     #action = a # actions[a]
 
@@ -131,7 +132,7 @@ def Q_learn_it(Q_table, prev_state, prev_action, cur_state, changeinhealth):
       # now we update the q score table
       oldQ = (Q_table[s][a])
       #print "oldQ {}".format(oldQ)
-      nextQaction = lookup_max_a(Q_table, s_prime, actions)
+      nextQaction = lookup_max_a(Q_table, s_prime)
       #print "nextQaction {}".format(nextQaction)
       newQ = oldQ + ALPHA*(reward + GAMMA*(Q_table[s_prime][nextQaction]) - oldQ)
       #print "newQ {}".format(newQ)
