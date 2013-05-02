@@ -4,10 +4,10 @@ import game_interface
 
 class GameInterfaceTest(unittest.TestCase):
   PLANT_BONUS = 20
-  PLANT_PENALTY = 19
-  OBSERVATION_COST = 2
+  PLANT_PENALTY = 0#19
+  OBSERVATION_COST = 0#2
   STARTING_LIFE = 10
-  LIFE_PER_TURN = 3
+  LIFE_PER_TURN = 0#3
 
   def testGameInterface(self):
     game = game_interface.GameInterface(self.PLANT_BONUS, self.PLANT_PENALTY,

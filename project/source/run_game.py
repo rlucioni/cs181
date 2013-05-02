@@ -1,6 +1,7 @@
 import player1.player
 import player2.player
 import game_interface
+import test_game_interface
 import random
 import signal
 import sys
@@ -33,11 +34,17 @@ def get_move(view, cmd, options, player_id):
   return (mv, eat)
 
 def run(options):
+ # game = game_interface.GameInterface(options.plant_bonus,
+  #                                    options.plant_penalty,
+   #                                   options.observation_cost,
+    #                                  options.starting_life,
+     #                                 options.life_per_turn)
   game = game_interface.GameInterface(options.plant_bonus,
-                                      options.plant_penalty,
-                                      options.observation_cost,
-                                      options.starting_life,
-                                      options.life_per_turn)
+                                      0,#options.plant_penalty,
+                                      0,#options.observation_cost,
+                                      10,#options.starting_life,
+                                      0)#options.life_per_turn)
+  player1_view = game.GetPlayer1View()
   player1_view = game.GetPlayer1View()
   player2_view = game.GetPlayer2View()
 
