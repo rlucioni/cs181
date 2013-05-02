@@ -13,7 +13,6 @@ Q_TABLE = {}
 
 # list of all possible states.
 def get_states():
-  # should return a **list** of states. Each state should be an integer.
   states = range(4)
   return states
 #state 1: see nothing
@@ -28,7 +27,6 @@ def get_actions():
   actions = range(4)  
   return actions
   #these are the directions (numbers defined in problem.)
-
 
 # Exploration/exploitation strategies below. Return 0 to exploit and 1 to explore (randomly). 
 # Time-T Mode Switching
@@ -67,14 +65,7 @@ def lookup_max_a(Q_table,state,actions):
 # load the Q table from a file
 def Load_Q_table():
   # FILENAME WILL BE: q_table.txt
-  
   f = open("q_table.txt", "r")
-  
-  #cur_val = view.GetLife()
-  #f.seek(0)
-  #f.write(str(cur_val)+'\n')
-  #f.flush()
-  #f.close()
   
   Q = {}
   states = get_states()
@@ -96,10 +87,8 @@ def Writeout_Q_table():
   for s in states:
     for a in actions:
         f.write(str(Q_TABLE[s][a])+'\n')
-  #f.write(str(cur_val)+'\n')
   f.flush()
   f.close()
-  
 
 
 # get our next move
@@ -129,7 +118,6 @@ def Q_get_move():
     #action = a # actions[a]
 
   return a
-
 
 
 # The Q-learning algorithm:

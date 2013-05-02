@@ -5,14 +5,15 @@ import time
 from data_reader import *
 
 def get_move(view):
-  #return common.get_move(view)
-  return common.get_move(view,"images1.txt","value1.txt")
+  return smart_get_move(view)
+  #return common.get_move(view,"images1.txt","value1.txt")
 
 def smart_get_move(view):
-  hasPlant = view.GetPlantInfo() == game_interface.STATUS_UNKNOWN_PLANT 
+  hasPlant = view.GetPlantInfo() == game_interface.STATUS_UNKNOWN_PLANT   
+  eat = 0
   if hasPlant:
+    eat = -1  
     nutritious_count = 0
-    eat = -1
     while (eat == -1):
       unprocessed_image = view.GetImage()
       image = DataReader.ConvertTuple(unprocessed_image)
