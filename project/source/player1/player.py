@@ -3,14 +3,15 @@ import game_interface
 import random
 import time
 from data_reader import *
+from __init__ import *
+
+#def get_move(view):
+#  #return common.get_move(view)
+#  return common.get_move(view,"images1.txt","value1.txt")
 
 def get_move(view):
-  return smart_get_move(view)
-  #return common.get_move(view,"images1.txt","value1.txt")
-
-def smart_get_move(view):
-  hasPlant = view.GetPlantInfo() == game_interface.STATUS_UNKNOWN_PLANT   
-  eat = 0
+  hasPlant = view.GetPlantInfo() == game_interface.STATUS_UNKNOWN_PLANT 
+  eat = -1
   if hasPlant:
     eat = -1  
     nutritious_count = 0
@@ -22,9 +23,9 @@ def smart_get_move(view):
       else:
         nutritious_count -= 1
 
-      if nutritious_count == 2:
+      if nutritious_count == 1:
         eat = 1
-      elif nutritious_count == -2:
+      elif nutritious_count == -1:
         eat = 0
 
   time.sleep(0.1)

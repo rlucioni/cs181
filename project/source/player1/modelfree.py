@@ -1,7 +1,5 @@
 #from random import *
 import random
-import throw
-import darts
 import copy
  
 EXPLORE_TURNS = 10000
@@ -9,7 +7,6 @@ EPSILON = 5
 
 ALPHA = .5
 GAMMA = .3
-Q_TABLE = {}
 
 # list of all possible states.
 def get_states():
@@ -74,25 +71,27 @@ def Load_Q_table():
   for s in states:
     Q[s]= {}
     for a in actions:
-        Q[s][a] = int(f.readline())#WHATDOESITEQUAL!
+        Q[s][a] = float(f.readline())#WHATDOESITEQUAL!
 
-  Q_TABLE = Q
+  Q_table = Q
   f.close()
-  return
+  return Q_table
 
-def Writeout_Q_table():
+def Writeout_Q_table(Q_table):
   #FILENAME WILL BE: q_table.txt
+  states = get_states()
+  actions = get_actions()
   f = open("q_table.txt", "r+")
   #f.seek(0)
   for s in states:
     for a in actions:
-        f.write(str(Q_TABLE[s][a])+'\n')
+        f.write(str(Q_table[s][a])+'\n')
   f.flush()
   f.close()
 
 
 # get our next move
-def Q_get_move():
+def Q_get_move(Q_table):
   #to_explore = ex_strategy_one(num_iterations)
   #to_explore = ex_strategy_two(num_total_iterations)
   #to_explore = ex_strategy_three(g, num_games)
@@ -113,7 +112,7 @@ def Q_get_move():
     # exploit
     num_iterations += 1
     #print "exploit\n"
-    action = lookup_max_a(Q,s, actions)
+    action = lookup_max_a(Q_table,s, actions)
     #print "action {}".format(action)
     #action = a # actions[a]
 
@@ -121,7 +120,7 @@ def Q_get_move():
 
 
 # The Q-learning algorithm:
-def Q_learn_it(prev_state, prev_action, cur_state, changeinhealth):
+def Q_learn_it(Q_table, prev_state, prev_action, cur_state, changeinhealth):
       states = get_states()
       actions = get_actions()
       reward = changeinhealth #R(s,action) 
@@ -130,13 +129,13 @@ def Q_learn_it(prev_state, prev_action, cur_state, changeinhealth):
       a = prev_action
 
       # now we update the q score table
-      oldQ = (Q_TABLE[s][a])
+      oldQ = (Q_table[s][a])
       #print "oldQ {}".format(oldQ)
-      nextQaction = lookup_max_a(Q_TABLE, s_prime, actions)
+      nextQaction = lookup_max_a(Q_table, s_prime, actions)
       #print "nextQaction {}".format(nextQaction)
-      newQ = oldQ + ALPHA*(reward + GAMMA*(Q_TABLE[s_prime][nextQaction]) - oldQ)
+      newQ = oldQ + ALPHA*(reward + GAMMA*(Q_table[s_prime][nextQaction]) - oldQ)
       #print "newQ {}".format(newQ)
-      Q_TABLE[s][a] = newQ
+      Q_table[s][a] = newQ
       #print "Q[s][a] {}".format(Q[s][a])
       #print "in game {},score {}, throw value {}, oldQ {}, newQ{}".format(g,s,throw.location_to_score(loc),oldQ,newQ)
 
