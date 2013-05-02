@@ -12,17 +12,19 @@ def smart_get_move(view):
   hasPlant = view.GetPlantInfo() == game_interface.STATUS_UNKNOWN_PLANT 
   if hasPlant:
     nutritious_count = 0
-    for i in xrange(1):
-      #print view.GetImage()
+    eat = -1
+    while (eat == -1):
       unprocessed_image = view.GetImage()
       image = DataReader.ConvertTuple(unprocessed_image)
       if network.Classify(image):
         nutritious_count += 1
+      else:
+        nutritious_count -= 1
 
-  if nutritious_count == 1:
-    eat = 1
-  else:
-    eat = 0
+      if nutritious_count == 2:
+        eat = 1
+      elif nutritious_count == -2:
+        eat = 0
 
   time.sleep(0.1)
   return (random.randint(0, 4), eat)
