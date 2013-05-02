@@ -3,9 +3,9 @@ import game_interface
 import random
 import time
 import copy
+import modelfree
 from data_reader import *
 from __init__ import *
-from modelfree import *
 
 ATE_NUTRITIOUS = 0
 ATE_POISONOUS = 1
@@ -40,7 +40,7 @@ def get_move(view):
   view.old_hasPlant = hasPlant
 
   if hasattr(view, 'prev_state'):
-    Q_learn_it(q_table, view.prev_state, view.prev_action, cur_state, diff)
+    modelfree.Q_learn_it(q_table, view.prev_state, view.prev_action, cur_state, diff)
 
   eat = -1
   if hasPlant:
@@ -61,8 +61,9 @@ def get_move(view):
 
   view.ate = eat
   view.prev_state = cur_state
-  view.prev_action = Q_get_move(q_table)
+  view.prev_action = modelfree.Q_get_move(q_table)
 
+  modelfree.Writeout_Q_table(q_table)
   time.sleep(0.1)
   return (view.prev_action, eat)
   #return (1, eat)
