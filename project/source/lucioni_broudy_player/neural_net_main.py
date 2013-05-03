@@ -48,22 +48,19 @@ def main():
 
 
   # Load in the training data.
-  #images = DataReader.GetImages('training-9k.txt', -1)
-  images = DataReader.GetImages('training-14k.txt', -1)
+  images = DataReader.GetImages('training-9k.txt', -1)
   for image in images:
     assert len(image.pixels) == 1
     assert len(image.pixels[0]) == 36
 
   # Load the validation set.
-  #validation = DataReader.GetImages('validation-1k.txt', -1)
-  validation = DataReader.GetImages('validation-2k.txt', -1)
+  validation = DataReader.GetImages('validation-1k.txt', -1)
   for image in validation:
     assert len(image.pixels) == 1
     assert len(image.pixels[0]) == 36
 
   # Load the test set.
-  #test = DataReader.GetImages('test-1k.txt', -1)
-  test = DataReader.GetImages('test-2k.txt', -1)
+  test = DataReader.GetImages('test-1k.txt', -1)
   for image in test:
     assert len(image.pixels) == 1
     assert len(image.pixels[0]) == 36

@@ -36,7 +36,7 @@ def run(options):
   game = game_interface.GameInterface(1,#options.plant_bonus,
                                       1,#options.plant_penalty,
                                       0,#options.observation_cost,
-                                      50,#options.starting_life,
+                                      100,#options.starting_life,
                                       0)#options.life_per_turn)
   lucioni_broudy_player_view = game.GetPlayer1View()
   player2_view = game.GetPlayer2View()

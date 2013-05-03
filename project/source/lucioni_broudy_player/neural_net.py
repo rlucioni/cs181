@@ -179,15 +179,12 @@ class NetworkFramework(object):
 
   def DumpSimpleWeights(self):
     # NOT PORTABLE
-    #DataReader.DumpWeights(self.network.weights, "new_simple_weights.txt")
     DataReader.DumpWeights(self.network.weights, "simple_weights.txt")
 
   def PopulateSimpleWeights(self):
     #assert(len(self.network.weights) == 0)
     #self.network.weights = DataReader.ReadWeights("simple_weights.txt")
     # NOT PORTABLE
-    #DataReader.ReadWeights(self.network.weights, "lucioni_broudy_player/new_simple_weights.txt")
-    #DataReader.ReadWeights(self.network.weights, "new_simple_weights.txt")
     DataReader.ReadWeights(self.network.weights, "lucioni_broudy_player/simple_weights.txt")
     #DataReader.ReadWeights(self.network.weights, "simple_weights.txt")
 
