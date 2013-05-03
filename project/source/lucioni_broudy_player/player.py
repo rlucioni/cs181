@@ -72,7 +72,7 @@ def get_move(view):
   view.prev_action = modelfree.Q_get_move(q_table,cur_state)
 
   modelfree.writeout_Q_table(q_table)
-  #time.sleep(0.1)
+  time.sleep(0.1)
   
   # Q-LEARNED MOVEMENT
   #return (view.prev_action, eat)

@@ -36,5 +36,5 @@ def get_move(view,img_filename,val_filename):
     #g.flush()
     #g.close()
 
-  #time.sleep(0.1)
+  time.sleep(0.1)
   return (random.randint(0, 4), hasPlant)
