@@ -36,16 +36,16 @@ There are 5410 poisonous images and 5590 nutritious images in our collection of 
 
 \section{Finite Memory Policy}
 \subsection{Motivation}
-\hspace{4mm} Our neural network does not have error of 0 when classifying images. However, as described above, our ANN classifies images incorrectly with probability X (test error), and the probability of the neural network classifying a plant incorrectly more than two/three times in a row is low ($X^3$). This is where FSMPs become useful.
+\hspace{4mm} Our neural network does not have error of 0 when classifying images. However, as described above, our ANN classifies images incorrectly with probability X (test error), and the probability of the neural network classifying a plant incorrectly two times in a row is low ($X^2$). This is where a finite memory policy becomes useful.
 
 \subsection{Design}
 \subsection{Application}
 \subsection{Evaluation}
-It's actually not that good because our ANN makes a classification decision regardless of noise. So requesting an observation multiple times is a waste of life points. 
+%It's actually not that good because our ANN makes a classification decision regardless of noise. So requesting an observation multiple times is a waste of life points. 
 
 \section{Q-Learning}
 \subsection{Motivation}
-We want to know how to make the best movement decision (i.e., action) based on our current position in the world (i.e., state).
+We want to know how to make the best movement decision (i.e., action) based on our current position in the world (i.e., state). We defined 4 states, each depending on what happened in the last round. Our states are \sc{PASSED}, \sc{ATE NUTRITIOUS}, \sc{ATE POISONOUS}, and \sc{SEEN NOTHING}.
 
 \subsection{Design}
 \subsection{Application}

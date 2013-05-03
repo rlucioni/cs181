@@ -12,11 +12,11 @@ ATE_POISONOUS = 1
 SEEN_NOTHING = 2
 PASSED = 3
 
-def get_move(view):
-  #return common.get_move(view)
-  return common.get_move(view,"images1.txt","value1.txt")
+# def get_move(view):
+#   #return common.get_move(view)
+#   return common.get_move(view,"images1.txt","value1.txt")
 
-def smart_get_move(view):
+def get_move(view):
   hasPlant = view.GetPlantInfo() == game_interface.STATUS_UNKNOWN_PLANT
 
   cur_life = view.GetLife()
@@ -76,7 +76,7 @@ def smart_get_move(view):
   view.prev_action = modelfree.Q_get_move(q_table,cur_state)
 
   modelfree.writeout_Q_table(q_table)
-  #time.sleep(0.1)
+  time.sleep(0.1)
   
   # Q-LEARNED MOVEMENT
   #return (view.prev_action, eat)
