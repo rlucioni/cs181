@@ -82,3 +82,5 @@ plt.ylabel('Y')
 plt.axis([min(nxs+pxs)-5, max(nxs+pxs)+5, min(nys+pys)-5, max(nys+pys)+5])
 
 savefig('plant-distribution.pdf')
+#savefig('poisonous-plant-distribution.pdf')
+#savefig('nutritious-plant-distribution.pdf')
