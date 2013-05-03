@@ -59,7 +59,7 @@ nys3 = [-3, -3, -5, -6, -8, -8,-11,-11,-21,-26,-25,-27,-31,-43,-29,-27,-20, 1, -
 
 nxs = nxs1 + nxs2 + nxs3
 nys = nys1 + nys2 + nys3
-plt.plot(nxs, nys, 'bo')
+#plt.plot(nxs, nys, 'bo')
 
 # Poisonous
 pxs1 = [1,0,-2,-2,-1,1,4,6,6,7,6,1,2,3,4,3,1,1,2,-2,-2,-1,-5,-8,-5,-3,-4,-6,-8,-9,-8,-1,-1,-1,-1,-6,2,3,0,-5,-3,-6,2,2,4,4,2,2,-3,-2,-3,-5,-7,-6,-8,-1,-1,-1,-1,-9,-1,-1,-9,-1,-1,-1,-1,-1,-1,-2,-2,-1,-4,-6,-6,-5,-3,-3,-9,-1,-8,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-7,-6,-8,-5,-1,-1,-2,-2,-2,-2,-1,-2,-1,-1,-1,-1,-1,-1,-1,-7,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-3,-2,-2,-2,-2,-1,-2,-1,-2,-2,-2,-2,-2,-2,-2,-2,-2,-3,-2,-2]
@@ -75,8 +75,11 @@ pxs = pxs1 + pxs2 + pxs3
 pys = pys1 + pys2 + pys3
 plt.plot(pxs, pys, 'ro')
 
+plt.plot(nxs, nys, 'bo')
 
 plt.title('Plant Distribution')
+#plt.title('Poisonous Plant Distribution')
+#plt.title('Nutritious Plant Distribution')
 plt.xlabel('X')
 plt.ylabel('Y')
 plt.axis([min(nxs+pxs)-5, max(nxs+pxs)+5, min(nys+pys)-5, max(nys+pys)+5])
