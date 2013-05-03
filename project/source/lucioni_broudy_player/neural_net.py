@@ -179,13 +179,13 @@ class NetworkFramework(object):
 
   def DumpSimpleWeights(self):
     # NOT PORTABLE
-    DataReader.DumpWeights(self.network.weights, "player1/simple_weights.txt")
+    DataReader.DumpWeights(self.network.weights, "lucioni_broudy_player/simple_weights.txt")
 
   def PopulateSimpleWeights(self):
     #assert(len(self.network.weights) == 0)
     #self.network.weights = DataReader.ReadWeights("simple_weights.txt")
     # NOT PORTABLE
-    DataReader.ReadWeights(self.network.weights, "player1/simple_weights.txt")
+    DataReader.ReadWeights(self.network.weights, "lucioni_broudy_player/simple_weights.txt")
 
   def Classify(self, image):
     input = self.Convert(image)

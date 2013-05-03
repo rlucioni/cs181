@@ -1,4 +1,5 @@
-import player1.player
+#import player1.player
+import lucioni_broudy_player.player
 import player2.player
 import game_interface
 import test_game_interface
@@ -50,7 +51,7 @@ def run(options):
   
   # Keep running until one player runs out of life.
   while True:
-    (mv1, eat1) = get_move(player1_view, player1.player.get_move, options, 1)
+    (mv1, eat1) = get_move(player1_view, lucioni_broudy_player.player.get_move, options, 1)
     (mv2, eat2) = get_move(player2_view, player2.player.get_move, options, 2)
 
     game.ExecuteMoves(mv1, eat1, mv2, eat2)

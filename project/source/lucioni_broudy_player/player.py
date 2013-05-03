@@ -39,34 +39,49 @@ def get_move(view):
   view.old_hasPlant = hasPlant
 
   if hasattr(view, 'prev_state'):
-    modelfree.Q_learn_it(q_table, view.prev_state, view.prev_action, cur_state, diff)
+    modelfree.Q_learning(q_table, view.prev_state, view.prev_action, cur_state, diff)
 
   eat = -1
   if hasPlant:
-    eat = -1  
     nutritious_count = 0
     while (eat == -1):
       unprocessed_image = view.GetImage()
       image = DataReader.ConvertTuple(unprocessed_image)
+      # FINITE MEMORY POLICY (K=2)
       if network.Classify(image):
-        nutritious_count += 1
+        #nutritious_count += 1
+        if nutritious_count == 1:
+          eat = 1
+        else:
+          nutritious_count = 1
       else:
-        nutritious_count -= 1
+        #nutritious_count -= 1
+        if nutritious_count == -1:
+          eat = 0
+        else:
+          nutritious_count = -1
 
-      if nutritious_count == 2:
-        eat = 1
-      elif nutritious_count == -2:
-        eat = 0
+      # for FINITE STATE CONTROLLER
+      #if nutritious_count == 2:
+      #  eat = 1
+      #elif nutritious_count == -2:
+      #  eat = 0
 
   view.ate = eat
   view.prev_state = cur_state
   view.prev_action = modelfree.Q_get_move(q_table,cur_state)
 
-  modelfree.Writeout_Q_table(q_table)
+  modelfree.writeout_Q_table(q_table)
   #time.sleep(0.1)
   
   # Q-LEARNED MOVEMENT
   #return (view.prev_action, eat)
+
+  # SEMI-RANDOM MOVEMENT
+  #if cur_state == PASSED or cur_state == ATE_POISONOUS or cur_state == ATE_NUTRITIOUS:
+  #  return (random.randint(0, 4), eat) 
+  #else:
+  #  return (0, eat)
 
   # RANDOM MOVEMENT
   return (random.randint(0, 4), eat)

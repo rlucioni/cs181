@@ -55,9 +55,9 @@ def lookup_max_a(Q_table,state):
   return action
 
 # load the Q table from a file
-def Load_Q_table():
+def load_Q_table():
   # NOT PORTABLE
-  f = open("player1/q_table.txt", "r")
+  f = open("lucioni_broudy_player/q_table.txt", "r")
   
   Q = {}
   states = get_states()
@@ -71,11 +71,11 @@ def Load_Q_table():
   f.close()
   return Q_table
 
-def Writeout_Q_table(Q_table):
+def writeout_Q_table(Q_table):
   states = get_states()
   actions = get_actions()
   # NOT PORTABLE
-  f = open("player1/q_table.txt", "r+")
+  f = open("lucioni_broudy_player/q_table.txt", "r+")
   for s in states:
     for a in actions:
         f.write(str(Q_table[s][a])+'\n')
@@ -104,7 +104,7 @@ def Q_get_move(Q_table,s):
 
 
 # The Q-learning algorithm:
-def Q_learn_it(Q_table, prev_state, prev_action, cur_state, changeinhealth):
+def Q_learning(Q_table, prev_state, prev_action, cur_state, changeinhealth):
       states = get_states()
       actions = get_actions()
       reward = changeinhealth #R(s,action) 

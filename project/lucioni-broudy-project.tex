@@ -13,10 +13,10 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Overview}
-To implement our player for the final project, we chose to use an artificial neural network (ANN), a finite state machine policy (FSMP), and THIRD METHOD. The following writeup describes the motivation behind using each of these methods, details the design of each method, discusses the application of each method in the context of playing the game, and then evaluates the performance of each method. 
+\section*{Overview}
+To implement our player for the final project, we chose to use an artificial neural network, a finite memory policy, and THIRD METHOD. The following writeup describes the motivation behind using each of these methods, details the design of each method, discusses the application of each method in the context of playing the game, and then evaluates the performance of each method. 
 
-\section{Artificial Neural Network (ANN)}
+\section{Artificial Neural Network}
 \subsection{Motivation}
 When our player requests a plant observation, it receives a noisy image. The player must be able to decide what kind of plant, nutritious or poisonous, is depicted in the image. In order to give our player this capability, we trained a neural network on labeled images. As we learned in Homework 2, a multi-layer feed-forward neural network is a good approach to image classification, superior to decision trees, boosted decision stumps, and perceptrons. 
 
@@ -34,7 +34,7 @@ There are 5410 poisonous images and 5590 nutritious images in our collection of 
 
 \subsection{Evaluation}
 
-\section{Finite State Machine Policy (FSMP)}
+\section{Finite Memory Policy}
 \subsection{Motivation}
 Our neural network does not have error of 0 when classifying images. However, as described above, our ANN classifies images incorrectly with probability X (test error), and the probability of the neural network classifying a plant incorrectly more than two/three times in a row is low ($X^3$). This is where FSMPs become useful.
 
