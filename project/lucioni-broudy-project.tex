@@ -14,21 +14,21 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section*{Overview}
-To implement our player for the final project, we chose to use an artificial neural network, a finite memory policy, and THIRD METHOD. The following writeup describes the motivation behind using each of these methods, details the design of each method, discusses the application of each method in the context of playing the game, and then evaluates the performance of each method. 
+\hspace{4mm} To implement our player for the final project, we chose to use an artificial neural network, a finite memory policy, and Q-learning. The following writeup describes the motivation behind using each of these methods, explains the design of each method, discusses the application of each method in the context of playing the game, and then evaluates the performance of each method. 
 
 \section{Artificial Neural Network}
 \subsection{Motivation}
-When our player requests a plant observation, it receives a noisy image. The player must be able to decide what kind of plant, nutritious or poisonous, is depicted in the image. In order to give our player this capability, we trained a neural network on labeled images. As we learned in Homework 2, a multi-layer feed-forward neural network is a good approach to image classification, superior to decision trees, boosted decision stumps, and perceptrons. 
+\hspace{4mm} When our player requests a plant observation, it receives a noisy image. The player must be able to decide what kind of plant, nutritious or poisonous, is depicted in the image. In order to give our player this capability, we trained a neural network on labeled images. As we learned in Homework 2, a multi-layer feed-forward neural network is a good approach to image classification, superior to decision trees, boosted decision stumps, and perceptrons. 
 
 Like perceptrons, multi-layer feed-forward neural networks are capable of making use of all pixels in an image, allowing them to learn the relationships between pixels. However, unlike perceptrons, neural networks can also use hidden layers to recognize non-linearly separable functions. This allows neural networks to recognize rotations, translations, and skews (i.e., noise) that would have defeated a perceptron. Thus, neural networks are both accurate and robust when determining the class of an input image, whether it be a digit or a plant.
 
 \subsection{Design}
-We extracted images using the default players provided to us which always consume a plant if one is present. By ``extract," we mean we wrote requested images to a file. We determined labels for these stored images by calculating the difference in life points before and after eating the plant. A difference greater than 10 meant the plant consumed previously was nutritious, and a difference less than -10 meant that that plant consumed previously was poisonous. We then processed the data by assigning labels to each image and formatting it in a way conducive to being used to train a neural network.
+\hspace{4mm} We extracted images using the default players provided to us which always consume a plant if one is present. By ``extract," we mean we wrote requested images to a file. We determined labels for these stored images by calculating the difference in life points before and after eating the plant. A difference greater than 10 meant the plant consumed previously was nutritious, and a difference less than -10 meant that that plant consumed previously was poisonous. We then processed the data by assigning labels to each image and formatting it in a way conducive to being used to train a neural network.
 
 We modified our neural network code from Homework 2 to train on $6 \times 6$ images. We also modified the parser to allow our neural network to handle images as they are provided, as 36 element tuples. LIST OTHER CHANGES
 
 \subsection{Application}
-The neural network we trained for this component of the game is able to distinguish between the two kinds of plant images. Our player uses the neural network's output to help it decide what kind of plant it is looking at.
+\hspace{4mm} The neural network we trained for this component of the game is able to distinguish between the two kinds of plant images. Our player uses the neural network's output to help it decide what kind of plant it is looking at.
 
 There are 5410 poisonous images and 5590 nutritious images in our collection of 11000 images.
 
@@ -36,7 +36,7 @@ There are 5410 poisonous images and 5590 nutritious images in our collection of 
 
 \section{Finite Memory Policy}
 \subsection{Motivation}
-Our neural network does not have error of 0 when classifying images. However, as described above, our ANN classifies images incorrectly with probability X (test error), and the probability of the neural network classifying a plant incorrectly more than two/three times in a row is low ($X^3$). This is where FSMPs become useful.
+\hspace{4mm} Our neural network does not have error of 0 when classifying images. However, as described above, our ANN classifies images incorrectly with probability X (test error), and the probability of the neural network classifying a plant incorrectly more than two/three times in a row is low ($X^3$). This is where FSMPs become useful.
 
 \subsection{Design}
 \subsection{Application}
