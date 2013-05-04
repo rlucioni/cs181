@@ -12,11 +12,11 @@ ATE_POISONOUS = 1
 SEEN_NOTHING = 2
 PASSED = 3
 
-def get_move(view):
-  #return common.get_move(view)
-  return common.get_move(view,"images1.txt","value1.txt")
+# def get_move(view):
+#   #return common.get_move(view)
+#   return common.get_move(view,"images1.txt","value1.txt")
 
-def smart_get_move(view):
+def get_move(view):
   hasPlant = view.GetPlantInfo() == game_interface.STATUS_UNKNOWN_PLANT
 
   cur_life = view.GetLife()
@@ -82,10 +82,7 @@ def smart_get_move(view):
   #return (view.prev_action, eat)
 
   # SEMI-RANDOM MOVEMENT
-  #if cur_state == PASSED or cur_state == ATE_POISONOUS or cur_state == ATE_NUTRITIOUS:
-  #  return (random.randint(0, 4), eat) 
-  #else:
-  #  return (0, eat)
+  # when outside of circle centered at the origin with radius 20, move back to the origin
 
   # RANDOM MOVEMENT
   return (random.randint(0, 4), eat)
