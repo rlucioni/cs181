@@ -1,5 +1,9 @@
 import math
 from data_reader import *
+import os
+
+# obtain this file's parent directory
+parent_dir = os.path.dirname(os.path.abspath(__file__))
 
 class Weight:
   def __init__(self, value):
@@ -184,8 +188,7 @@ class NetworkFramework(object):
   def PopulateSimpleWeights(self):
     #assert(len(self.network.weights) == 0)
     #self.network.weights = DataReader.ReadWeights("simple_weights.txt")
-    # NOT PORTABLE
-    DataReader.ReadWeights(self.network.weights, "lucioni_broudy_player/simple_weights.txt")
+    DataReader.ReadWeights(self.network.weights, parent_dir+"/simple_weights.txt")
     #DataReader.ReadWeights(self.network.weights, "simple_weights.txt")
 
   def Classify(self, image):
