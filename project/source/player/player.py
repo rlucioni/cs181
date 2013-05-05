@@ -105,4 +105,4 @@ def get_move(view):
     return (random.randint(0, 3), eat)  
 
   # RANDOM MOVEMENT
-  return (random.randint(0, 3), eat)
+  #return (random.randint(0, 3), eat)
