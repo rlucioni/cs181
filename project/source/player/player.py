@@ -76,13 +76,17 @@ def get_move(view):
   view.prev_action = modelfree.Q_get_move(q_table,cur_state)
 
   modelfree.writeout_Q_table(q_table)
-  time.sleep(0.1)
+  #time.sleep(0.1)
+  
+  # MOVEMENT 
+  # 0: up, 1: left, 2: down, 3: right
   
   # Q-LEARNED MOVEMENT
   #return (view.prev_action, eat)
 
   # SEMI-RANDOM MOVEMENT
+  x, y = view.GetXPos(), view.GetYPos()
   # when outside of circle centered at the origin with radius 20, move back to the origin
 
   # RANDOM MOVEMENT
-  return (random.randint(0, 4), eat)
+  return (random.randint(0, 3), eat)

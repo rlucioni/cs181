@@ -1,4 +1,4 @@
-import lucioni_broudy_player.player
+import player.player
 import player2.player
 import game_interface
 import random
@@ -38,7 +38,7 @@ def run(options):
                                       0,#options.observation_cost,
                                       100,#options.starting_life,
                                       0)#options.life_per_turn)
-  lucioni_broudy_player_view = game.GetPlayer1View()
+  player_view = game.GetPlayer1View()
   player2_view = game.GetPlayer2View()
 
   if options.display:
@@ -48,7 +48,7 @@ def run(options):
   
   # Keep running until one player runs out of life.
   while True:
-    (mv1, eat1) = get_move(lucioni_broudy_player_view, lucioni_broudy_player.player.get_move, options, 1)
+    (mv1, eat1) = get_move(player_view, player.player.get_move, options, 1)
     (mv2, eat2) = get_move(player2_view, player2.player.get_move, options, 2)
 
     game.ExecuteMoves(mv1, eat1, mv2, eat2)
@@ -57,9 +57,9 @@ def run(options):
       game_interface.curses_init_round(game)
     else:
       print mv1, eat1, mv2, eat2
-      print lucioni_broudy_player_view.GetLife(), player2_view.GetLife()
+      print player_view.GetLife(), player2_view.GetLife()
     # Check whether someone's life is negative.
-    l1 = lucioni_broudy_player_view.GetLife()
+    l1 = player_view.GetLife()
     l2 = player2_view.GetLife()
   
     if l1 <= 0 or l2 <= 0:
