@@ -33,11 +33,16 @@ def get_move(view, cmd, options, player_id):
   return (mv, eat)
 
 def run(options):
-  game = game_interface.GameInterface(1,#options.plant_bonus,
-                                      1,#options.plant_penalty,
-                                      0,#options.observation_cost,
-                                      100,#options.starting_life,
-                                      0)#options.life_per_turn)
+  # game = game_interface.GameInterface(1,#options.plant_bonus,
+  #                                     1,#options.plant_penalty,
+  #                                     0,#options.observation_cost,
+  #                                     100,#options.starting_life,
+  #                                     0)#options.life_per_turn)
+  game = game_interface.GameInterface(options.plant_bonus,
+                                      options.plant_penalty,
+                                      options.observation_cost,
+                                      options.starting_life,
+                                      options.life_per_turn)
   player_view = game.GetPlayer1View()
   player2_view = game.GetPlayer2View()
 
@@ -78,7 +83,7 @@ def run(options):
         else:
           print 'Player 1 wins: %d v. %d' % (l1, l2)
       # Wait for input
-      sys.stdin.read(1)
+      #sys.stdin.read(1)
       if options.display:
         game_interface.curses_close()
       break
