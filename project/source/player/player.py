@@ -4,6 +4,7 @@ import random
 import time
 import copy
 import modelfree
+import math
 from data_reader import *
 from __init__ import *
 
@@ -86,7 +87,22 @@ def get_move(view):
 
   # SEMI-RANDOM MOVEMENT
   x, y = view.GetXPos(), view.GetYPos()
-  # when outside of circle centered at the origin with radius 20, move back to the origin
+  # when outside of circle centered at the origin with radius 20, move back to the origin, otherwise move randomly
+  dist_from_origin = math.sqrt(x**2 + y**2)
+  if dist_from_origin > 20:
+    #move to origin
+    if abs(x) > abs(y):
+      if x >= 0:
+        return (1, eat)
+      else:
+        return (3, eat)
+    else:
+      if y >= 0:
+        return (2, eat)
+      else:
+        return (0, eat)
+  else:
+    return (random.randint(0, 3), eat)  
 
   # RANDOM MOVEMENT
-  return (random.randint(0, 3), eat)
+  #return (random.randint(0, 3), eat)

@@ -37,6 +37,8 @@ There are 5410 poisonous images and 5590 nutritious images in our collection of 
 \includegraphics[scale=0.8]{source/simple-network-alpha-0_1.pdf}
 \end{center}
 
+In order to test the performance of our player, we first made some slight changes to the handout code to make it run faster and to prevent the game from hanging on enter at the end of the game. These changes required removing calls to {\tt sleep} and {\tt sys.stdin.read(1)}. We then used our {\tt win\_loss\_ratio} script, called with the number of games you want to run as an argument (e.g., 100). This gave us a more objective measure of performance that running the game a handful of times.
+
 \section{Finite Memory Policy}
 \subsection{Motivation}
 \hspace{4mm} Our neural network does not have error of 0 when classifying images. However, as described above, our ANN classifies images incorrectly with probability X (test error), and the probability of the neural network classifying a plant incorrectly two times in a row is low ($X^2$). This is where a finite memory policy becomes useful.
