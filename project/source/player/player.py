@@ -1,4 +1,3 @@
-import common
 import game_interface
 import random
 import time
@@ -12,10 +11,6 @@ ATE_NUTRITIOUS = 0
 ATE_POISONOUS = 1
 SEEN_NOTHING = 2
 PASSED = 3
-
-# def get_move(view):
-#   #return common.get_move(view)
-#   return common.get_move(view,"images1.txt","value1.txt")
 
 def get_move(view):
   hasPlant = view.GetPlantInfo() == game_interface.STATUS_UNKNOWN_PLANT
