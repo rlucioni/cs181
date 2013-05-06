@@ -15,7 +15,7 @@ def get_move(view,img_filename,val_filename):
   #prev_val = int(f.readline())
   
   #cur_val = view.GetLife()
-  #f.seek(0)
+  #.seek(0)
   #f.write(str(cur_val)+'\n')
   #f.flush()
   #f.close()
@@ -33,7 +33,6 @@ def get_move(view,img_filename,val_filename):
   if hasPlant:
     #g = open(img_filename, "a+")
     for i in xrange(5):
-    #for i in xrange(1):
       print view.GetImage()
       #g.write(str(view.GetImage())+'\n')
       #g.write('('+str(view.GetXPos())+', '+str(view.GetYPos())+')\n')

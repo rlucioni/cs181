@@ -78,7 +78,9 @@ After making the above observations of the plant distribution, we first tried im
 \subsection{Evaluation}
 Semi-random movement did not perform well. In fact, they made our player's performance worse. Using the semi-random movement technique, our player only beat the stock random player in 520 out of 1000 games.
 
-Q-learned movement slightly better. Using the Q-learned movement technique, our player beat the stock random player in 631 out of 1000 games.
+Q-learned movement performed only slightly better. Using the Q-learned movement technique, our player beat the stock random player in 631 out of 1000 games.
+
+After implementing our player, we discovered that the above graphs over hundreds of games actually overlap clusters of nutritious plants, making them appear normally distributed. In each game, there are actually 3-4 clusters of nutritious plants contained in the ring of radius 20 centered at the origin. As such, it would have been better if we had implemented a method like $K$-means clustering to find these clusters and move to them.
 
 
 
