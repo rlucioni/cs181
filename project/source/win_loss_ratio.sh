@@ -20,7 +20,8 @@ do
             ties=$[ties+1]
             ;;
         *)
-            echo "Could not match."
+            #echo "Could not match."
+            echo $output
             ;;
     esac
 done
