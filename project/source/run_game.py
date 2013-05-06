@@ -1,5 +1,5 @@
 import player.player
-import player2.player
+import kathy_ina_player.player
 import game_interface
 import random
 import signal
@@ -44,7 +44,7 @@ def run(options):
                                       options.starting_life,
                                       options.life_per_turn)
   player_view = game.GetPlayer1View()
-  player2_view = game.GetPlayer2View()
+  kathy_ina_player_view = game.GetPlayer2View()
 
   if options.display:
     if game_interface.curses_init() < 0:
@@ -54,7 +54,7 @@ def run(options):
   # Keep running until one player runs out of life.
   while True:
     (mv1, eat1) = get_move(player_view, player.player.get_move, options, 1)
-    (mv2, eat2) = get_move(player2_view, player2.player.get_move, options, 2)
+    (mv2, eat2) = get_move(kathy_ina_player_view, kathy_ina_player.player.get_move, options, 2)
 
     game.ExecuteMoves(mv1, eat1, mv2, eat2)
     if options.display:
@@ -62,10 +62,10 @@ def run(options):
       game_interface.curses_init_round(game)
     else:
       print mv1, eat1, mv2, eat2
-      print player_view.GetLife(), player2_view.GetLife()
+      print player_view.GetLife(), kathy_ina_player_view.GetLife()
     # Check whether someone's life is negative.
     l1 = player_view.GetLife()
-    l2 = player2_view.GetLife()
+    l2 = kathy_ina_player_view.GetLife()
   
     if l1 <= 0 or l2 <= 0:
       if options.display:

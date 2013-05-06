@@ -7,6 +7,7 @@ import math
 from data_reader import *
 from __init__ import *
 
+# this is from our old q-learning
 #ATE_NUTRITIOUS = 0
 #ATE_POISONOUS = 1
 #SEEN_NOTHING = 2
