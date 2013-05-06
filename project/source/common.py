@@ -6,7 +6,9 @@ import time
 def get_move(view,img_filename,val_filename):
   # Choose a random direction.
   # If there is a plant in this location, then try and eat it.
+  
   hasPlant = view.GetPlantInfo() == game_interface.STATUS_UNKNOWN_PLANT
+  
   # Choose a random direction
   #f = open(val_filename, "r+")
   # assumes we only have numbers as strings
