@@ -53,12 +53,13 @@ Using both the neural network and our finite memory policy, our player was able 
 
 In the same vein, note that we also implemented a finite state controller by using a counter variable. The player would decide to eat or ignore a plant once this counter crossed a certain threshold (e.g., 2). However, since reducing the number of observations made is important to survival in the game, we decided to use the finite memory policy instead. The finite memory policy requires fewer observations than the finite state controller to make a decision on a plant's type. The code for the finite state controller is commented out in {\tt player.py}.
 
-\section{Q-Learning - DANBRO}
+\section{Q-Learning} % DANBRO
 \subsection{Motivation}
-We want to know how to make the best movement decision (i.e., action) based on our current position in the world (i.e., state).
+We want to know how to make the best movement decision (i.e., action) based on our current position in the world (i.e., state). We also wanted to implement one of the methods we learned about in this course. Q-Learning was appealing for its simplicity and the fact that we wouldn't have to learn a probabilistic model of the environment.
 
 \subsection{Design}
-We defined 4 states, each depending on what happened in the last round. Our states are {\sc passed}, {\sc ate nutritious}, {\sc ate poisonous}, and {\sc seen nothing}.
+\subsubsection{First Stab at Q-Learning}
+Our initial design for Q-learning did not go well. It was before we knew much about the layout of plants or anything else. We defined 4 states, each depending on what happened in the last round. Our states were {\sc passed}, {\sc ate nutritious}, {\sc ate poisonous}, and {\sc seen nothing}. The actions were the normal up, down, left ,right. Our reward function was your change in health from the previous round. We ran our learner a bunch of times to train it and the result we then tried it out and found that it was really bad. The optimal strategy for movement it found was to move in a straight line away from the origin and this was pretty clearly not a good strategy in reality. We then decided to do some more research on the distribution of plants and reconsider our strategy.
 
 We ran experiments to collect data on the distribution of plants. We did this by running 2 random, base players and recording their location every time a plant was encountered (i.e., {\tt hasPlant} was set to true). We determined the kind of plant at each location in the same way as we determined labels for the plant images, by looking at the difference in life points before and after eating the plant. For convenience, we set the plant bonus to 1, the plant penalty to 1, the starting life to 100, and the observation cost and life per turn to 0. Below are plots showing the location of nutritious plants (blue dots) and poisonous plants (red dots) in the world. The third plot shows the plot of the nutritious plants superimposed on the plot of the poisonous plants.
 
@@ -69,16 +70,17 @@ We ran experiments to collect data on the distribution of plants. We did this by
 \end{center}
 
 The nutritious plants appear to be distributed according to a Gaussian distribution centered at the origin (mean 0) with standard deviation of approximately 20. Meanwhile, the poisonous plants appear to be distributed uniformly throughout the world. In light of this information, we designed our reward function such that moving outside of the circle centered at the origin with radius 20 is punished.
+\subsubsection{Improved Q-Learning}
+It was after this analysis of the distribution of plants that we came up with a new strategy. Our new states would be distance from the origin ranging from 0 to 19, any distance greater than 19 would be considered state 19. We redefined four moves to be move towards the origin, away from the origin, counter clockwise and clockwise. We had to write functions to approximate which of the allowed moves would approximate these moves best given the x,y position of the agent. We also redesigned our reward function. We realized that going further than a distance of 20 from the origin was not a good idea so we had a penalty of -10 for being in state 19. We also discovered that the constantly having negative changes in health and therefore negative rewards in our previous implementation was not helping our Q-learner learn how to find plants so we replaced it with the reward function that rewards you change in health unless your change in health is negative then it just rewards zero. We then took the strategy to first run our Q-learner 1000 games with exploring only. This produced reasonable movements and we were pleased with the result. As an experiment we saved our Q table values and retrained on 10000 games to see what effect this would have on our performance. Performance got remarkably worse as the large negative reward of going too far from the origin propagated throughout the Q table causing our agent to spend too much time near the origin. This was a reminder to us that you really must select your reward function carefully. 
+For the actual tournament we turned off the functionality to write out the Q-table to avoid I/O errors in our agent was run multiple times simultaneously. 
 
 \subsubsection{Semi-Random Movement}
-After making the above observations of the plant distribution, we first tried implementing a movement function which uses the {\tt GetXPos()} and {\tt GetYPos()} methods to check how far the player is from the origin. If the player is less than 20 units from the origin, the player is allowed to move randomly. Otherwise, the player is forced to take a step back towards the origin. This is done by checking if the player is more vertically or horizontally distant from the origin, and then moving the player in the appropriate direction depending on what side of the axis they are on.
+After making the above observations of the plant distribution and before our improved Q-learning, we first tried implementing a movement function which uses the {\tt GetXPos()} and {\tt GetYPos()} methods to check how far the player is from the origin. If the player is less than 20 units from the origin, the player is allowed to move randomly. Otherwise, the player is forced to take a step back towards the origin. This is done by checking if the player is more vertically or horizontally distant from the origin, and then moving the player in the appropriate direction depending on what side of the axis they are on.
 
-\subsubsection{Q-Learned Movement}
-% Remember to write about the commented out code.
 \subsection{Evaluation}
 Semi-random movement did not perform well. In fact, they made our player's performance worse. Using the semi-random movement technique, our player only beat the stock random player in 520 out of 1000 games.
 
-Q-learned movement performed only slightly better. Using the Q-learned movement technique, our player beat the stock random player in 631 out of 1000 games.
+The improved Q-learned movement performed only slightly better. Using the Q-learned movement technique, our player beat the stock random player in 631 out of 1000 games.
 
 After implementing our player, we discovered that the above graphs over hundreds of games actually overlap clusters of nutritious plants, making them appear normally distributed. In each game, there are actually 3-4 clusters of nutritious plants contained in the ring of radius 20 centered at the origin. As such, it would have been better if we had implemented a method like $K$-means clustering to find these clusters and move to them.
 
